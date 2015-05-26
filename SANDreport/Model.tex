@@ -8,340 +8,191 @@
   hyperelastic framework. It should include sections on the flow rule
   and each piece of the void volume fraction evolution equation.}
 
-\subsection{Yield function}
-The yield function of Gurson model is given in terms of two stress
-measures, i.e., the mean stress $\sigma_m$ and the effective stress
-$\sigma_e$
-\begin{equation}\label{eq:yield}
-  F(\sigma_m, \sigma_e, \sigma_M, f^*) =\left(
-  \frac{\sigma_e}{\sigma_M} \right)^2 + 2q_1f^* \cosh \left(
-  \frac{3q_2}{2}\frac{\sigma_m}{\sigma_M}\right) - \left( 1 + q_3 f^{*
-    2}\right)
-\end{equation}
-where $\sigma_m = 1/3\sigma_{ii}$ is the mean stress, $\sigma_e =
-\sqrt{3/2s_{ij}s_{ij}}$ is the effective stress with
-$s_{ij}=\sigma_{ij} - 1/3\sigma_{kk}\delta_{ij}$ being the deviatoric
-stress tensor. $q_1$, $q_2$ and $q_3$ are fitting parameters
-introduced by [CITE Tvergaard]. $\sigma_M$ is the effective stress of
-the undamaged matrix material and $f^{*}$ is a function which accounts
-for damage or softening of the material due to void coalescence:
-\begin{equation}
-  f^*=
-  \begin{cases}
-    f, & f \leq f_c \\ f_c + \frac{\bar{f}_f - f_c}{f_f - f_c} \left(
-    f - f_c \right) , & f_c < f < f_f \\ \bar{f}_f, & f \geq f_f
-  \end{cases}
-\end{equation}
-where $f_c$ is the critical value of the volume fraction, $f_f$ is the
-value of the volume fraction at failure and $\bar{f}_f = (q_1 +
-\sqrt{q_1^2-q_3})/q_3$.
+\textit{TODO: Short description of the model and motivations behind}
 
-The current state of the material is then characterized by the mean
-stress $\sigma_m$, the effective stress $\sigma_e$ and two internal
-variables $\sigma_M$ and $f$. The evolution equations for the two
-internal variables will be given in the following sections. In what
-follows, the subscription $M$ refers to the undamaged matrix material.
+\textit{TODO: add some comments on the thermodynamic motivation for hyperelastic framework}
+
+In this section, the hyperelastic formulation of the shear-modified Gurson model is presented. The framework extends the small-deformation version presented in \cite{Nahshon2008, Nahshon2009} to a hyperelastic finite deformation formulation.
+
+\section{Preliminaries for hyperelastic finite deformation formulation}
+
+\subsection{Kinematic preliminaries}
+
+To set the stage for the hyperelastic constitutive relation, the kinematic
+preliminaries for finite deformation elastoplasticity are summarized
+in this section, along with the quantities and relations used in
+subsequent model development.
+
+An essential feature of this elastoplasticity framework is the
+multiplicative decomposition of deformation gradient $\bF$ into an
+elastic part $\bF^e$ and a plastic part $\bF^p$
+
+\begin{equation}
+  \bF = \bF^e\bF^p.
+\end{equation}
+
+This decomposition introduces the notion of an intermediate local
+configuration (\cf\ \cite{SimoHughes:98} and the references
+therein for the motivation and micromechanical basis for such a
+decomposition).
+
+Next, we introduce a set of strain measures associated with the
+multiplicative decomposition that will be used extensively in the
+model development. First is the right Cauchy-Green tensor $\bC$, and
+its plastic counterpart $\bC^p$, which are defined in the reference configuration
+
+\begin{align}
+  \bC &= \bF^T \bF,\\
+  \bC^p &= \bF^{pT} \bF^p.
+\end{align}
+
+In the current configuration we consider the left
+Cauchy-Green tensor $\bb$, and its elastic counterpart ${\bb}^e$
+
+\begin{align}
+  \bb &= \bF \bF^{T},\\
+  \bb^e &= \bF^e \bF^{eT}.\label{eq:be}\\
+\end{align}
+
+The above fundamental strain measures are related via pull-back and
+push-forward operations
+
+\begin{equation}\label{eq:pullpush}
+  \bC^{-p} =\bF^{-1} \bb^e \bF^{-T},~~\bb^e = \bF \bC^{-p} \bF^T.
+\end{equation}
+
+In metal plasticity, a standard assumption is that plastic flow
+is isochoric (volume-preserving), \ie\ $\det(\bF^p)=1$, which implies
+
+\begin{align}
+  J = \det (\bF) = \det (\bF^e).
+\end{align}
+
+Defining $J^e=\det(\bF^e)$, we have the volume preserving part of the
+elastic left Cauchy-Green tensor $\bar{\bb}^e$
+
+\begin{equation}
+  \bar{\bb}^e = J^{e^{-2/3}}\bb^e = J^{-2/3}\bb^e.
+\end{equation}
+
+\subsection{Hyperelastic constitutive relation}
+
+The starting point of the hyperelastic constitutive relation is the assumption of the existence of the following strain-energy function
+
+\begin{equation}
+\Psi=\Psi^{\rm vol}[J^e] + \Psi^{\rm iso}[\bar{\bb}^e]
+\end{equation}
+
+Here the strain-energy function $\Psi$ is a decoupled function of the isochoric part (i.e., $\bar{\bb}^e$) and the volumetric part (i.e., $J^e=\det\bF^e$) of the elastic deformation. $\bb^e$ is the elastic left Cauchy-Green tensor defined in \eqref{eq:be}. The volumetric and the isochoric parts of the strain-energy function are given as
+
+\begin{equation}
+\Psi^{\rm vol}[J^e] =\frac{1}{2}\kappa(\ln J^e)^2,~~\Psi^{\rm iso}[\bar{\bb}^e] = \frac{1}{4}\mu\ln\bar{\bb}^e:\ln\bar{\bb}^e
+\end{equation}
+
+where $\kappa$ and $\mu$ are the bulk and shear modulus. Following the argument in \cite{Steinmann1994}, elastic logarithmic Henchky strains $\ln\bb^e$ is used as the strain measure, and the elastic constitutive law and the Kirchhoff stresses are given as
+
+\begin{equation}\label{eq:Kirchhoff}
+\btau=\kappa\ln J^e\bg^{-1} + \mu\ln\bar{\bb}^e = \kappa(\ln\bb^e:\bg)\bg^{-1} + \mu\dev\ln\bb^e
+\end{equation}
+
+where $\bg$ is the metric tensor. The Kirchhoff pressure $p$ and deviatoric stress tensor $\bs$ can be obtained
+
+\begin{equation}\label{eq:p}
+p = \frac{1}{3}\tr(\btau) = \frac{1}{2}\kappa\tr\ln\bb^e = \frac{1}{2}\kappa\ln\det\bb^e
+\end{equation}
+
+\begin{equation}\label{eq:s}
+\bs = \dev(\btau) = \mu\dev\ln\bb^e
+\end{equation}
+
+\section{Constitutive relations of shear-modified Gurson model}
+
+\subsection{Yield function and hardening law}
+Within the previously described hyperelastic constitutive framework, the yield function $\Phi$ of the Gurson model can be written as
+
+\begin{equation}\label{eq:Phi}
+\Phi = \|\bs\| - \sqrt{\frac{2}{3}}{\rm sign}(\psi)\sqrt{|\psi|} Y
+\end{equation}
+
+where $\bs$ is the deviatoric Kirchhoff stress defined in Eq.\eqref{eq:s}. It should be noted that Eq.\eqref{eq:Phi} is a linear form (in terms of $\|\bs\|$) of the Gurson yield function . This particular form of Gurson yield function is implemented to facilitate comparisons with existing J2-like models in Albany analysis code [CITE], where the yield functions are also written as linear function of $\|\bs\|$. 
+
+The function $\psi$ contains contributions from the damage in the material, which directly relates to the void volume fraction $f$ of the porous solid:
+
+\begin{equation}
+\psi = 1 + f^2 - 2 f \cosh(v), ~~v=\frac{3p}{2 Y}
+\end{equation}
+
+where $p$ is the Kirchhoff pressure defined in Eq.\eqref{eq:p}, and $f$ is the void volume fraction of the porous solid. The Kirchhoff yield stress $Y$ describes the hardening of the matrix material. One example of a nonlinear hardening law proposed by \cite{SimoHughes:98} for metal is written as 
+\begin{equation}
+Y =  Y_0 + Y_{\infty}\left[ 1-\exp(-\delta\varepsilon_q)\right] + K\varepsilon_q 
+\end{equation}
+
+where $\varepsilon_q$ is a strain-like internal variable (e.g., the equivalent plastic strain), $Y_0$ is the initial yield strength, $Y_{\infty}$ is the residual flow stress, $K$ is the hardening coefficient, and $\delta$ is the saturation exponent. Other forms of hardening law can also be used depending on the observed material behavior.
+
+\subsection{Flow rule}
+Following the standard procedure of the principle of maximum dissipation, \citep{Simo1992} proposed a general form of associate flow rule, which is adopted in the current formulation and is given as
+
+\begin{equation}\label{eq:flowRule}
+-\frac{1}{2}L_v(\bb^e)\cdot\bb^{e^{-1}} = \gamma\frac{\partial\Phi}{\partial\btau}=\gamma\bn + \frac{1}{3}t\tensor 1
+\end{equation}
+
+where $L_v(\bb_e)$ is the Lie derivative of the elastic left Cauchy-Green tensor $\bb^e$, and $\bn$ and $t$ are computed given the yield function \eqref{eq:Phi} as
+
+\begin{align}
+\bn &= \frac{\bs}{\|\bs\|}\label{eq:n}\\
+t &= \tr \left( \gamma \frac{\partial\Phi}{\partial\btau}\right) = \sqrt{\frac{3}{2}}\gamma f \sinh (\frac{3p}{2 Y})\frac{1}{\sqrt{|\psi|}} {\rm sign}(\psi)\label{eq:t}
+\end{align}
 
 \subsection{Evolution of void volume fraction}
-The change of void volume fraction $\dot{f}$ due to plastic deformation consists of two parts, the void growth $\dot{f}_g$ and the void nucleation $\dot{f}_n$, i.e.,
-\begin{equation}\label{eq:fdot}
-\dot{f} = \dot{f}_g + \dot{f}_n
+The internal variable $f$ is the void volume fraction and represents damage of the porous solid. Its evolution typically consists of a void growth part, $f_g$, and a void nucleation part, $f_{n}$.
+
+\begin{equation}\label{eq:dotf}
+\dot{f} = \dot{f}_g + \dot{f}_{n}\\
 \end{equation}
 
-The modified Gurson model extends the expression of the void growth
-$\dot{f}_g$ by adding the dependence on the third stress invariant
-$J_3$. The evolution equation is given by
-\begin{equation}\label{eq:fgdot}
-  \dot{f}_g = (1-f)\dot{\epsilon}^p_{ii} + k_w\frac{f \omega(\bsigma)}{\sigma_e}s_{ij}\dot{\epsilon}^p_{ii}
-\end{equation}
-where the parameter $k_w$ is introduced by [CITE Nahshon-Hutchinson]
-to set the magnitude of the damage growth rate in shear states. The
-function $\omega(\bsigma)$ includes the effect of third stress
-invariant on void growth as
-\begin{equation}
-\omega(\bsigma) = 1 - \left( \frac{27J_3}{2\sigma_e^3}\right) ^2
-\end{equation}
+For the void growth part $\dot{f}_g$, the shear-modified Gurson model by \cite{Nahshon2008} extends the original void growth law by adding the dependence on the third stress invariant. The evolution equation is given by
 
-The plastic strain controlled void nucleation evolution is written [CITE Chu and Needleman]
-\begin{equation}\label{eq:fndot}
-\dot{f}_n = A(\epsilon^p_M)\dot{\epsilon}^p_M
-\end{equation}
-where $\epsilon^p_M$ is the effective plastic strain in the matrix. $A(\epsilon^p_M)$ is proposed to have the following form
+\begin{eqnarray}
+\dot{f}_g &=& (1-f)\tr\left( \gamma\frac{\partial\Phi}{\partial\btau} \right) + k_{\omega}f\frac{\omega(\btau)}{\tau_e}\bs: \left( \gamma\frac{\partial\Phi}{\partial\btau} \right)\\
+&=&(1-f)t + \gamma k_{\omega}f\frac{\omega(\btau)}{\tau_e} \|\bs\| \\
+&=&(1-f)t + \sqrt{\frac{2}{3}}\gamma k_{\omega}f \omega(\btau)
+\end{eqnarray}
+
+where $\tau_e:=\sqrt{3/2}\|\bs\|$ is the effective deviatoric Kirchhoff stress, $k_{\omega}$ is a material constant that sets the magnitude of the damage growth rate in pure shear states \citep{Nahshon2008}. The function $\omega(\btau)$ includes the effect of the third stress invariant on void growth and is given as
+
 \begin{equation}
-A(\epsilon^p_M) =
+\omega(\btau) = 1- \left(\frac{27J_3}{2\tau_e^3}\right)^2
+\end{equation}
+where $J_3:=\det(\bs)$ is the third invariant of deviatoric Kirchhoff stress tensor.
+
+The increase in void volume fraction due to plastic strain controlled nucleation can be written as \cite{Chu1980}
+\begin{equation}\label{eq:dotf_nu}
+\dot{f}_{nu} = A \dot{\varepsilon}_q
+\end{equation}
+$A$ is proposed to have the following form
+\begin{equation}
+A(\varepsilon_q) =
 	\begin{cases}
-		\frac{f_N}{s_N\sqrt{2\pi}}\exp\left[ -\frac{1}{2}\left( \frac{\epsilon^p_M - \epsilon_N}{s_N}\right)^2\right], & \sigma_m \geq 0\\
-		0,	  & \sigma_m <0
+		\frac{f_N}{s_N\sqrt{2\pi}}\exp\left[ -\frac{1}{2}\left( \frac{\varepsilon_q - \epsilon_N}{s_N}\right)^2\right], & p \geq 0\\
+		0,	  & p <0
 	\end{cases}
 \end{equation}
-where the nucleation strain follows a normal distribution with a mean
-value $\epsilon_N$ and a standard deviation $s_N$ with the volume
-fraction of the nucleated voids given by $f_N$.
 
-\subsection{Evolution of effective matrix stress}
-Plastic work in the matrix is taken to be a relative fraction of the
-macroscopic plastic work such that
-\begin{equation}\label{eq:plastic_work}
-  (1-f)\sigma_M\dot{\epsilon}^p_M = \sigma_{ij}\dot{\epsilon}^p_{ij}
-\end{equation}
-This provides the evolution equation for effective plastic strain in the matrix, i.e., 
-\begin{equation}\label{eq:epsMpdot}
-  \dot{\epsilon}^p_M = \frac{\sigma_{ij}\dot{\epsilon}^p_{ij}}{(1-f)\sigma_M}
-\end{equation}
-The evolution of the effective matrix stress $\sigma_M$ is then given by
-\begin{equation}\label{eq:sigMdot}
-  \dot{\sigma}_M = \frac{h_M\sigma_{ij}\dot{\epsilon}^p_{ij}}{(1-f)\sigma_M}
-\end{equation}
+where the nucleation strain follows a normal distribution with a mean value $\epsilon_N$ and a standard deviation $s_N$ with the volume fraction of the nucleated voids given by $f_N$.\\
 
-where $h_M$ is the hardening modulus of the matrix defined in terms of the equivalent tensile stress-plastic strain in uniaxial tension.
-\begin{equation}\label{eq:hM_def}
- h_M = \frac{d\sigma_M}{d\epsilon^p_M}
-\end{equation}
-Given a specific stress-strain relation for the matrix material, the
-hardening modulus could be derived from the above definition. The next
-section provides an example for a specific stress-strain relation.
+\subsection{Evolution equation for equivalent plastic strain}
+The evolution equation for equivalent plastic strain (Equation \eqref{eq:dotf_nu}) is derived from the equivalence of plastic work increment in the matrix material and the macroscopic plastic work increment as
 
-\subsection{Stress-strain relation for the matrix material}
-A variety of models for the effective matrix stress-strain may be
-used. As an example, we consider a simple linear-power law function as
-follows:
-\begin{equation}\label{eq:sigM_epsM}
-\sigma_M =
-	\begin{cases}
-	E\epsilon_M,  &\sigma_M < \sigma_Y \\
-	\sigma_Y \left( \frac{E\epsilon_M}{\sigma_Y} \right)^N,  & \sigma_M \geq \sigma_Y 
-	\end{cases}
-\end{equation}
-where $\sigma_Y$ is the initial yield stress of the matrix material
-and $\epsilon_M$ is the total effective strain in the matrix. Given
-the above stress-strain law, the hardening modulus of the matrix $h_M$
-can be obtained as follows: upon yielding of the matrix material
-($\sigma_M \geq \sigma_Y$), the plastic strain in the matrix is given
-by
-\begin{equation}\label{eq:epsMp}
-	\begin{aligned}
-	\epsilon^p_M &= \epsilon_M - \epsilon^e_M \\
-					   &=  \left( \frac{\sigma_Y}{E}\right) \left( \frac{\sigma_M}{\sigma_Y} \right) ^{\frac{1}{N}} - \frac{\sigma_M}{E}
-	\end{aligned}
-\end{equation}
-then, given definition in \eqref{eq:hM_def}
-\begin{equation}
-h_M = \frac{d\sigma_M}{d\epsilon^p_M} = \frac{1}{d\epsilon^p_M / d\sigma_M}
-\end{equation}
-considering \eqref{eq:epsMp}, the hardening modulus of the matrix is obtained as
-\begin{equation}\label{eq:hM}
-h_M = \frac{E}{ \frac{1}{N} \left( \frac{\sigma_M}{\sigma_Y} \right)^{\frac{1-N}{N}} - 1}
-\end{equation}
-
-\subsection{Flow rule and generalized Hook's law}
-To complete the formulation for the modified Gurson model, at small
-strain, an additive decomposition of the strain rate is assumed as:
-\begin{equation}
-  \dot{\bepsilon} = \dot{\bepsilon}^e + \dot{\bepsilon}^p
-\end{equation}
-The plastic flow equation is given
-\begin{equation}\label{eq:flow_rule}
-  \dot{\bepsilon}^p = \dot{\gamma}\frac{\partial F}{\partial\bsigma}
-\end{equation}
-where $\dot{\gamma}$ is the plastic multiplier. For linear isotropic
-elasticity, the generalized Hook's law is written as
-\begin{equation}
-  \dot{\bsigma} = \bc^e : \dot{\bepsilon}^e = \bc^e : (\dot{\bepsilon} - \dot{\bepsilon}^p)
-\end{equation}
-where $\bc^e$ is the fourth-order elasticity tensor.
-
- 
-\section{Integration algorithm for the modified Gurson model}\label{implicit}
-The systems of equations of the modified Gurson model to be solved consist of the following:
-\begin{eqnarray}
-	\dot{\bsigma} &=& \bc^e : \left(
-        \dot{\bepsilon} -
-        \dot{\bepsilon}^p\right) \label{eq:rate_eqn1}
-        \\ \dot{\bepsilon}^p &=& \dot{\gamma}\frac{\partial
-          F}{\partial\bsigma} \label{eq:rate_eqn2}\\ \dot{f} &=&
-        \dot{f}_g + \dot{f}_n \label{eq:rate_eqn3}\\ \dot{\sigma}_M
-        &=& \frac{h_M\bsigma :
-          \dot{\bepsilon}^p}{(1-f)\sigma_M} \label{eq:rate_eqn4}\\ F(\bsigma,
-        \sigma_M, f^*) &=& 0 \label{eq:rate_eqn5}
+\begin{eqnarray}\label{eq:dotepsilon}
+&&\dot{\varepsilon}_q Y(1-f) = \btau : \left( \gamma\frac{\partial\Phi}{\partial\btau} \right)\\
+\Rightarrow &&\dot{\varepsilon}_q =\frac{1}{1-f}\left( \gamma\sqrt{\frac{2|\psi|}{3}} {\rm sign}(\psi) + \frac{p t}{Y} \right) 
 \end{eqnarray}
-Given a strain increment $\Delta\bepsilon$ of the bulk material,
-and its stress state and internal variables at time $t_n$, i.e.,
-$\bsigma_{t_n}$, $(\sigma_M)_{t_n}$ and $f_{t_n}$, the goal of
-the integration algorithm is to solve for the values of these
-variables at time $t_{n+1}$. Using the implicit Euler scheme to write
-the discrete form of \eqref{eq:rate_eqn1} to \eqref{eq:rate_eqn5} as
-\begin{eqnarray}
-	\Delta\bsigma &=& \bc^e : \left( \Delta\bepsilon -  \Delta\bepsilon^p\right)  \label{eq:dis_eqn1} \\
-	\Delta\bepsilon^p &=&\Delta\gamma\left( \frac{\partial F}{\partial\bsigma} \right) _{t_{n+1}} \label{eq:dis_eqn2}\\	
-	\Delta f &=&\Delta f_g + \Delta f_n \label{eq:dis_eqn3}\\	
-	\Delta\sigma_M &=& \frac{h_M}{(1-f_{t_{n+1}})\sigma_{Mt_{n+1}}}\bsigma:\Delta\bepsilon^p \label{eq:dis_eqn4}\\	
-	F( \bsigma_{t_{n+1}}, \sigma_{Mt_{n+1}}, f^*_{t_{n+1}}) &=& 0 \label{eq:dis_eqn5}
-\end{eqnarray}
-where the increment of the plastic strain in the matrix is obtained from \eqref{eq:epsMpdot} as
+
+\subsection{Summary of material parameters}
+The material parameters for the modified Gurson model include
 \begin{equation}
-\Delta\epsilon_M^p = \frac{\bsigma_{t_{n+1}}:\Delta\bepsilon^p}{(1-f_{t_{n+1}})\sigma_{Mt_{n+1}}}
+\bP = \left\lbrace  E, \nu, K, Y_0, Y_{\infty}, \delta, f_0, k_{\omega}, e_N, s_N, f_N\right\rbrace 
 \end{equation}
-and the incremental form of void growth and nucleation is written as
-\begin{eqnarray}
-	\Delta f_g &=& (1-f_{t_{n+1}}) \tr \left( \Delta\bepsilon^p\right) + k_w\frac{f \omega(\bsigma_{t_{n+1}})}{\sigma_{et_{n+1}}}\bs_{t_{n+1}}: \Delta\bepsilon^p \\
-	\Delta f_n &=&  A(\epsilon_{Mt_{n+1}}^p)\Delta\epsilon_M^p\\	
-\end{eqnarray}
-A Newton type iterative scheme is used to solve the system of nonlinear equations \eqref{eq:dis_eqn1} to \eqref{eq:dis_eqn5}. For symmetric Cauchy stress tensor, the unknown vector consists of the following 
-\begin{equation}\label{eq:X}
-\bX = \{ \sigma_{11}, \sigma_{22},\sigma_{33},\sigma_{23},\sigma_{13},\sigma_{12}, \sigma_M, f, \Delta\gamma \}^T
-\end{equation}
-using return mapping algorithm, the trial stress state $\bsigma^{\tr}$ is defined based on the assumption that the increment is elastic
-\begin{equation}
-\bsigma^{\tr} = \bsigma_{t_n} + \bc^e:\Delta\bepsilon
-\end{equation}
-
-Then, the residual vector is formed as
-\begin{equation}\label{eq:R}
-\bR(\bX) = 
-	\left\lbrace 
-	\begin{array}{c}
-	 	\sigma_{11} - \sigma_{11}^{\tr} + \Delta\gamma c^e_{11ij}\left( \partial F/ \partial\sigma\right)_{ij} \\
-		\sigma_{22} - \sigma_{22}^{\tr} + \Delta\gamma c^e_{22ij}\left( \partial F/ \partial\sigma\right)_{ij} \\
-		\sigma_{33} - \sigma_{33}^{\tr} + \Delta\gamma c^e_{33ij}\left( \partial F/ \partial\sigma\right)_{ij} \\
-		\sigma_{23} - \sigma_{23}^{\tr} + \Delta\gamma c^e_{23ij}\left( \partial F/ \partial\sigma\right)_{ij} \\
-		\sigma_{13} - \sigma_{13}^{\tr} + \Delta\gamma c^e_{13ij}\left( \partial F/ \partial\sigma\right)_{ij} \\
-		\sigma_{12} - \sigma_{12}^{\tr} + \Delta\gamma c^e_{12ij}\left( \partial F/ \partial\sigma\right)_{ij} \\		
-		f - f_{t_n} - \Delta f\\
-		\sigma_M - \sigma_{Mt_n} -  \Delta\sigma_M\\
-		F(\bsigma, \sigma_M, f)	
-	\end{array}	
-	\right\rbrace 
-	= \bzero
-\end{equation}
-where $\Delta f$ and $\Delta\sigma_M$ are given as
-\begin{eqnarray}
-\Delta f &=& \Delta\gamma \left[ (1-f) \left( \partial F/ \partial\sigma\right)_{ii} + k_w\frac{f \omega(\bsigma)}{\sigma_e}s_{ij} \left( \partial F/ \partial\sigma\right)_{ij} +A(\epsilon_{M}^p)\Delta\epsilon_M^p \right] \\
-\Delta\sigma_M &=& \Delta\gamma\frac{h_M}{(1-f)\sigma_M}\sigma_{ij}\left( \partial F/ \partial\sigma\right)_{ij}
-\end{eqnarray}
-where the subscript $t_{n+1}$ has been left off to simplify notation. 
-The integration algorithm is summarized in the following box\\
-
-Box 1. Integration algorithm for modified Gurson model\\
-\fbox{\parbox{14.5cm}{
-GIVEN: $\bsigma_{t_n}$, $\bepsilon_{t_n}$, $f_{t_n}$, $\sigma_{Mt_n}$ and $\Delta\bepsilon$.\\
-FIND: $~~~{\bsigma}_{t_{n+1}}$, $f_{t_{n+1}}$ and $\sigma_{Mt_{n+1}}$.\\
-STEP 1. Compute the trial stress state $\bsigma^{\rm tr} = \bsigma_{t_n} + \bc^e:\Delta\bepsilon$.\\
-STEP 2. Check yielding: $F^{\rm tr}(\bsigma^{\rm tr}, f_{t_n}, \sigma_{Mt_n}) > 0$ ?\\
-$~~~~~~~~~~~~~~$No, set $\bsigma_{t_{n+1}}=\bsigma^{\rm tr}$, $f_{t_{n+1}} = f_{t_n}$, $\sigma_{Mt_{n+1}} = \sigma_{Mt_n}$  and exit.\\
-STEP 3. Yes, local Newton loop. \\
-$~~~~~~~~~~~~~~$3.1 Initialize $\bX^{k}$ \eqref{eq:X} and iteration count $k=0$.\\
-$~~~~~~~~~~~~~~$3.2 Assemble residual $\bR(\b X^k)$ \eqref{eq:X}.\\
-$~~~~~~~~~~~~~~$3.3 Check convergence: $\parallel \b R \parallel < tol$ ?\\
-$~~~~~~~~~~~~~~~~~~~$Yes, converged and go to STEP 4.\\
-$~~~~~~~~~~~~~~$3.4 No, compute local Jacobian matrix $\b J = \partial\bR / \partial\bX$.\\
-$~~~~~~~~~~~~~~$3.5 Solve system of equations $\bJ \cdot \delta\bX^k = \bR$ for $\delta\bX$.\\
-$~~~~~~~~~~~~~~$3.6 Update $\bX^{k+1} = \bX^{k} - \delta\bX$ and go to 3.2\\
-STEP 4. Update $\sigma_{t_{n+1}}$, $f_{t_{n+1}}$, $\sigma_{Mt_{n+1}}$, and exit.
-}}
-
-
-\section{Benchmark material point simulations}
-In this section, the numerical implementation of the modified Gurson
-model is verified through three benchmark material point tests, i.e.,
-hydrostatic tension, plane strain tension and simple shear tests,
-where the analytical solutions or benchmark results from literature
-can be obtained.
-
-\subsection{Hydrostatic tension test}
-In this test, the material is subjected to a uniform volumetric
-expansion under strain controlled loading, with incremental size
-$\Delta\epsilon_{ii} = 1.0e-3$. The void volume fraction function is
-taken as $f^* = f$ for all values of $f$ to facilitate the comparison
-with analytical solution. Also, for hydrostatic tension, the value
-$\omega(\bsigma) = 0$, which means the void growth only depends
-on the volumetric part of the plastic strain (c.f. equation
-\eqref{eq:fgdot}), and the results are independent of $k_w$.
-
-The material properties are summarized in the following table
-
-\begin{table}[H]
-  \begin{center}
-    \begin{tabular}{ c c}
-      \toprule
-      Parameter	  &	  Value	  \\
-	  \midrule
-	  $E/\sigma_Y$ 			  & 300 	 \\
-	  $\nu$			  & 0.2524  \\
-	  $f_0$     	  & 0.04 \\
-	  $k_w$           & 0.0 \\
-	  $N$             & 0.1 \\
-	  $q_1$          & 1.5 \\
-	  $q_2$          & 1.0 \\
-	  $q_3$          & 2.25 \\
-	  $e_N$	      & 0.3\\
-	  $s_N$          & 0.1\\
-	  $f_N$			  & 0.04\\     
-      \bottomrule
-    \end{tabular}
-    \caption{Material properties used for modified Gurson model in
-      hydrostatic tension test.}
-    \label{tab:matl_hydrostatic}
-  \end{center}
-\end{table}
-For matrix material, the following stress-strain relation is used
-\begin{equation}
-  \frac{\sigma_M}{\sigma_Y} = \left( \frac{\sigma_M}{\sigma_Y} +
-  \frac{3G}{\sigma_Y}\epsilon_M^p\right)^N
-\end{equation}
-where $\epsilon_M^p$ is the plastic strain in the matrix material.
-
-The results of the hydrostatic tension tests are shown in the
-following figures. The analytical solution has been obtained in
-[CITE].
-
-\subsection{Plane strain tension test}
-In the plane strain tension test, the material properties and
-stress-strain law for matrix material are the same as in previous
-section, except the initial void ration $f_0 = 0$ in order to compare
-with available benchmark results from [CITE]. Also, the dependence on
-the third stress invariant through $\omega(\bsigma)$ is studied
-by varying the parameter $k_w$ in equation \eqref{eq:fgdot}. The
-stepsize for the axial strain increment is taken to be
-$\Delta\epsilon_a = 5.0e-3$. The stress-strain behavior as well as the
-void growth are shown in the following figures.
-
-\subsection{Simple shear test}
-In the simple shear test, to facilitate comparison with analytical
-results, it is assumed that $f^* = f$ for all values of $f$ and void
-nucleation is neglected. Elasticity is also neglected when deriving
-analytical solution. The set of material properties for simple shear
-tests are shown in Table \ref{tab:matl_shear}. The matrix
-stress-strain law is taken to be linear-power law type as in equation
-\eqref{eq:sigM_epsM}. To study the material behavior in shear
-dominated state, the parameter $k_w$ is varied from 0 to 5. The step
-size for the simple shear is taken to be $\Delta\epsilon_s = 1.0e-2$.
-
-\begin{table}[H]
-  \begin{center}
-    \begin{tabular}{ c c}
-      \toprule
-      Parameter	  &	  Value	  \\
-	  \midrule
-	  $E$ 			  & 200 GPa 	 \\
-	  $\sigma_Y$ & 200 MPa \\
-	  $\nu$			  & 0.2524  \\
-	  $f_0$     	  & 0.005 \\
-	  $N$             & 0.1 \\
-	  $q_1$          & 1.1 \\
-	  $q_2$          & 1.0 \\
-	  $q_3$          & 1.0 \\     
-      \bottomrule
-    \end{tabular}
-    \caption{Material properties for the modified Gurson model in
-      simple shear test.}
-    \label{tab:matl_shear}
-  \end{center}
-\end{table}
-
-Results of the simple shear tests are shown in the following
-figures. The case $k_w = 0$ corresponds to the original Gurson model,
-where the void growth only depends on the volumetric plastic strain.
-
 
 % Local Variables:
 % TeX-master: "GursonModel"
