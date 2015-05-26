@@ -8,6 +8,105 @@
   Sacado to compute derivative for the local consistent tangent, so we
   should talk about what that buys us.}
 
+The details of numerical implementation of the large deformation hyperelastic Gurson model are discussed in this section. A fully implicit integration scheme (\cite{SimoHughes:98, Steinmann1994}) is implemented to integrate stress response over a finite time step $\Delta t = t_{n+1} - t_n$, for given state represented by $\varepsilon_{q(n)}, f_n, \bb_{e(n)}$ and deformation gradient $\bF_{n+1}$. The integration scheme consists of an elastic trial state followed by plastic corrections.
+
+\section{Discrete form of the rate equations}
+
+For the discrete form of the rate equations, the flow rule Eq.\eqref{eq:flowRule} is first written in the material (reference) configuration through a pull-back operation
+
+\begin{equation}\label{eq:flowRule_ref}
+-\frac{1}{2}\dot{\bC}_p^{-1}\cdot\bC_p = \gamma\bF^{-1}\frac{\partial\Phi}{\partial\btau}\bF
+\end{equation}
+
+Then, the application of the exponential mapping to Eq.\eqref{eq:flowRule_ref} yields an incremental objective integration algorithm
+
+\begin{equation}\label{eq:Cp}
+\bC_{p(n+1)}^{-1} = \bF_{n+1}^{-1}\exp\left( -2\Delta\gamma \frac{\partial\Phi_{n+1}}{\partial\btau}\right)\bF_{n+1}\bC_{p(n)}^{-1}
+\end{equation}
+
+Applying the push-forward operation to Eq.\eqref{eq:Cp} renders an update algorithm for the elastic left Cauchy-Green tensor
+
+\begin{equation}\label{eq:be_n}
+\bb_{e(n+1)} = \exp\left( -2\Delta\gamma\frac{\partial\Phi_{n+1}}{\partial\btau}\right)\cdot\bb_e^{\tr}
+\end{equation}
+
+where the trial elastic left Cauchy-Green tensor is given by
+
+\begin{equation}\label{eq:betr}
+\bb_e^{\tr} = \bF_{n+1}\cdot\bC_{p(n)}^{-1}\cdot\bF^T_{n+1}
+\end{equation}
+
+From elastic and plastic isotropy, $\bb_{e(n+1)}, \bb_e^{\tr}$ and $\btau$ have identical principal axes. Then, the logarithmic Henchy strains follow as
+
+\begin{equation}\label{eq:lnbetr}
+\ln\bb_{e(n+1)} = \ln\bb_e^{\tr} - 2\Delta\gamma\frac{\partial\Phi_{n+1}}{\partial\btau}
+\end{equation}
+
+From the elastic constitutive relations derived in Eqs.\eqref{eq:p} and \eqref{eq:s}, the Kirchhoff pressure and deviatoric stress tensor can be obtained as
+
+\begin{align}
+p_{n+1} &= p^{\tr} - \kappa t\label{eq:discrete_p}\\
+\bs_{n+1} &= \bs^{\tr} - 2\mu\Delta\gamma \bn\label{eq:discrete_s}
+\end{align}
+
+where $\bn$ and $t$ are given by Eqs.\eqref{eq:n}, \eqref{eq:t} and evaluated at time $t_{n+1}$. The trial state are
+
+\begin{align}
+p^{\tr} &= \kappa\ln J_e^{\tr},~~J_e^{\tr} = \det(\bb_e^{\tr})^{1/2}\label{eq:ptr}\\
+\bs^{\tr}&= \mu\dev\ln\bb_e^{\tr}\label{eq:str}
+\end{align}
+
+The discrete form of evolution equations for internal variables $\varepsilon_q$ and $f$ are obtained by apply backward Euler to Eqs.\eqref{eq:dotf} and \eqref{eq:dotepsilon}. 
+
+\begin{align}
+f_{n+1} &= f_n + (1-f_{n+1})t + \sqrt{\frac{2}{3}}\Delta\gamma  k_{\omega}f_{n+1} \omega(\btau) + A_{n+1}(\varepsilon_{q(n+1)} - \varepsilon_{q(n)})\label{eq:discrete_f}\\
+\varepsilon_{q(n+1)} &= \varepsilon_{q(n)} + \frac{1}{1-f_{n+1}}\left(\Delta\gamma\sqrt{\frac{2|\psi|}{3}} {\rm sign}(\psi) + \frac{p_{n+1} t}{Y}\right)\label{eq:discrete_eq}
+\end{align}
+
+\section{Implicit integration algorithm}
+The discrete form of the rate equations \eqref{eq:be_n}, \eqref{eq:discrete_p}, \eqref{eq:discrete_s}, \eqref{eq:discrete_f} and \eqref{eq:discrete_eq} include four unknowns, i.e., the unknown vector
+\begin{equation}\label{eq:X}
+\bX=\lbrace p, f, \varepsilon_q, \Delta\gamma \rbrace
+\end{equation}
+which will be obtained from solving the following nonlinear system of equations. For simplicity, in the following section, we will omit the index $n+1$ referring to the current time step. The resulting nonlinear system of equations follow
+\begin{align}
+R_1(\bX) &= \|\bs^{\tr}\| - 2\mu\Delta\gamma - \sqrt{\frac{2}{3}}{\rm sign}(\psi)\sqrt{|\psi|}Y\label{eq:R1}\\
+R_2(\bX) &= p - p^{\tr} + \kappa t\\
+R_3(\bX) &= f - f_n - (1-f) t - \sqrt{\frac{2}{3}}\Delta\gamma k_{\omega}f \omega(\btau) - A(\varepsilon_{q} - \varepsilon_{q(n)}) \\
+R_4(\bX) &=\varepsilon_q - \varepsilon_{q(n)}- \frac{1}{1-f}\left(\Delta\gamma\sqrt{\frac{2|\psi|}{3}} {\rm sign}(\psi) + \frac{p t}{Y}\right)\label{eq:R4}
+\end{align}
+The above system of equations can be solved through iterative solution procedures like the Newton's method, which requires consistent linearisations.
+
+The integration algorithm is summarized in the following box\\
+Box 1. Integration algorithm for shear-modified finite deformation Gurson model\\
+\fbox{\parbox{14.5cm}{
+GIVEN: $\varepsilon_{q(n)}, f_n, \bb_{e(n)}$ and $\bF$\\
+FIND: $~~~\btau, \varepsilon_{q}, f, \bb_e(\bF_{p}) $\\
+STEP 1. Compute trial elastic left Cauchy-Green tensor $\bb_e^{\tr}$ Eq.\eqref{eq:betr}\\
+STEP 2. Compute trial Kirchhoff pressure and deviatoric tensor $p^{\tr}, \bs^{\tr}$ Eqs. \eqref{eq:ptr}, \eqref{eq:str}\\
+STEP 3. Check yielding Eq. \eqref{eq:Phi}: $\Phi^{\tr}(p^{\tr}, \bs^{\tr}, \varepsilon_{q(n)}, f_n) > 0$ ?\\
+$~~~~~~~~~~~~~~$No, set $p = p^{\tr}, \bs = \bs^{\tr}, \bb_e = \bb_e^{\tr}, \varepsilon_{q} = \varepsilon_{q(n)}, f = f_n$  and exit\\
+STEP 4. Yes, local Newton loop\\
+$~~~~~~~~~~~~~~$4.1 Initialize $\bX^{k}$ Eq. \eqref{eq:X} and iteration count $k=0$\\
+$~~~~~~~~~~~~~~$4.2 Assemble residual $\bR(\bX^k)$ Eq. \eqref{eq:R1} - \eqref{eq:R4}\\\
+$~~~~~~~~~~~~~~$4.3 Check convergence: $\parallel \bR \parallel < tol$ ?\\
+$~~~~~~~~~~~~~~~~~~~$Yes, converged and go to STEP 5\\
+$~~~~~~~~~~~~~~$4.4 No, compute local Jacobian matrix $\bJ = \partial\bR / \partial\bX$\\
+$~~~~~~~~~~~~~~$4.5 Solve system of equations $\bJ \cdot \delta\bX = \bR$ for $\delta\bX$\\
+$~~~~~~~~~~~~~~$4.6 Update $\bX^{k+1} = \bX^{k} - \delta\bX$, $k\rightarrow k+1$ and go to 4.2\\
+STEP 5. Update $\btau = \bs + p\bg$, and $\varepsilon_q, f, \bF_p^*$\\
+}}
+
+$^*$The plastic deformation gradient, which is used in \eqref{eq:flowRule_ref} and \eqref{eq:betr} to compute trial state, is updated using
+\begin{equation}
+\bF_p = \exp\left( \frac{\partial\Phi}{\partial\btau}\right)\cdot\bF_{b(n)}
+\end{equation}
+
+The linearization of the system of equations requires evaluating the local Jacobian matrix $\bJ = \partial\bR / \partial\bX$. In this work, we used an numerical exact method called Fast Automatic Differentiation (FAD) to evaluating all the Jacobian. FAD provides an efficient and convenient way to evaluate derivatives. A detailed description of FAD can be found in [CITE].
+
+\section{FAD: a numerical exact way of computing consistent tangent}
+
+
 % Local Variables:
 % TeX-master: "GursonModel"
 % mode: latex
