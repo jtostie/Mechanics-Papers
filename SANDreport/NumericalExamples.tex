@@ -1,5 +1,5 @@
-\chapter{Results}
-\label{results}
+\chapter{Numerical Examples}
+\label{numerical-examples}
 
 \textit{This section could be renamed to Numerical Examples, and
   should include any and all verification/validation work. To be
@@ -8,6 +8,73 @@
   parameters for use in their user's manual, but obviously I'll worry
   about that.}
 
+To demonstrate the model, the plasticity parameters were fit to data
+obtained from the tensile testing of an A286 alloy. Subsequently, some
+of the parameters governing the failure behavior of the model were
+varied to study their effects. The data collection and parameter
+fitting details are outside of the scope of this report, and the
+results of this process can be seen in Figure~\ref{fig:hard-curve} and
+Table~\ref{sierra-parameters}, where the ranges of the relevant
+parameters are listed as appropriate for the study. Note that in
+Figure~\ref{fig:hard-curve}, as for other multi-linear hardening
+models in Sierra, the \verb!YIELD_STRESS! parameter aligns with the first
+non-zero true strain point in the curve.
+
+\begin{figure}[htbp]
+  \begin{center}
+    \includegraphics[trim=0mm 0mm 0mm 0 mm,clip,width=0.75\textwidth]
+                    {images/hardening-curve.pdf}
+    \caption{True stress versus true strain, obtained from a fitting
+      the tensile behavior of an A286 steel alloy.}
+    \label{fig:hard-curve}
+  \end{center}
+\end{figure}
+
+
+\begin{table}
+  \begin{center}
+    \begin{tabular}{ l c }
+      \toprule
+      \multicolumn{2}{c}{Parameters}
+      \\
+      \midrule
+      \verb!YOUNGS_MODULUS! & 29.0e6 $psi$
+      \\ \addlinespace
+      \verb!POISSONS_RATIO! & 0.3
+      \\ \addlinespace
+      \verb!YIELD_STRESS! & 1.14794e5 $psi$
+      \\ \addlinespace
+      \verb!Q1! & 1.5
+      \\ \addlinespace
+      \verb!Q2! & 1.0
+      \\ \addlinespace
+      \verb!Q3! & 2.25
+      \\ \addlinespace
+      \verb!KW! & \{0,5,10\}
+      \\ \addlinespace
+      \verb!INITIAL_VOID! & \{0.0001,0.001,0.01\} 
+      \\ \addlinespace
+      \verb!EN! & \{0.0,0.1,0.2\}
+      \\ \addlinespace
+      \verb!SN! & 0.1
+      \\ \addlinespace
+      \verb!FN! & \{0.0,0.1,0.2\}
+      \\ \addlinespace
+      \verb!CRITICAL_VOID! & 0.5
+      \\ \addlinespace
+      \verb!FAILURE_VOID! & 0.6667
+      \\ \addlinespace
+      \verb!HARDENING_FUNCTION! & see Figure~\ref{fig:hard-curve}
+      \\
+      \bottomrule
+    \end{tabular}
+    \caption{Input parameters for the Gurson model in Sierra and the
+      ranges over which parameters were varied in the present study.}
+    \label{sierra-parameters}
+  \end{center}
+\end{table}
+
+
 \section{Uniaxial Tension}
 \label{tension}
 
@@ -15,7 +82,7 @@ In this section we investigate the behavior of the model in a state of
 uniaxial tension. In particular, we will observe the stress and void
 volume fraction response for a variety of failure parameter
 combinations to develop an understanding of the behavior of the
-model. Figure~\ref{tension-kw} shows the model behavior for various
+model. Figure~\ref{fig:tension-kw} shows the model behavior for various
 values of the shear parameter $k_{\omega}$, and evidently it has
 little to no effect on the response for this stress state.
 
