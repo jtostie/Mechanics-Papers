@@ -8,50 +8,13 @@
   hyperelastic framework. It should include sections on the flow rule
   and each piece of the void volume fraction evolution equation.}
 
-\section{Background}
-
-The original Gurson model was developed by \cite{Gurson1977} based on
-rigorous micromechanical analysis of a characteristic volume element
-with spherical or cylindrical-shaped voids surrounded by rigid plastic
-matrix materials. This model was motivated by experimental
-observations of dilational plastic deformation during ductile fracture
-in porous metals, which generates considerable porosity due to the
-growth and nucleation of voids. Tvergaard and Needleman
-\cite{Tvergaard1984} later improved the original Gurson model by
-introducing additional parameters into the yield function and by
-introducing an effective void volume fraction term to account for
-coalescence of voids that better capture the damage growth rates. This
-model is known as the 'Gurson-Tvergaard-Needleman' or the GTN model.
-
-One important limitation of the original Gurson or the GTN model is
-that the void growth (i.e., the damage) depends only on the mean
-stress. In a shear-dominated state, such as in a projectile
-penetration problem, the model is unable to predict damage growth if
-continuous void nucleation is not invoked. This limitation motivates a
-modification of the original void growth law to include a shear term
-proposed in \cite{Nahshon2008}. This modification, though
-phenomenological in nature, has been shown to improve the prediction
-of the Gurson model in situations where shear stress dominates
-\cite{Nahshon2008,Nahshon2009}.
-
-The original Gurson model and the recent shear modification were both
-formulated either with a small deformation assumption or within a
-hypoelastic framework. The large deformation typically encountered in
-a ductile failure simulation would render the small deformation
-formulation inappropriate. As for the hypoelastic formulation, there
-are well known drawbacks such as the non-zero work done in a closed
-cycle of elastic deformation, which violates the most important axiom
-of an elastic response (\cite{Belytschko2013}).
-
-To avoid the above problems, in this section, the shear-modified
-Gurson model in \cite{Nahshon2008, Nahshon2009} will be reformulated
-within a large deformation hyperelastic constitutive framework. Since
-the elastic response is derived from a hyperelastic potential, the
-work done in a closed elastic deformation loop vanishes
-exactly. Furthermore, the hyperelastic formulation eliminates the need
-for incrementally objective stress update algorithms and can be easily
-integrated with frame-invariant formulations of anisotropic elasticity
-and anisotropic plastic yielding (\cite{Belytschko2013}).
+This chapter discusses in detail the physical and mathematical
+formulation of the modified Gurson model under investigation. It
+begins with kinematic preliminaries and expresses the hyperelastic
+constitutive relation. The yield function is defined in combination
+with a hardening law and flow rule. Then the evolution equations for
+the void volume fraction and presented, as per the porous solid
+assumption.
 
 \section{Preliminaries for large deformation hyperelastic formulation}
 
@@ -131,35 +94,32 @@ $\bar{\bb}^e$) of the elastic deformation. The volumetric and the
 isochoric parts of the strain-energy function are given as
 
 \begin{equation}
-  \Psi^{\rm vol}[J^e] =\frac{1}{2}\kappa(\ln J^e)^2
+  \Psi^{\rm vol}[J^e] =\frac{\kappa}{4}\left(J^e{^2} - 1 - \rm ln~J^e{^2}\right)
 \end{equation}
 
 \begin{equation}
   \Psi^{\rm iso}[\bar{\bb}^e] =
-  \mu(\frac{1}{2}\ln\bar{\bb}^e):(\frac{1}{2}\ln\bar{\bb}^e)
+  \frac{\mu}{2}\left(\rm tr(\bar{\bb}^e)-3\right)
 \end{equation}
 
-where $\kappa$ and $\mu$ are the bulk and shear modulus, and the
-elastic logarithmic Hencky strains $\frac{1}{2}\ln\bb^e$ is used as
-the strain measure (\cite{Steinmann1994}). The elastic constitutive
-law and the Kirchhoff stresses are given as
+where $\kappa$ and $\mu$ are the bulk and shear modulus. Here we are
+following the developments of (\cite{Steinmann1994}), however we
+employ a different choice of strain energy-functions. The elastic
+constitutive law and the Kirchhoff stresses are given as
 
 \begin{equation}\label{eq:Kirchhoff}
-\btau=\kappa\ln J^e\bg^{-1} + \mu\ln\bar{\bb}^e =
-\kappa(\ln\bb^e:\bg)\bg^{-1} + \mu\dev\ln\bb^e
+\btau=J^e p \bone + \bs
 \end{equation}
 
-where $\bg$ is the metric tensor. The Kirchhoff pressure $p$ and the
-deviatoric stress tensor $\bs$ are related to the elastic strain
-measure as
+The Kirchhoff pressure $p$ and the deviatoric stress tensor $\bs$ are
+related to the elastic strain measure as
 
 \begin{equation}\label{eq:p}
-p = \frac{1}{3}\tr(\btau) = \frac{1}{2}\kappa\tr\ln\bb^e =
-\frac{1}{2}\kappa\ln\det\bb^e
+p = \frac{1}{3}\tr(\btau) = \frac{\kappa}{2}\left(J^e{^2}-1\right)/J^e
 \end{equation}
 
 \begin{equation}\label{eq:s}
-\bs = \dev(\btau) = \mu\dev\ln\bb^e
+\bs = \dev(\btau) = \mu\dev(\bar{\bb}^e)
 \end{equation}
 
 \section{Constitutive relations of the Gurson model}
@@ -176,27 +136,28 @@ of the previously defined Kirchhoff mean stress $p$ and deviatoric
 stress tensor $\bs$ as
 
 \begin{equation}\label{eq:Phi}
-\Phi = \|\bs\| - \sqrt{\frac{2}{3}}{\rm sign}(\psi)\sqrt{|\psi|} Y
+\Phi = \frac{1}{2}\bs:\bs - \frac{1}{3}\psi Y^2
 \end{equation}
 
 where $\psi$ contains contributions from the damage in the material
 and $Y$ is the Kirchhoff yield stress. This yield function
-\eqref{eq:Phi} is a linear form, in terms of $\|\bs\|$, of the Gurson
-yield criteria. This particular form is implemented to facilitate
-comparisons with existing $J_2$-like models in the Albany analysis
-code \cite{Salinger2013}, where the yield functions are mostly written
-as linear functions of $\|\bs\|$.
+\eqref{eq:Phi} is a quadratic version form. This particular variant of
+the yield function was chosen as it proved to exhibit superior
+properties of robustness in convergence in the nonlinear solution
+algorithm outline below.
 
 The function $\psi$ directly relates to the void volume fraction of
 the porous solid and is given as
 
 \begin{equation}
-\psi = 1 + f^2 - 2 f \cosh(v), ~~v=\frac{3p}{2 Y}
+\psi = 1 + q_3 f^2 - 2 q_1 f \cosh(v), ~~v=\frac{3 q_2 p}{2 Y}
 \end{equation}
 
 where $p$ is the Kirchhoff pressure defined in \eqref{eq:p}, and $f$
 is the void volume fraction of the porous solid. The Kirchhoff yield
-stress $Y$ describes the hardening of the undamaged matrix material.
+stress $Y$ describes the hardening of the undamaged matrix
+material. Also, the constants $q_1,q_22,q_3$ are the accepted
+additional yield parameters often present in GTN type models.
 
 \subsection{Hardening law}
 The hardening law relates the yield strength $Y$ to some measure of

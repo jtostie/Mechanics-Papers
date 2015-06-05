@@ -1,18 +1,62 @@
+
 \chapter{Introduction}
 \label{intro}
 
 The purpose of this work is to present a modified Gurson constitutive
-model for use in capturing the behavior of ductile materials in the
-failure regime. The Gurson model has been used extensively in metal
-plasticity, starting with \cite{Gurson1977}, and the modified Gurson
-model described here was recently proposed by \cite{Nahshon2008}, and
-extended to include void nucleation in \cite{Nahshon2009}. In this
-treatment we incorporate a hyperelastic strain energy potential to
-define the underlying model of elasticity, and investigate a fully
-implicit Newton algorithm for integration of the evolution equations
-associated with the state variables used to define the constitutive
-response.
+model used in capturing the behavior of ductile materials up to and
+including the failure regime. The original Gurson model was developed
+by \cite{Gurson1977} based on rigorous micromechanical analysis of a
+characteristic volume element with spherical or cylindrical-shaped
+voids surrounded by rigid plastic matrix material. This model was
+motivated by experimental observations of dilational plastic
+deformation during ductile fracture in porous metals, which generate
+considerable porosity due to the nucleation and growth of
+voids. Tvergaard and Needleman \cite{Tvergaard1984} later improved the
+original Gurson model by introducing additional parameters into the
+yield function and by introducing an effective void volume fraction
+term to account for coalescence of voids that more accurately captured
+the void volume fraction growth rates. This model is referred to as
+the 'Gurson-Tvergaard-Needleman' or the GTN model.
 
+One important limitation of the original Gurson or the GTN model is
+that the void growth (i.e., the damage) depends only on the mean
+stress. In a shear-dominated state, such as in a projectile
+penetration problem, the model is unable to predict damage growth if
+continuous void nucleation is not invoked. This limitation motivates a
+modification of the original void growth law to include a shear term
+proposed in \cite{Nahshon2008}. This modification, though
+phenomenological in nature, has been shown to improve the prediction
+of the Gurson model in situations where shear stress dominates
+\cite{Nahshon2008,Nahshon2009}.
+
+The original Gurson model and the recently introduced shear
+modification were both formulated either with a small deformation
+assumption or within a hypoelastic framework. The large deformation
+setting typically encountered in a ductile failure simulation would
+render the small deformation formulation inappropriate. As for the
+hypoelastic formulation, there are well known drawbacks such as the
+non-zero work done in a closed cycle of elastic deformation, which
+violates the most important axiom of an elastic response
+\cite{Belytschko2013}.
+
+To avoid the above problems, in Section~\ref{model-form}, the
+shear-modified Gurson model in \cite{Nahshon2008, Nahshon2009} will be
+reformulated within a large deformation hyperelastic constitutive
+framework. Since the elastic response is derived from a hyperelastic
+potential, the work done in a closed elastic deformation loop vanishes
+exactly. Furthermore, the hyperelastic formulation eliminates the need
+for incrementally objective stress update algorithms and can be easily
+integrated with frame-invariant formulations of anisotropic elasticity
+and anisotropic plastic yielding \cite{Belytschko2013}. The scope of
+the current work, however, is limited to an isotropic treatment.
+
+The remainder of this report includes a discussion of the model
+formulation in Chapter~\ref{model-form} and a discussion of the
+implementation in
+Chapter~\ref{implementation}. Chapter~\ref{numerical-examples}
+showcases a select few numerical examples of the
+model. Chapter~\ref{conclusions} finishes with a conclusions and a
+discussion of the efficacy of the model.
 % Local Variables:
 % TeX-master: "GursonModel"
 % mode: latex
