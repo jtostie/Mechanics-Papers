@@ -1,0 +1,37 @@
+------ TENTATIVE TITLE ------
+On the formulation and numerical integration of a shear-modified Gurson model for ductile failure simulation at finite strain
+
+------ OUTLINE ------
+1. Introduction
+
+2. Preliminaries for finite deformation hyperelastic formulation
+  2.1 Kinematic preliminaries
+  2.2 Hyperelastic constitutive relation
+
+3. Formulation of the finite deformation Gurson model
+  3.1 Yield function
+  3.2 Hardening law
+  3.3 Flow rule
+  3.4 Evolution of void volume fraction and shear modification
+
+4. Integration of constitutive equations
+  4.1 Discrete form of the rate equations
+  4.2 Local nonlinear system of equations
+
+5. Numerical implementation and solution procedure
+  5.1 Albany analysis code
+  5.2 FAD: a numerical exact way of computing consistent tangent
+
+6. Numerical examples
+  6.1 Benchmark element tests
+  6.2 Tensile test of a round bar
+
+7. Conclusions
+
+------ TODOs ------
+1) Literature review for the introduction section
+
+
+
+
+
