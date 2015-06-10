@@ -22,16 +22,20 @@ On the formulation and numerical integration of a shear-modified Gurson model fo
   5.1 Albany analysis code
   5.2 FAD: a numerical exact way of computing consistent tangent
 
-6. Numerical examples
-  6.1 Benchmark element tests
-  6.2 Tensile test of a round bar
+6. Verification - benchmark element tests
+
+7. Ductile failure simulation (maybe a better section title?)
+  6.1 Experimental program and results (do we want to include this section?)
+  6.2 Numerical simulations
 
 7. Conclusions
 
 ------ TODOs ------
-1) Literature review for the introduction section
+1) The introduction section: add literature review; emphasize the contribution of present work
 
+2) The numerical implementation section: add description of Albany code; put more details for FAD
 
+3) The numerical example section: add results of Gurson simulation
 
 
 
