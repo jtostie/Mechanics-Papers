@@ -1,0 +1,117 @@
+\section{Preliminaries for finite deformation hyperelastic formulation}\label{sec:preliminaries}
+
+%----------------
+% Kinematic
+%----------------
+\subsection{Kinematic preliminaries}
+To set the stage for the hyperelastic formulation, the kinematic
+preliminaries for large deformation elastoplasticity are summarized 
+in this section, along with the quantities and relations that will be
+used in subsequent model development.
+
+An essential feature of this elastoplasticity framework is the
+multiplicative decomposition of the deformation gradient $\bF$ into 
+an elastic part $\bF^e$ and a plastic part $\bF^p$
+
+\begin{equation}
+  \bF = \bF^e \cdot \bF^p.
+\end{equation}
+
+This decomposition introduces the notion of an intermediate local
+configuration (\cf\ \cite{SimoHughes:98} and the references therein
+for the motivation and micromechanical basis for such a
+decomposition).
+
+Next, we introduce a set of strain measures associated with the
+multiplicative decomposition that will be used extensively in the
+model development. First is the right Cauchy-Green tensor $\bC$, and
+its plastic counterpart $\bC^p$, which are defined in the reference
+configuration
+
+\begin{align}
+  \bC &= \bF^T \cdot \bF\\ \bC^p &= \bF^{pT} \cdot \bF^p
+\end{align}
+where $\bF^T$ is the transpose of $\bF$.
+
+In the current configuration we consider the left Cauchy-Green tensor
+$\bb$, and its elastic counterpart ${\bb}^e$
+
+\begin{align}
+  \bb &= \bF \cdot \bF^{T}\\ \bb^e &= \bF^e \cdot
+  \bF^{eT}\label{eq:be}
+\end{align}
+
+The above fundamental strain measures are related via pull-back and
+push-forward operations
+
+\begin{align}\label{eq:pullpush}
+  \bC^{-p} &=\bF^{-1} \cdot \bb^e \cdot \bF^{-T}\\ \bb^e &= \bF \cdot
+  \bC^{-p} \cdot \bF^T
+\end{align}
+
+In metal plasticity, a standard assumption is that plastic flow is
+isochoric (volume-preserving), \ie\ $\det(\bF^p)=1$, which implies
+
+\begin{equation}
+  J = \det (\bF) = \det (\bF^e)
+\end{equation}
+
+Defining $J^e=\det(\bF^e)$, we have the volume preserving part of the
+elastic left Cauchy-Green tensor $\bar{\bb}^e$
+
+\begin{equation}
+  \bar{\bb}^e = J^{e^{-2/3}}\bb^e = J^{-2/3}\bb^e.
+\end{equation}
+
+%----------------
+% Hyperelastic
+%----------------
+\subsection{Hyperelastic constitutive relation}
+The starting point of the hyperelastic constitutive formulation is 
+the assumption of the existence of a strain-energy function, which is
+proposed to have the following form
+
+\begin{equation}
+\Psi=\Psi^{\rm vol}[J^e] + \Psi^{\rm iso}[\bar{\bb}^e]
+\end{equation}
+
+Here the strain-energy function $\Psi$ is a decoupled function of the
+volumetric part (i.e., $J^e=\det\bF^e$) and the isochoric part (i.e.,
+$\bar{\bb}^e$) of the elastic deformation. The volumetric and the
+isochoric parts of the strain-energy function are given as
+
+\begin{equation}
+  \Psi^{\rm vol}[J^e] =\frac{\kappa}{4}\left(J^e{^2} - 1 - \rm ln~J^e{^2}\right)
+\end{equation}
+
+\begin{equation}
+  \Psi^{\rm iso}[\bar{\bb}^e] =
+  \frac{\mu}{2}\left(\rm tr(\bar{\bb}^e)-3\right)
+\end{equation}
+
+where $\kappa$ and $\mu$ are the bulk and shear modulus. Here we are
+following the developments of (\cite{Steinmann1994}), however we
+employ a different choice of strain energy-functions. The elastic
+constitutive law and the Kirchhoff stresses are given as
+
+\begin{equation}\label{eq:Kirchhoff}
+\btau=J^e p \bone + \bs
+\end{equation}
+
+The Kirchhoff pressure $p$ and the deviatoric stress tensor $\bs$ are
+related to the elastic strain measure as
+
+\begin{equation}\label{eq:p}
+p = \frac{1}{3}\tr(\btau) = \frac{\kappa}{2}\left(J^e{^2}-1\right)/J^e
+\end{equation}
+
+\begin{equation}\label{eq:s}
+\bs = \dev(\btau) = \mu\dev(\bar{\bb}^e)
+\end{equation}
+
+
+% Local Variables:
+% TeX-master: "GursonModel"
+% mode: latex
+% mode: flyspell
+% End:

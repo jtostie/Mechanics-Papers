@@ -1,0 +1,235 @@
+\section{Integration of constitutive equations} \label{sec:integration}
+
+%----------------
+% Discrete form
+%----------------
+\subsection{Discrete form of the rate equations}
+To derive the discrete form of the rate equations, the starting point 
+is to write the evolution equations in the material (reference) 
+configuration. For the flow rule, a pull-back operation is applied to 
+\eqref{eq:flowRule} such that
+%
+\begin{equation}\label{eq:flowRule_ref}
+-\frac{1}{2}\dot{\bC}^{-p}\cdot\bC^p 
+= \gamma\bF^{-1} \cdot \frac{\partial\Phi}{\partial\btau} \cdot \bF
+\end{equation}
+%
+where $\gamma$ is the plastic multiplier. Then, the application of the 
+exponential mapping to \eqref{eq:flowRule_ref} yields an incremental 
+objective integration algorithm
+%
+\begin{equation}\label{eq:Cp}
+\bC_{n+1}^{-p} = \bF_{n+1}^{-1} \cdot \exp\left( -2\Delta\gamma
+\frac{\partial\Phi_{n+1}}{\partial\btau}\right) \cdot \bF_{n+1} 
+\cdot \bC_{n}^{-p}
+\end{equation}
+%
+Applying the push-forward operation to \eqref{eq:Cp} yields an update
+algorithm for the elastic left Cauchy-Green tensor $\bb_{n+1}^e$ as
+%
+\begin{equation}\label{eq:be_n}
+\bb_{n+1}^e = \exp\left( -2\Delta\gamma\frac{\partial\Phi_{n+1}}
+{\partial\btau}\right)\cdot\bb^{e\tr}
+\end{equation}
+%
+where the trial elastic left Cauchy-Green tensor $\bb^{e\tr}$ is given 
+by
+%
+\begin{equation}\label{eq:betr}
+\bb^{e\tr} = \bF_{n+1}\cdot\bC_{n}^{-p}\cdot\bF^T_{n+1}
+\end{equation}
+%
+From elastic and plastic isotropy, $\bb_{n+1}^e, \bb^{e\tr}$ and 
+$\btau$ have identical principal axes. Then, the logarithmic Hencky
+strains follow as
+%
+\begin{equation}\label{eq:lnbetr}
+\ln\bb_{n+1}^e = \ln\bb^{e\tr} - 
+2\Delta\gamma\frac{\partial\Phi_{n+1}}{\partial\btau}
+\end{equation}
+%
+Using the elastic constitutive relations \eqref{eq:p} and 
+\eqref{eq:s}, the Kirchhoff pressure and deviatoric stress tensor at 
+time $t_{n+1}$ can be obtained as
+%
+\begin{equation}\label{eq:discrete_p}
+p_{n+1} = p^{\tr} - \kappa t
+\end{equation}
+%
+\begin{equation}\label{eq:discrete_s}
+\bs_{n+1} = \bs^{\tr} - 2\mu\Delta\gamma \bn
+\end{equation}
+%
+where $\bn$ and $t$ are given by \eqref{eq:n}, \eqref{eq:t} and 
+are evaluated at time $t_{n+1}$, and $p^{\tr}$ and $\bs^{\tr}$ are the 
+trial states given by
+%
+\begin{equation}\label{eq:ptr}
+p^{\tr} = \kappa\ln J^{e\tr},~~J^{e\tr} = \det(\bb^{e\tr})^{1/2}
+\end{equation}
+%
+\begin{equation}\label{eq:str}
+\bs^{\tr} = \mu\dev\ln\bb^{e\tr}
+\end{equation}
+%
+The discrete form of evolution equations for internal variable 
+$\varepsilon_q$ and the void volume fraction $f$ are obtained by apply 
+backward Euler scheme to their evolution equations \eqref{eq:dotf} and 
+\eqref{eq:doteq}. The resulting discrete equations are
+%
+\begin{equation}\label{eq:discrete_f}
+f_{n+1} = f_n + (1-f_{n+1})t + \sqrt{\frac{2}{3}}\Delta\gamma
+k_{\omega}f_{n+1} \omega(\btau) + A_{n+1}(\varepsilon_{q(n+1)} - 
+\varepsilon_{q(n)})
+\end{equation}
+%
+\begin{equation}\label{eq:discrete_eq}
+\varepsilon_{q(n+1)} = \varepsilon_{q(n)} + \frac{1}{1-f_{n+1}}
+\left(\Delta\gamma\sqrt{\frac{2|\psi|}{3}} {\rm sign}(\psi) + 
+\frac{p_{n+1} t}{Y}\right)
+\end{equation}
+
+
+%----------------
+% Nonlinear
+%----------------
+\subsection{Local nonlinear system of equations}
+The discrete form of the rate equations \eqref{eq:be_n}, 
+\eqref{eq:discrete_p}, \eqref{eq:discrete_s}, \eqref{eq:discrete_f} 
+and \eqref{eq:discrete_eq} include four unknowns quantities relate to 
+the stresses and internal state variables at time $t_{n+1}$, which 
+are the pressure $p$, the equivalent plastic strain $\varepsilon_q$, 
+the void volume fraction $f$, and the plastic multiplier $\Delta
+\gamma$.
+
+The unknowns will be obtained from solving the following nonlinear 
+system of equations. For simplicity, in the following, we will omit 
+the index $n+1$ referring to the current time $t_{n+1}$. The 
+resulting nonlinear system of equations are
+%
+\begin{align}
+R_1(\bX) &= \|\bs^{\tr}\| - 2\mu\Delta\gamma - 
+\sqrt{\frac{2}{3}}{\rm sign}(\psi)\sqrt{|\psi|}Y\label{eq:R1}\\
+R_2(\bX) &= p - p^{\tr} + \kappa t\label{eq:R2}\\
+R_3(\bX) &= f - f_n - (1-f) t - \sqrt{\frac{2}{3}}\Delta\gamma 
+k_{\omega}f \omega(\btau) - A(\varepsilon_{q} - \varepsilon_{q(n)})
+\label{eq:R3}\\
+R_4(\bX) &=\varepsilon_q - \varepsilon_{q(n)}- \frac{1}{1-f}
+\left(\Delta\gamma\sqrt{\frac{2|\psi|}{3}} {\rm sign}(\psi) + 
+\frac{p t}{Y}\right)\label{eq:R4}
+\end{align}
+%
+where, the vector of unknowns $\bX$ is
+%
+\begin{equation}\label{eq:X}
+\bX=\lbrace p, f, \varepsilon_q, \Delta\gamma \rbrace
+\end{equation}
+%
+The above nonlinear system of equations can be solved through 
+iterative solution method such as the Newton's method. The implicit 
+algorithm for integrating the shear-modified large deformation Gurson 
+model is summarized in the following box.\\
+
+Box 1. Implicit algorithm for integrating shear-modified large 
+deformation Gurson model\\
+
+\fbox{\parbox{14.5cm}{
+GIVEN: $\varepsilon_{q(n)}, f_n, \bb^e_n$ and $\bF$\\
+FIND: $~~~\btau, \varepsilon_{q}, f, \bb^e (\text{or}~\bF^{p}) $ at 
+time $t_{n+1}$\\
+STEP 1. Compute trial elastic left Cauchy-Green tensor $\bb_e^{\tr}$ 
+\eqref{eq:betr}\\
+STEP 2. Compute trial stresses $p^{\tr}, \bs^{\tr}$ \eqref{eq:ptr},
+\eqref{eq:str}\\
+STEP 3. Check yielding \eqref{eq:Phi}:
+$\Phi^{\tr}(p^{\tr}, \bs^{\tr}, \varepsilon_{q(n)}, f_n) > 0$ ?\\
+$~~~~~~~~~~~~~~$No, set $p = p^{\tr}, \bs = \bs^{\tr}, \bb^e = 
+\bb^{e\tr}, \varepsilon_{q} = \varepsilon_{q(n)}, f = f_n$  and 
+exit\\
+STEP 4. Yes, local Newton loop\\
+$~~~~~~~~~~~~~~$4.1 Initialize $\bX^{k}$ \eqref{eq:X} and the 
+iteration count $k=0$\\
+$~~~~~~~~~~~~~~$4.2 Assemble the residual equations $\bR(\bX^k)$ 
+\eqref{eq:R1} - \eqref{eq:R4}\\
+$~~~~~~~~~~~~~~$4.3 Check convergence: $\parallel \bR \parallel < tolerance$ ?\\
+$~~~~~~~~~~~~~~~~~~~$Yes, converged and go to STEP 5\\
+$~~~~~~~~~~~~~~$4.4 No, compute local Jacobian matrix 
+$\bJ = \partial\bR / \partial\bX$\\
+$~~~~~~~~~~~~~~$4.5 Solve system of equations 
+$\bJ \cdot \delta\bX = \bR$ for $\delta\bX$\\
+$~~~~~~~~~~~~~~$4.6 Update $\bX^{k+1} = \bX^{k} - \delta\bX$, 
+$k\rightarrow k+1$ and go to 4.2\\
+STEP 5. Update $\btau = \bs + p\bg$, $\varepsilon_q, f$, and 
+$\bF^{p}$\\
+}}
+
+The plastic deformation gradient $\bF^p$, which is used in 
+\eqref{eq:flowRule_ref} and \eqref{eq:betr} to compute trial state, is 
+updated using
+%
+\begin{equation}
+\bF^p = \exp\left( \frac{\partial\Phi}{\partial\btau}\right)
+\cdot\bF_{n}^p
+\end{equation}
+%
+In the Newton's iterative solution method, it requires consistent 
+linearization of the system of equation \eqref{eq:R1} - \eqref{eq:R4},
+which necessities a derivative of the objective functions with respect 
+to the independent fields (i.e., the unknowns). The Jacobian 
+derivative of the objective function 
+($\bJ = \partial\bR / \partial\bX$) is commonly referred to as the 
+algorithmic consistent tangent operator in the constitutive model 
+literature \cite{Miehe1996, Simo1985}. In this work, a technique in 
+computational science called the forward automatic differentiation 
+(FAD) will be used to compute necessary derivatives. FAD provides an 
+efficient and convenient way to evaluate derivatives. It will be 
+detailed in the next section. Interested readers can also refer to 
+\cite{Chen2014} for applications of FAD to constitutive modeling in 
+small- and large-deformation computational inelasticity.
+
+\section{Numerical implementation and solution procedure} \label{sec:implementation}
+
+%----------------
+% Albany
+%----------------
+\subsection{Albany analysis code and solution procedure}
+\textit{TODO: ref to our Journal of Nuclear Material paper. Include a 
+description of the Albany analysis code and the solution procedure.}
+
+
+%----------------
+% FAD
+%----------------
+\subsection{FAD: a numerical exact way of computing consistent tangent}                                                                     
+\textit{Need to modify to include more details of FAD}
+
+The FAD technique is applied towards computing the tangent operator ($
+\bJ = \partial\bR / \partial\bX$) which involves first- and second-
+derivatives of the local system of residual equations \eqref{eq:R1}-
+\eqref{eq:R4}, with respect to the unknown vector \eqref{eq:X}. The 
+implementation is presented in Sandia National Laboratories' Albany 
+analysis code\cite{Salinger2013}, which utilizes the Sacado package 
+contained in Sandia's Trilinos framework to supply the 
+automatic differentiation capabilities employed. To utilize the FAD 
+technique for computing the local tangent operator, one must template 
+both the system of residual equations and unknown vectors in terms of 
+a Sacado FAD type data instead of the typical double precision data 
+type. The unknown {\em state vector} will be the independent 
+variable,  while the residual equations will be generic functions 
+dependent on  the state vectors. The FAD data type contains not only 
+the value of the data but also the derivative of the data with 
+respect to the independent variables. The derivative information is 
+initialized appropriately and propagated forward through the 
+algorithm. In this way, once the sensitivities are initialized, the 
+Jacobian or tangent operator will be calculated automatically. AD is 
+also employed in the Albany analysis code to form the global system 
+Jacobian, or stiffness matrix, for solving boundary value problems.
+
+
+
+
+% Local Variables:
+% TeX-master: "GursonModel"
+% mode: latex
+% mode: flyspell
+% End:

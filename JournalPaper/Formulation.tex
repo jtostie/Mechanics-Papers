@@ -1,0 +1,191 @@
+\section{Formulation of the finite deformation Gurson model} \label{sec:formulation}
+
+Within the previously described large deformation hyperelastic
+framework, key components of the constitutive relations of the
+shear-modified Gurson model are presented in this section, including
+the yield function, the hardening law, the flow rule and the 
+evolution law for the shear-modified void growth.
+
+%----------------
+% Yield function
+%----------------
+\subsection{Yield function}
+The yield function $\Phi$ of the Gurson model can be written in terms
+of the previously defined Kirchhoff mean stress $p$ and deviatoric
+stress tensor $\bs$ as
+
+\begin{equation}\label{eq:Phi}
+\Phi = \frac{1}{2}\bs:\bs - \frac{1}{3}\psi Y^2
+\end{equation}
+
+where $\psi$ contains contributions from the damage in the material
+and $Y$ is the Kirchhoff yield stress. This yield function
+\eqref{eq:Phi} is a quadratic version form. This particular variant 
+of the yield function was chosen as it proved to exhibit superior
+properties of robustness in convergence in the nonlinear solution
+algorithm outline below.
+
+The function $\psi$ directly relates to the void volume fraction of
+the porous solid and is given as
+
+\begin{equation}
+\psi = 1 + q_3 f^2 - 2 q_1 f \cosh(v), ~~v=\frac{3 q_2 p}{2 Y}
+\end{equation}
+
+where $p$ is the Kirchhoff pressure defined in \eqref{eq:p}, and $f$
+is the void volume fraction of the porous solid. The Kirchhoff yield
+stress $Y$ describes the hardening of the undamaged matrix
+material. Also, the constants $q_1,q_22,q_3$ are the accepted
+additional yield parameters often present in GTN type models.
+
+%----------------
+% Hardening law
+%----------------
+\subsection{Hardening law}
+The hardening law relates the yield strength $Y$ to some measure of
+plastic deformation. One example of a nonlinear hardening law proposed
+by \cite{SimoHughes:98} for metal is written as
+\begin{equation}
+Y = Y_0 + Y_{\infty}\left[ 1-\exp(-\delta\varepsilon_q)\right] +
+K\varepsilon_q
+\end{equation}
+
+where $\varepsilon_q$ is the equivalent plastic strain, $Y_0$ is the
+initial yield strength, $Y_{\infty}$ is the residual flow stress, $K$
+is the hardening coefficient, and $\delta$ is the saturation
+exponent. Other forms of hardening law can also be used depending on
+the observed material behavior.
+
+The plastic work increment in the matrix material is equal to the
+macroscopic plastic work increment, which can be used to derive the
+evolution equation for the equivalent plastic strain $\varepsilon_q$
+as
+
+\begin{equation}\label{eq:doteq_1}
+\dot{\varepsilon}_q Y(1-f) = \btau : \left(
+\gamma\frac{\partial\Phi}{\partial\btau} \right)
+\end{equation}
+
+Substituting yield function $\Phi$ into \eqref{eq:doteq_1} to obtain
+the expression to compute $\dot{\varepsilon}_q$
+\begin{equation}\label{eq:doteq}
+  \dot{\varepsilon}_q =\frac{1}{1-f}\left(
+  \gamma\sqrt{\frac{2|\psi|}{3}} {\rm sign}(\psi) + \frac{p t}{Y}
+  \right)
+\end{equation}
+
+
+%----------------
+% Flow rule
+%----------------
+\subsection{Flow rule}
+Following the standard procedure of the principle of maximum
+dissipation, Simo and Miehe \cite{Simo1992} proposed a general form 
+of associate flow rule, which is adopted in the current formulation 
+and is given as
+
+\begin{equation}\label{eq:flowRule}
+-\frac{1}{2}L_v(\bb^e)\cdot\bb^{-e} =
+\gamma\frac{\partial\Phi}{\partial\btau}=\gamma\bn +
+\frac{1}{3}t\tensor 1
+\end{equation}
+
+where $L_v(\bb^e)=\bF \cdot \dot{\bC}^{-p} \cdot \bF^T$ is the Lie
+derivative, and $\bn$ and $t$ are the deviatoric and volumetric
+component of the gradient term, respectively. Substituting the yield
+function \eqref{eq:Phi} leads to the following
+
+\begin{equation}\label{eq:n}
+\bn = \frac{\bs}{\|\bs\|}
+\end{equation}
+
+\begin{equation}\label{eq:t}
+t = \tr \left( \gamma \frac{\partial\Phi}{\partial\btau}\right) =
+\sqrt{\frac{3}{2}}\gamma f \sinh (\frac{3p}{2
+  Y})\frac{1}{\sqrt{|\psi|}} {\rm sign}(\psi)
+\end{equation}
+
+
+%----------------
+% Void volume
+%----------------
+\subsection{Evolution of void volume fraction and shear modification}
+The void volume fraction $f$ is the internal variable that
+characterizes the material damage. The rate of change in total void
+volume fraction, $\dot{f}$, is typically given by the sum of
+contributions due to the void growth, $\dot{f}_g$, and the nucleation
+of new voids, $\dot{f}_{n}$.
+
+\begin{equation}\label{eq:dotf}
+\dot{f} = \dot{f}_g + \dot{f}_{n}\\
+\end{equation}
+
+In the original Gurson model \cite{Gurson1977}, the void growth part
+$\dot{f}_g$ was related to the plastic volume change as
+
+\begin{equation}\label{eq:fg_orig}
+\dot{f}_g = (1-f)\tr\left( \gamma\frac{\partial\Phi}{\partial\btau}
+\right)
+\end{equation}
+
+To account for the void growth under shear-dominated stress state, 
+the void growth law \eqref{eq:fg_orig} was extended in
+\cite{Nahshon2008} by adding a term that depends on the third stress 
+invariant. This shear-modified void growth equation is written as
+
+\begin{equation}\label{eq:fg_1}
+\dot{f}_g = (1-f)\tr\left( \gamma\frac{\partial\Phi}{\partial\btau}
+\right) + k_{\omega}f\frac{\omega(\btau)}{\tau_e}\bs: \left(
+\gamma\frac{\partial\Phi}{\partial\btau} \right)
+\end{equation}
+
+where $\tau_e=\sqrt{3/2}\|\bs\|$ is the effective deviatoric 
+Kirchhoff stress, $k_{\omega}$ is a material constant that sets the 
+magnitude of the damage growth rate in pure shear states 
+\cite{Nahshon2008}. The function $\omega(\btau)$ includes the effect 
+of the third stress invariant on void growth and is given as
+
+\begin{equation}\label{eq:omega}
+\omega(\btau) = 1- \left(\frac{27J_3}{2\tau_e^3}\right)^2
+\end{equation}
+where $J_3=\det(\bs)$ is the third invariant of deviatoric Kirchhoff
+stress tensor.
+
+Substituting the yield function \eqref{eq:Phi} and the expression for
+$\omega(\btau)$ \eqref{eq:omega} into the void growth law
+\eqref{eq:fg_1} yields
+
+\begin{equation}\label{eq:fg_final}
+\dot{f}_g = (1-f)t + \sqrt{\frac{2}{3}}\gamma k_{\omega}f
+\omega(\btau)
+\end{equation}
+
+The effective increase in damage due to plastic strain controlled
+nucleation is given by \cite{Chu1980} as
+
+\begin{equation}\label{eq:dotf_nu}
+\dot{f}_{nu} = A \dot{\varepsilon}_q
+\end{equation}
+
+where the parameter A is defined as a function of the matrix
+equivalent plastic strain $\varepsilon_q$
+
+\begin{equation}
+A =
+   \begin{cases}
+     \frac{f_N}{s_N\sqrt{2\pi}}\exp\left[ -\frac{1}{2}\left(
+       \frac{\varepsilon_q - \epsilon_N}{s_N}\right)^2\right], & p
+     \geq 0\\ 0, & p <0
+	\end{cases}
+\end{equation}
+
+where the nucleation strain follows a normal distribution with a mean
+value $\epsilon_N$ and a standard deviation $s_N$ with the volume
+fraction of the nucleated voids given by $f_N$.
+
+
+% Local Variables:
+% TeX-master: "GursonModel"
+% mode: latex
+% mode: flyspell
+% End:
