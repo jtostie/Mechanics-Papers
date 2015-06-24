@@ -1,0 +1,8 @@
+A Cartesian Parametrization for the Analysis of Material Instability
+
+------ TODOs ------
+1) The introduction: add literature review
+
+2) The bifurcation section: update the implementation and adaptive step details
+
+3) The numerical example section: update using the newest results
