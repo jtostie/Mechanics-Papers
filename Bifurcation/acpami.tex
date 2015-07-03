@@ -807,18 +807,29 @@ just described may be effected by the following procedure:
 This simple procedure may not yield estimates of the bifurcation
 condition that are accurate enough. One way to improve the solution is
 to introduce adaptive time increments. Define
+
 \begin{equation} \label{eq:general-minimization-problem}
   \mu_n := \min_{\bq} f_n(\bq) = \min_{\bq} \det \bB_n(\bq)
 \end{equation}
+
 where the tensor $\bB_n(\bq)$ may be either the one from
 \eqref{eq:acoustic-tensor} or the one from
-\eqref{eq:Cartesian-acoustic-tensor}, depending of the parametrization
+\eqref{eq:Cartesian-acoustic-tensor}, depending on the parametrization
 in use, and the index $n$ indicates that the evaluation occurs at time
-$t_n$. Assume that $\mu_n > 0$, $\mu_{n+1} < 0$ and $\mu_n / \mu_0 >
-\epsilon$, where $\epsilon$ is a target tolerance. We wish to find a
-better estimate for the determinant function $\mu_n$ such that $\mu_n
-/ \mu_0 \le \epsilon$. The adaptive time step procedure by means of
-bisection is shown in Algorithm~\ref{alg:adaptive-step}.
+$t_n$. 
+
+Consider the original time increment from $t_n$ to $t_{n+1}$, where 
+$\mu_n > 0$ and $\mu_{n+1} < 0$. This means that between time $t_n$ and 
+$t_{n+1}$, the strong ellipticity condition is violated and hence 
+material bifurcates. Assume also that $\mu_n / \mu_0 > \epsilon$, where 
+$\mu_0$ is the value of the determinant function evaluated at time 
+$t_0$ and $\epsilon$ is a target tolerance. We wish to find a better 
+estimate for the determinant function $\mu_n$, and hence the 
+bifurcation time $t_n$, such that $\mu_n / \mu_0 \le \epsilon$. This is 
+achieved by an adaptive time increment procedure by means of bisection, 
+as shown in Algorithm~\ref{alg:adaptive-step}. This algorithm 
+essentially cut the time increment to half until the convergence 
+criteria $\mu_n / \mu_0 \le \epsilon$ is met.
 
 \begin{algorithm}
   \caption{$\text{AdaptiveStep}(\mu_0, \mu_{n+1}, t_{n+1}, \epsilon)$}
@@ -854,90 +865,207 @@ bisection is shown in Algorithm~\ref{alg:adaptive-step}.
   \label{alg:adaptive-step}
 \end{algorithm}
 
+The adaptive time increment procedure allows the accurate (up to the tolerance $\epsilon$) detection of bifurcation time during a loading process.
+
 \section{Numerical Examples}
 \label{sec:numerical-examples}
 
 The performance and applicability of the parametrizations described in
-Section~\ref{sec:parametrizations} is examined by applying them to
-several material models under different loading conditions. The
-calculations are performed at a material point. Of particular interest
-are the robustness and computational cost of the different
-parametrizations.
+Section~\ref{sec:parametrizations} are examined by applying them to 
+the bifurcation analysis of several material models under different 
+loading conditions. The analysis is performed at the material point 
+level. Of particular interest are the robustness and computational 
+efficiency of different parametrizations.
 
-\subsection{Anisotropic hyperelastic damage model}\label{subsec:anisotropic}
-The second material model tested is a finite deformation anisotropic
-hyperelastic damage mode. The model consists of both a matrix and
-fiber terms with preferred directions. By adding complexity to the
-material model, we would like to study how the performance of five
-parametrizations change, especially the computational cost and
-robustness. The key feature of the model is first proposed.
+\subsection{Small deformation isotropic elastic damage model}
+\label{subsec:isotropic}
 
-The free energy function of the anisotropic damage model consists of a
-matrix part and a part for micro fibers. We assume that the damage
-affects both matrix and fibers. The free energy function is proposed
-to have the following form:
-\begin{equation}\label{eq:anisotropic_energy}
-  \Psi (\tensor C, \tensor M, \xi_m, \xi_i) = (1-\xi_m) \Psi_m^0(\tensor C) + \sum_{i}^{n} (1-\xi_i)\Psi_i^0(\tensor C, \tensor M)
+We start with the bifurcation analysis on a simple isotropic damage 
+model under infinitesimal deformation. The model formulation is 
+briefly presented in the next section.
+
+\subsubsection{Model formulation}
+The strain-energy function of the isotropic damage model is assumed to 
+have the following form
+
+\begin{equation}\label{eq:iso_psi}
+ \Psi(\bepsilon ^e, \xi)
+   = \frac{1}{2} (1 - \xi) 
+     \bepsilon ^e : \mathbb{C}^e : \bepsilon ^e
 \end{equation}
-where $\tensor C$ is the Right Cauchy-Green tensor, $\tensor M$ is a
-unit vector characterizing the preferred fiber direction, $\xi_m$ and
-$\xi_i$ are the damage factors corresponding to the matrix and fibers,
-respectively. For the effective (undamaged) energy functions, we use a
-compressible Neo-Hookean type energy function for the matrix
-\begin{equation}\label{eq:Psim0}
-  \Psi_m^0 (\tensor C) = \frac{1}{8}\lambda (\ln I_3)^2 - \frac{1}{2}\mu \ln I_3 + \frac{1}{2}\mu( I_1 - 3)
+
+where $\bepsilon^e$ is the infinitesimal elastic strain tensor, $\xi$ 
+is a damage parameter and $\mathbb{C}^e$ is the fourth-order elastic
+modulus. For isotropic linear elasticity
+
+\begin{equation}
+  \mathbb{C}^e = \lambda \bdelta\otimes\delta + 2\mu\tensor I
 \end{equation}
+
+where $\lambda$ and $\mu$ are Lam\'{e} constant and shear modulus,
+respectively. $\bdelta$ is the second-order identity tensor,
+$(\tensor I)_{ijkl} = 1/2(\delta_{ik}\delta_{jl} +
+\delta_{il}\delta_{jk})$ is the fourth-order symmetric identity
+tensor.
+
+We adopt the following evolution law for the scalar damage parameter $
+\xi$ \cite{Holzapfel:2000}
+
+\begin{equation}\label{eq:iso_xi}
+  \xi(\alpha) = \xi_{\infty} [ 1- {\rm exp}(-\alpha / \tau)]
+\end{equation}
+
+where $\xi_{\infty}$ describes the dimensionless maximum damage and
+$\tau$ is referred to as the damage saturation parameter. $s \in
+[0,t]$ denotes the history variable. The parameter $\alpha$ is the
+maximum thermodynamic force \cite{Holzapfel:2000}
+
+\begin{equation}
+  \alpha(t) = \max_{s\in [0,t]}\Psi_0(s)
+\end{equation}
+
+where $\Psi_0(s)$ is the undamaged strain energy at time $s$.
+
+Given the strain-energy function \eqref{eq:iso_psi} and the damage
+evolution \eqref{eq:iso_xi}, the fourth-order tangent modulus can be
+derived by taking 2nd derivative of the strain-energy function with
+respect to strain measure $\bepsilon_e$, which results in
+
+\begin{equation}
+  \mathbb{C} = (1-\xi)\mathbb{C}^e 
+    - \beta \frac{\partial\xi}{\partial\alpha}
+    (\tensor\sigma_0\otimes\tensor\sigma_0)
+\end{equation}
+
+where $\beta \neq 0$ if and only if damage evolves within the time
+increment.
+
+\subsubsection{Simple shear test}
+
+\textit{TODO: add simple shear test results}
+
+\subsection{Finite deformation anisotropic hyperelastic damage model}\label{subsec:anisotropic}
+
+In this section, a finite deformation anisotropic hyperelastic damage 
+model is analyzed for material bifurcation. By adding complexity to 
+the material model, and hence the tangent modulus, we would like to 
+study how is the performance of different parametrizations effected, 
+especially in terms of the computational cost and robustness. The key 
+feature of the model is first proposed.
+
+\subsubsection{Model formulation}
+The free energy function of the finite-deformation anisotropic 
+hyperelastic damage model consists of an isotropic term and direction-
+dependent terms. This type of energy formulation is motivated to 
+capture behavior of materials with a isotropic matrix and some 
+microfibers with preferred directions, such as the model proposed by
+\cite{Chen.etal:2014} to capture behavior of hydrided nuclear cladding 
+materials. We assume that the damage affects both the matrix and the 
+microfibers. The free energy function is proposed to have the 
+following form:
+
+\begin{equation}\label{eq:aniso_energy}
+  \Psi (\bC, \bM, \xi_m, \xi_i) 
+    = (1-\xi_m) \Psi_m^0(\bC) 
+    + \sum_{i}^{n} (1-\xi_i)\Psi_i^0(\bC, \bM)
+\end{equation}
+
+where $\bC$ is the Right Cauchy-Green tensor, $\bM$ is a
+unit vector characterizing the preferred fiber direction. $\xi_m$ and
+$\xi_i$ are the damage factors corresponding to the matrix and the 
+$i$th fibers, respectively. In the following examples, we assume that 
+there are two preferred fiber directions, i.e., $n=2$.
+
+We adopt a compressible Neo-Hookean type energy function for the 
+effective (undamaged) matrix component
+
+\begin{equation}\label{eq:aniso_Psim0}
+  \Psi_m^0 (\bC) 
+    = \frac{1}{8}\lambda (\ln I_3)^2
+    - \frac{1}{2}\mu \ln I_3 
+    + \frac{1}{2}\mu( I_1 - 3)
+\end{equation}
+
 where $\lambda$ and $\mu$ are Lam\'{e}'s constant and shear modulus,
-respectively.  For fibers, we use
+respectively.  
+
+For microfibers, we adopt one particular form of strain-energy 
+function (\cite{Holzapfel.etal:2010})
+
 \begin{equation}
-  \Psi_i^0(\tensor C, \tensor M) = \frac{k_i}{q_i}\{ \exp[q_i(I_4 - 1)^2] \}
-\end{equation}
-where $k_i$ and $q_i$ are elastic constants. Invariants $I_1$, $I_3$
-and $I_4$ are defined as
-\begin{equation}
-  I_1 = \tr \tensor C, ~~ I_3 = \det \tensor C,~~I_4 = \tensor M\cdot (\tensor C \tensor M)
+  \Psi_i^0(\bC, \bM) 
+    = \frac{k_i}{q_i}
+    \{ \exp[q_i(I_4 - 1)^2] \}
 \end{equation}
 
-Given the energy function \eqref{eq:anisotropic_energy}, the 2nd
-Piola-Kirchhoff stress tensor is derived as
-\begin{equation}\label{eq:aniso_S}
-  \tensor S = (1-\xi_m)\tensor S_m^0+ \sum_i^n (1-\xi_i)\tensor S_i^0 
-\end{equation}
-where the effective 2nd Piola-Kirchhoff stress tensors are given by
-\begin{equation}\label{eq:aniso_S0}
-  \tensor S_m^0 = 2\frac{\partial\Psi_m^0}{\partial\tensor C} ,~~ \tensor S_i^0 = 2 \frac{\partial\Psi_i^0}{\partial\tensor C} 
+where $k_i$ and $q_i$ are elastic constants for the $i$th fiber. 
+The strain invariants $I_1$, $I_3$ and $I_4$ are defined as
+
+\begin{equation}
+  I_1 = \tr \bC, 
 \end{equation}
 
-The 4th order tangent modulus tensor is given by
+\begin{equation}
+  I_3 = \det \bC,
+\end{equation}
+
+\begin{equation}
+  I_4 = \bM \cdot (\bC \bM)
+\end{equation}
+
+For damage evolution, the same evolution law as in \eqref{eq:iso_xi} 
+is used, except that for each phase of the material, i.e., each of the 
+matrix and fibers, there will be a different set of parameters for
+damage evolution (\cite{Chen.etal:2014}).
+
+Given the energy function \eqref{eq:aniso_energy}, the 4th order
+tangent needed for bifurcation analysis can be derived by taking
+derivative of the energy function with respect to some strain 
+measures, in particular
+
 \begin{equation}\label{eq:aniso_tangent}
-  \mathbb{C} = 
-  % \begin{cases}
-  % (1-\xi_m)\mathbb{C}_m^0 + \sum_i^n (1-\xi_i) \mathbb{C}_i^0,
-  % &\text{if };\\
-  (1-\xi_m)\mathbb{C}_m^0 + \sum_i^n (1-\xi_i) \mathbb{C}_i^0 - \beta_m \xi_m' (\tensor S_m^0 \otimes \tensor S_m^0 ) - \sum_i^n \beta_i \xi_i' (\tensor S_i^0 \otimes \tensor S_i^0 )\\
-  % \end{cases}
-\end{equation}
-where $\beta_m\neq 0$ {\it iff} damages evolves in matrix, and
-$\beta_i \neq 0$ {\it iff} damages evolves in fiber $i$. The effective
-tangent modulus tensor is given by
-\begin{equation}\label{eq:aniso_tangent0}
-  \mathbb{C}_m^0 = 4\frac{\partial ^2 \Psi_m^0}{\partial\tensor C \partial\tensor C}, ~~ \mathbb{C}_i^0 =  4 \frac{\partial ^2 \Psi_i^0}{\partial\tensor C \partial\tensor C}
+  \tilde{\mathbb{C}} 
+   = (1-\xi_m)\tilde{\mathbb{C}}_m^0 
+   + \sum_i^n (1-\xi_i) \tilde{\mathbb{C}}_i^0
+   -\beta_m \xi_m' (\bS_m^0 \otimes \bS_m^0 )
+   - \sum_i^n \beta_i \xi_i' (\bS_i^0 \otimes \bS_i^0 )
 \end{equation}
 
-For damage evolution, an exponential type evolution function is used,
-i.e.
-\begin{eqnarray}
-  \xi_m &= &\xi_{\infty (m)}[1-\exp(-\alpha_m/\tau_m)]\\
-  \xi_i &=& \xi_{\infty (i)}[1-\exp(-\alpha_i/\tau_i)]
-\end{eqnarray}
+where $\beta_m\neq 0$ if and only if damages evolves in matrix, and
+$\beta_i \neq 0$ if and only if damages evolves in fiber $i$. The 
+effective tangent modulus tensor is given by
 
-In the following examples, we assume that there are two preferred
-fiber directions, i.e., $n=2$ in \eqref{eq:anisotropic_energy}.
+\begin{equation}\label{eq:aniso_tangent1}
+  \tilde{\mathbb{C}}_m^0 = 
+    4\frac{\partial ^2 \Psi_m^0}{\partial\tensor C \partial\tensor C}
+\end{equation}
 
-\subsection{Uniaxial extension test}
-The anisotropic damage model is tested under monotonically increased
-uniaxial extension. The material properties for both matrix and fibers
-are listed in Table \ref{tab:mat_aniso}.
+\begin{equation}\label{eq:aniso_tangent2}
+  \tilde{\mathbb{C}}_i^0 =  
+    4 \frac{\partial ^2 \Psi_i^0}{\partial\tensor C \partial\tensor C}
+\end{equation}
+
+It should be noted that the 4th-order tangent $\tilde{\mathbb{C}}$ 
+from \eqref{eq:aniso_tangent} is computed as the derivative of strain 
+energy with respect to the right Cauchy-Green tensor. The strong 
+ellipticity condition \eqref{eq:strong-ellipticity} requires the 
+tangent $\mathbb{C}$ to be computed as a derivative with respect to 
+the deformation gradient. These two tangents can be converted using 
+the following relation (in indicial notation)
+
+\begin{equation}
+  \mathbb{C}_{ijkl} = S_{lj}\delta_{ik}
+    + F_{ip} \tilde{\mathbb{C}}_{pjlq} F_{kq}
+\end{equation}
+
+where $\bS$ is the 2nd Piola-Kirchhoff tensor, $\bdelta$ is the 
+Kronecker delta and $\bF$ is the deformation gradient.
+
+\subsubsection{Uniaxial tension test}
+
+The finite deformation anisotropic model is tested under monotonically
+increased uniaxial tension test. The material properties for both 
+matrix and fibers are listed in Table \ref{tab:aniso_material}.
 
 \begin{table}[H]
   \begin{center}
@@ -1001,7 +1129,7 @@ are listed in Table \ref{tab:mat_aniso}.
       \bottomrule
     \end{tabular}
     \caption{Material properties for anisotropic damage model}
-    \label{tab:mat_aniso}
+    \label{tab:aniso_material}
   \end{center}
 \end{table}
 
