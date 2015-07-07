@@ -1,31 +1,29 @@
 \documentclass[12pt]{article}
 
-\usepackage{fancyhdr}
-\usepackage{fullpage}
-\usepackage{amsmath}
+\usepackage{algorithmic}
+\usepackage{algorithm}
+\usepackage{alltt}
 \usepackage{amsbsy}
-\usepackage{amssymb}
 \usepackage{amscd}
 \usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
 \usepackage{amsthm}
-\usepackage{supertabular}
-\usepackage{graphicx}
-\usepackage{verbatim}
-\usepackage{epsfig}
-\usepackage{xspace}
-\usepackage{euscript}
-\usepackage{alltt}
-\usepackage{boxedminipage}
-\usepackage{float}
-\usepackage{times}
-\usepackage{epic}
-\usepackage{eepic}
-\usepackage{ifthen}
-\usepackage{algorithm}
-\usepackage{algorithmic}
 \usepackage{booktabs}
+\usepackage{eepic}
+\usepackage{epic}
+\usepackage{epsfig}
+\usepackage{euscript}
+\usepackage{fancyhdr}
+\usepackage{float}
+\usepackage{fullpage}
+\usepackage{graphicx}
+\usepackage{ifthen}
 \usepackage{multirow}
-
+\usepackage{supertabular}
+\usepackage{times}
+\usepackage{verbatim}
+\usepackage{xspace}
 \usepackage[colorlinks]{hyperref}
 \usepackage[numbers,sort&compress]{natbib}
 \usepackage[FIGBOTCAP,TABTOPCAP,bf,tight]{subfigure}
@@ -33,98 +31,9 @@
 \usepackage[T1]{fontenc}
 \usepackage{ae,aecompl}
 
-\newcommand{\mbs}[1]{\boldsymbol{#1}}
-\newcommand{\mbb}[1]{\mathbb{#1}}
-\newcommand{\mbf}[1]{\mathbf{#1}}
-\newcommand{\mbc}[1]{\boldsymbol{\mathcal{#1}}}
-
 \newtheorem{proposition}{Proposition}
 
-\def\ljump{\lbrack\!\lbrack} \def\rjump{\rbrack\!\rbrack}
-
-\def\bA{{\mbs{A}}} \def\bB{{\mbs{B}}} \def\bC{{\mbs{C}}}
-\def\bD{{\mbs{D}}} \def\bE{{\mbs{E}}} \def\bF{{\mbs{F}}}
-\def\bG{{\mbs{G}}} \def\bH{{\mbs{H}}} \def\bI{{\mbs{I}}}
-\def\bJ{{\mbs{J}}} \def\bK{{\mbs{K}}} \def\bL{{\mbs{L}}}
-\def\bM{{\mbs{M}}} \def\bN{{\mbs{N}}} \def\bO{{\mbs{O}}}
-\def\bP{{\mbs{P}}} \def\bQ{{\mbs{Q}}} \def\bR{{\mbs{R}}}
-\def\bS{{\mbs{S}}} \def\bT{{\mbs{T}}} \def\bU{{\mbs{U}}}
-\def\bV{{\mbs{V}}} \def\bW{{\mbs{W}}} \def\bX{{\mbs{X}}}
-\def\bY{{\mbs{Y}}} \def\bZ{{\mbs{Z}}}
-
-\def\ba{{\mbs{a}}} \def\bb{{\mbs{b}}} \def\bc{{\mbs{c}}}
-\def\bd{{\mbs{d}}} \def\be{{\mbs{e}}} \def\fb{{\mbs{f}}}
-\def\bg{{\mbs{g}}} \def\bh{{\mbs{h}}} \def\bi{{\mbs{i}}}
-\def\bj{{\mbs{j}}} \def\bk{{\mbs{k}}} \def\bl{{\mbs{l}}}
-\def\bm{{\mbs{m}}} \def\bn{{\mbs{n}}} \def\bo{{\mbs{o}}}
-\def\bp{{\mbs{p}}} \def\bq{{\mbs{q}}} \def\br{{\mbs{r}}}
-\def\bs{{\mbs{s}}} \def\bt{{\mbs{t}}} \def\bu{{\mbs{u}}}
-\def\bv{{\mbs{v}}} \def\bw{{\mbs{w}}} \def\bx{{\mbs{x}}}
-\def\by{{\mbs{y}}} \def\bz{{\mbs{z}}}
-
-\def\balpha{{\mbs{\alpha}}}
-\def\bbeta{{\mbs{\beta}}}
-\def\bgamma{{\mbs{\gamma}}}
-\def\bdelta{{\mbs{\delta}}}
-\def\bepsilon{{\mbs{\epsilon}}}
-\def\bvarepsilon{{\mbs{\varepsilon}}}
-\def\bzeta{{\mbs{\zeta}}}
-\def\beeta{{\mbs{\eta}}}
-\def\btheta{{\mbs{\theta}}}
-\def\bvartheta{{\mbs{\vartheta}}}
-\def\bgamma{{\mbs{\gamma}}}
-\def\bkappa{{\mbs{\kappa}}}
-\def\blambda{{\mbs{\lambda}}}
-\def\bmu{{\mbs{\mu}}}
-\def\bnu{{\mbs{\nu}}}
-\def\bxi{{\mbs{\xi}}}
-\def\bomicron{{\mbs{o}}}
-\def\bpi{{\mbs{\pi}}}
-\def\bvarpi{{\mbs{\varpi}}}
-\def\brho{{\mbs{\rho}}}
-\def\bvarrho{{\mbs{\varrho}}}
-\def\bsigma{{\mbs{\sigma}}}
-\def\bvarsigma{{\mbs{\varsigma}}}
-\def\btau{{\mbs{\tau}}}
-\def\bupsilon{{\mbs{\upsilon}}}
-\def\bphi{{\mbs{\phi}}}
-\def\bvarphi{{\mbs{\varphi}}}
-\def\bchi{{\mbs{\chi}}}
-\def\bpsi{{\mbs{\psi}}}
-\def\bomega{{\mbs{\omega}}}
-
-\def\bGamma{{\mbs{\Gamma}}}
-\def\bDelta{{\mbs{\Delta}}}
-\def\bTheta{{\mbs{\Theta}}}
-\def\bLambda{{\mbs{\Lambda}}}
-\def\bXi{{\mbs{\Xi}}}
-\def\bPi{{\mbs{\Pi}}}
-\def\bSigma{{\mbs{\Sigma}}}
-\def\bUpsilon{{\mbs{\Upsilon}}}
-\def\bPhi{{\mbs{\Phi}}}
-\def\bPsi{{\mbs{\Psi}}}
-\def\bOmega{{\mbs{\Omega}}}
-
-\def\dt{{\triangle t}}
-
-\DeclareMathOperator{\tr}{tr}
-
-\DeclareMathOperator{\divrg}{div}
-\DeclareMathOperator{\grad}{grad}
-\DeclareMathOperator{\curl}{curl}
-
-\DeclareMathOperator{\Div}{Div}
-\DeclareMathOperator{\Grad}{Grad}
-\DeclareMathOperator{\Curl}{Curl}
-
-\DeclareMathOperator{\dev}{dev}
-\DeclareMathOperator{\vol}{vol}
-\DeclareMathOperator{\Dev}{Dev}
-\DeclareMathOperator{\Vol}{Vol}
-
-% added:
-\newcommand{\tensor}[1]{\ensuremath{\boldsymbol{#1}}}
-\newcommand{\jump}[1]{\lbrack\!\lbrack #1 \rbrack\!\rbrack}
+\input{notation_defs.tex}
 
 \numberwithin{equation}{section}
 %\numberwithin{figure}{section}
@@ -197,6 +106,7 @@
 
 \section{Introduction}
 \label{sec:intro}
+
 The analysis of material instability plays an important role in the
 simulation of constitutive behavior. A reliable method for the
 detection of material instability is required whether one is
@@ -274,7 +184,7 @@ function $\psi^*(\bZ, \dot{\bZ})$ such that
 \begin{equation} \label{eq:dual-kinetic-potential}
   \bY = \frac{\partial \psi^*}{\partial \dot{\bZ}} (\bZ, \dot{\bZ}).
 \end{equation}
-Next, we minimize the dissipation potential \eqref{eq:power-density}
+Next, we minimize the dissipation potential \eref{eq:power-density}
 with respect to the internal variable rates as
 \begin{equation}
   \begin{split}
@@ -310,9 +220,24 @@ which in turn leads to Biot's equation for standard dissipative systems
   =
   \mathbf{0}.
 \end{equation}
-Approximate solutions to this equation may be found by recourse to the
-incremental energy density function for a time increment $t \in [t_n,
-t_{n+1}]$
+This is equivalent to state that the internal variables should not
+produce any net work, i.e.
+\begin{equation} \label{eq:internal-no-work}
+  \left[
+    \frac{\partial A}{\partial \bZ} (\bF, \bZ)
+    +
+    \frac{\partial \psi^*}{\partial \dot{\bZ}} (\bZ, \dot{\bZ})
+  \right]
+  \cdot
+   \dot{\bZ}
+  =
+  0
+  \quad
+  \forall \dot{\bZ}.
+\end{equation}
+Approximate solutions to \eref{eq:Biots-equation} may be found by
+recourse to the incremental energy density function for a time
+increment $t \in [t_n, t_{n+1}]$
 \begin{equation} \label{incremental-energy-density}
   w(\bF_{n+1}, \bZ_{n+1}) := 
   \int_{t_n}^{t_{n+1}}
@@ -393,7 +318,7 @@ incremental stress potential as
 This minimization provides an optimal path for the internal variables
 $\bZ$ in the time increment $t \in [t_n, t_{n+1}]$. Furthermore, the
 Euler-Lagrange equation corresponding to
-\eqref{eq:incremental-stress-potential} is
+\eref{eq:incremental-stress-potential} is
 \begin{equation} \label{eq:Biots-equation-discrete}
   \frac{\partial A}{\partial \bZ_{n+1}}(\bF_{n+1}, \bZ_{n+1})
   +
@@ -404,21 +329,21 @@ Euler-Lagrange equation corresponding to
   \mathbf{0}.
 \end{equation}
 which is a discrete version of Biot's equation
-\eqref{eq:Biots-equation} \citep{Miehe:Schotte:Lambrecht:2002}. The
+\eref{eq:Biots-equation} \citep{Miehe:Schotte:Lambrecht:2002}. The
 incremental first Piola-Kirchhoff stress and tangent moduli can be
 computed in turn as
 \begin{equation} \label{eq:incremental-stress-moduli}
   \bP_{n+1} := \frac{\partial W}{\partial \bF} (\bF_{n+1}),
   \quad
-  \mbb{C}_{n+1} := \frac{\partial^2 W}{\partial \bF^2} (\bF_{n+1}),
+  \bbC_{n+1} := \frac{\partial^2 W}{\partial \bF^2} (\bF_{n+1}),
 \end{equation}
 respectively. Thus, by using variational constitutive updates, the
 stress and the tangent moduli can be derived from the
-hyperleastic-like potential \eqref{eq:incremental-stress-potential}
+hyperleastic-like potential \eref{eq:incremental-stress-potential}
 for a very general class of constitutive behavior that may include
 viscosity and rate dependence. This in turn provides the means to
 apply the classical analysis tools that are used in hyperelasticity
-for complex materials as well.
+for complex inelastic materials as well.
 
 \subsection{The Strong Ellipticity Condition}
 
@@ -428,19 +353,19 @@ developments take place at time $t_{n+1}$.
 
 The ellipticity condition can be expressed as
 \begin{equation} \label{eq:strong-ellipticity}
-  (\bm \otimes \bn) : \mbb{C} : (\bm \otimes \bn) \ge 0,
+  (\bm \otimes \bn) : \bbC : (\bm \otimes \bn) \ge 0,
   \quad
-  \forall \, \bm, \bn \in \mbb{R}^3.
+  \forall \, \bm, \bn \in \bbR^3.
 \end{equation}
 If the condition holds strictly for non-zero vectors $\bm$ and $\bn$,
 then it is called the strong ellipticity condition
 \citep{Hadamard:1903, Truesdell.Noll:2004,
   Miehe.Lambrecht.Gurses:2004}. It is customary to \emph{assume} that
 $\bm$ and $\bn$ are unit vectors, \emph{i.e.} $\bm, \bn \in S^2$ where
-$S^2 := \{ \bt \in \mbb{R}^3 \, | \, \| \bt \| = 1\}$ is the unit
+$S^2 := \{ \bt \in \bbR^3 \, | \, \| \bt \| = 1\}$ is the unit
 sphere. Define the acoustic tensor as
 \begin{equation} \label{eq:acoustic-tensor}
-  \bA := \bn \cdot \mbb{C} \cdot \bn
+  \bA := \bn \cdot \bbC \cdot \bn
   \quad \text{or} \quad
   A_{jk} := n_i C_{ijkl} n_l,
   \quad
@@ -452,7 +377,7 @@ then the strong ellipticity condition becomes
 \end{equation}
 In order to satisfy the strong ellipticity condition, the acoustic
 tensor must be positive definite. Therefore,
-\eqref{eq:strong-ellipticity} and \eqref{eq:acoustic-ellipticity}
+\eref{eq:strong-ellipticity} and \eref{eq:acoustic-ellipticity}
 reduce to
 \begin{equation} \label{eq:acoustic-determinant}
   \det \bA > 0,
@@ -463,10 +388,10 @@ instability.
 \subsection{Bifurcation}
 
 By using the strong ellipticity condition
-\eqref{eq:strong-ellipticity} or its equivalent with the acoustic
-tensor \eqref{eq:acoustic-determinant}, the detection of bifurcation
+\eref{eq:strong-ellipticity} or its equivalent with the acoustic
+tensor \eref{eq:acoustic-determinant}, the detection of bifurcation
 or loss of ellipticity in the material is fully characterized by its
-fourth-order tangent moduli \eqref{eq:incremental-stress-moduli}. The
+fourth-order tangent moduli \eref{eq:incremental-stress-moduli}. The
 onset of bifurcation is then posed as a minimization problem.  First
 we assume that the normal vector $\bn$ is parametrized by a set of
 parameters $\bq$, thus turning the determinant of the acoustic tensor
@@ -492,7 +417,7 @@ which can be solved by standard numerical optimization techniques,
 \label{sec:parametrizations}
 
 Efficient computation of the minimization problem
-\eqref{eq:minimization-derivative} requires a careful choice of the
+\eref{eq:minimization-derivative} requires a careful choice of the
 parametrization for the normal vector $\bn(\bq) \in S^2$, which is
 equivalent to select a parametrization for the unit sphere. This
 choice has a significant effect on the complexity of the determinant
@@ -510,11 +435,11 @@ reference originates from the center of each one.
 
 Elements $\bn$ of the unit sphere $S^2$ are simply parametrized by
 their spherical coordinates with polar angle $\varphi \in [0, \pi]$,
-azimuthal angle $\theta \in [0, \pi]$ and radial distance $r = \| \bn
-\| = 1$. The reduced range in the angle $\theta$ is due to symmetry of
-the bifurcation condition, as for this purpose $\bn = - \bn$, see
-Figure~\ref{fig:spherical}. In terms
-of the canonical basis
+azimuthal angle $\theta \in [0, \pi]$ and radial distance $r = \|
+\bn \| = 1$. The reduced range in the angle $\theta$ is due to
+symmetry of the bifurcation condition, as for this purpose $\bn$ and
+$- \bn$ will yield the same result, see Figure~\ref{fig:spherical}. In
+terms of the canonical basis
 \begin{equation}
   \bn(\varphi, \theta)
   :=
@@ -523,7 +448,7 @@ of the canonical basis
     \\
     \cos\varphi
     \\
-    \sin\phi \cos\theta
+    \sin\varphi \cos\theta
   \end{Bmatrix}.
 \end{equation}
 
@@ -579,7 +504,7 @@ by means of a constraint enforced by a Lagrange multiplier as
 \label{subsec:tangent}
 
 This parametrization of the unit sphere is defined by a tangent plane
-\citep{Simo.Fox:1989}. Let $\bu\in \mbb{R}^3$ be the position vector
+\citep{Simo.Fox:1989}. Let $\bu\in \bbR^3$ be the position vector
 of the point $P$ in the tangent plane with respect to the contact
 point $Q$ between the sphere and the plane, then let $\be \in S^2$ be
 the position vector of the contact point $Q$ with respect to the
@@ -588,7 +513,7 @@ a rotation vector $\btheta := \be \times \bu$, then the rotation angle
 is $\theta := \| \btheta \| \equiv \| \bu \|$. Let also
 $\check{\btheta} \in so(3)$ be the skew-symmetric tensor such that
 $\check{\btheta} \cdot \bv \equiv \btheta \times \bv \ \forall \ \bv
-\in \mbb{R}^3$. The expression for the exponential map for
+\in \bbR^3$. The expression for the exponential map for
 $\check{\btheta}$ is
 \begin{equation}
   \exp \check{\btheta}
@@ -644,54 +569,54 @@ the canonical basis as
 
 The strong ellipticity condition
 \begin{equation}
-  (\bu \otimes \bv) : \mbb{C} : (\bu \otimes \bv) > 0,
+  (\bu \otimes \bv) : \bbC : (\bu \otimes \bv) > 0,
   \quad
-  \forall \, \bu, \bv \in \mbb{R}^3 \setminus \{\mathbf{0}\}
+  \forall \, \bu, \bv \in \bbR^3 \setminus \{\mathbf{0}\}
 \end{equation}
 only requires that the vectors $\bu$ and $\bv$ be non-zero. Thus, the
 condition that they belong to the unit sphere $S^2$ may be relaxed. In
-analogy to the classical acoustic tensor \eqref{eq:acoustic-tensor},
+analogy to the classical acoustic tensor \eref{eq:acoustic-tensor},
 define
 \begin{equation} \label{eq:Cartesian-acoustic-tensor}
-  \bB := \bv \cdot \mbb{C} \cdot \bv
+  \bB := \bv \cdot \bbC \cdot \bv
   \quad \text{or} \quad
   B_{jk} := v_i C_{ijkl} v_l,
   \quad
-  \bv \in \mbb{R}^3 \setminus \{\mathbf{0}\},
+  \bv \in \bbR^3 \setminus \{\mathbf{0}\},
 \end{equation}
 thus the strong ellipticity condition may be expressed as
 \begin{equation} \label{eq:Cartesian-acoustic-ellipticity}
   \bu \cdot \bB \cdot \bu > 0,
   \quad
-  \bu \in \mbb{R}^3 \setminus \{\mathbf{0}\}.
+  \bu \in \bbR^3 \setminus \{\mathbf{0}\}.
 \end{equation}
-As in \eqref{eq:acoustic-determinant}, the strong ellipticity
+As in \eref{eq:acoustic-determinant}, the strong ellipticity
 condition becomes
 \begin{equation} \label{Cartesian-acoustic-determinant}
   \det \bB > 0.
 \end{equation}
 
 \begin{proposition}
-  The tensor $\bB$ from \eqref{eq:Cartesian-acoustic-tensor} leads to
+  The tensor $\bB$ from \eref{eq:Cartesian-acoustic-tensor} leads to
   the same bifurcation condition than the acoustic tensor $\bA$ from
-  \eqref{eq:acoustic-tensor}.
+  \eref{eq:acoustic-tensor}.
 \end{proposition}
 
 \begin{proof}
-  Introduce the bijective map $g : \mbb{R}^3 \setminus \{\mathbf{0}\}
-  \mapsto S^2 \times \mbb{R}^+$ that allows the representation of
-  nonzero vectors in $\mbb{R}^3$ as unit vectors in the unit sphere
+  Introduce the bijective map $g : \bbR^3 \setminus \{\mathbf{0}\}
+  \mapsto S^2 \times \bbR^+$ that allows the representation of
+  nonzero vectors in $\bbR^3$ as unit vectors in the unit sphere
   (direction) and the corresponding nonzero norm (magnitude). Then
   define
   \begin{equation}
-    \bv \in \mbb{R}^3 \setminus \{\mathbf{0}\},
+    \bv \in \bbR^3 \setminus \{\mathbf{0}\},
     \quad
-    v := \| \bv \| \in \mbb{R}^+,
+    v := \| \bv \| \in \bbR^+,
     \quad
     \bn := \frac{\bv}{v} \in S^2,
   \end{equation}
-  therefore from \eqref{eq:acoustic-ellipticity} and
-  \eqref{eq:Cartesian-acoustic-ellipticity}
+  therefore from \eref{eq:acoustic-ellipticity} and
+  \eref{eq:Cartesian-acoustic-ellipticity}
   \begin{equation} \label{eq:Cartesian-from-acoustic}
       \bB(v, \bn)
       =
@@ -707,13 +632,13 @@ condition becomes
     \quad
     \det \bA(\bn) > 0 \, \forall \, \bn \neq \ba,
   \end{equation}
-  then it follows from \eqref{eq:Cartesian-from-acoustic} that
+  then it follows from \eref{eq:Cartesian-from-acoustic} that
   \begin{equation}
     \det \bB(s, \ba) = 0,
     \quad
     \det \bB(s, \bn) > 0,
     \quad \forall \, \bn \neq \ba
-    \text{ and } \forall \, s \in \mbb{R}^+,
+    \text{ and } \forall \, s \in \bbR^+,
   \end{equation}
   which means that
   \begin{equation}
@@ -721,7 +646,7 @@ condition becomes
     \quad
     \{s, \ba\} := \arg \min_{v, \bn} \det \bB(v, \bn)
     \,
-    \forall \, s \in \mbb{R}^+,
+    \forall \, s \in \bbR^+,
   \end{equation}
   as required.
 \end{proof}
@@ -794,7 +719,7 @@ just described may be effected by the following procedure:
   
 \item An initial coarse sampling is performed over the parametric
   space for $\bq$ for the normal vector $\bn \in S^2$ or $\bv \in
-  \mbb{R}^3 \setminus \{\mathbf{0}\}$ associated with the
+  \bbR^3 \setminus \{\mathbf{0}\}$ associated with the
   parametrization. This leads to a coarse estimate of the determinant
   function $f(\bq)$.
   
@@ -813,8 +738,8 @@ to introduce adaptive time increments. Define
 \end{equation}
 
 where the tensor $\bB_n(\bq)$ may be either the one from
-\eqref{eq:acoustic-tensor} or the one from
-\eqref{eq:Cartesian-acoustic-tensor}, depending on the parametrization
+\eref{eq:acoustic-tensor} or the one from
+\eref{eq:Cartesian-acoustic-tensor}, depending on the parametrization
 in use, and the index $n$ indicates that the evaluation occurs at time
 $t_n$. 
 
@@ -844,16 +769,16 @@ criteria $\mu_n / \mu_0 \le \epsilon$ is met.
     \triangle t \leftarrow t_{n+1} - t_n,
     \quad
     \mu_{n+1,k} \leftarrow \mu_{n+1}$
-    \WHILE{ $\mu_{n+1,k} < 0$ {\bf{  or  }} $ \mu_{n+1,k} / \mu_0
+    \WHILE{ $\mu_{n+1,k} < 0$ {  or  } $ \mu_{n+1,k} / \mu_0
       > \epsilon$ }
     \STATE $t_{n+1,k} \leftarrow t_n + \alpha \triangle t$
     \STATE compute $\bF(t_{n+1,k})$ using the global solution scheme
     \STATE compute $\triangle \bZ(t_{n+1,k})$
-    by solving \eqref{eq:Biots-equation-discrete}
-    \STATE compute $\mbb{C}(t_{n+1,k})$
-    using \eqref{eq:incremental-stress-moduli}
+    by solving \eref{eq:Biots-equation-discrete}
+    \STATE compute $\bbC(t_{n+1,k})$
+    using \eref{eq:incremental-stress-moduli}
     \STATE compute $\mu_{n+1,k}$
-    by solving \eqref{eq:general-minimization-problem}
+    by solving \eref{eq:general-minimization-problem}
     \IF{$\mu_{n+1,k} > 0$}
     \STATE $\alpha \leftarrow \alpha + 2^{-k}$
     \ELSE
@@ -865,7 +790,9 @@ criteria $\mu_n / \mu_0 \le \epsilon$ is met.
   \label{alg:adaptive-step}
 \end{algorithm}
 
-The adaptive time increment procedure allows the accurate (up to the tolerance $\epsilon$) detection of bifurcation time during a loading process.
+The adaptive time increment procedure allows the accurate (up to the
+tolerance $\epsilon$) detection of bifurcation time during a loading
+process.
 
 \section{Numerical Examples}
 \label{sec:numerical-examples}
@@ -899,12 +826,12 @@ is a damage parameter and $\mathbb{C}^e$ is the fourth-order elastic
 modulus. For isotropic linear elasticity
 
 \begin{equation}
-  \mathbb{C}^e = \lambda \bdelta\otimes\delta + 2\mu\tensor I
+  \mathbb{C}^e = \lambda \bdelta\otimes\delta + 2\mu\bI
 \end{equation}
 
 where $\lambda$ and $\mu$ are Lam\'{e} constant and shear modulus,
 respectively. $\bdelta$ is the second-order identity tensor,
-$(\tensor I)_{ijkl} = 1/2(\delta_{ik}\delta_{jl} +
+$(\bI)_{ijkl} = 1/2(\delta_{ik}\delta_{jl} +
 \delta_{il}\delta_{jk})$ is the fourth-order symmetric identity
 tensor.
 
@@ -926,15 +853,15 @@ maximum thermodynamic force \cite{Holzapfel:2000}
 
 where $\Psi_0(s)$ is the undamaged strain energy at time $s$.
 
-Given the strain-energy function \eqref{eq:iso_psi} and the damage
-evolution \eqref{eq:iso_xi}, the fourth-order tangent modulus can be
+Given the strain-energy function \eref{eq:iso_psi} and the damage
+evolution \eref{eq:iso_xi}, the fourth-order tangent modulus can be
 derived by taking 2nd derivative of the strain-energy function with
 respect to strain measure $\bepsilon_e$, which results in
 
 \begin{equation}
   \mathbb{C} = (1-\xi)\mathbb{C}^e 
     - \beta \frac{\partial\xi}{\partial\alpha}
-    (\tensor\sigma_0\otimes\tensor\sigma_0)
+    (\bsigma_0\otimes\bsigma_0)
 \end{equation}
 
 where $\beta \neq 0$ if and only if damage evolves within the time
@@ -944,7 +871,8 @@ increment.
 
 \textit{TODO: add simple shear test results}
 
-\subsection{Finite deformation anisotropic hyperelastic damage model}\label{subsec:anisotropic}
+\subsection{Finite deformation anisotropic hyperelastic damage model}
+\label{subsec:anisotropic}
 
 In this section, a finite deformation anisotropic hyperelastic damage 
 model is analyzed for material bifurcation. By adding complexity to 
@@ -1013,12 +941,12 @@ The strain invariants $I_1$, $I_3$ and $I_4$ are defined as
   I_4 = \bM \cdot (\bC \bM)
 \end{equation}
 
-For damage evolution, the same evolution law as in \eqref{eq:iso_xi} 
+For damage evolution, the same evolution law as in \eref{eq:iso_xi} 
 is used, except that for each phase of the material, i.e., each of the 
 matrix and fibers, there will be a different set of parameters for
 damage evolution (\cite{Chen.etal:2014}).
 
-Given the energy function \eqref{eq:aniso_energy}, the 4th order
+Given the energy function \eref{eq:aniso_energy}, the 4th order
 tangent needed for bifurcation analysis can be derived by taking
 derivative of the energy function with respect to some strain 
 measures, in particular
@@ -1037,18 +965,18 @@ effective tangent modulus tensor is given by
 
 \begin{equation}\label{eq:aniso_tangent1}
   \tilde{\mathbb{C}}_m^0 = 
-    4\frac{\partial ^2 \Psi_m^0}{\partial\tensor C \partial\tensor C}
+    4\frac{\partial ^2 \Psi_m^0}{\partial\bC \partial\bC}
 \end{equation}
 
 \begin{equation}\label{eq:aniso_tangent2}
   \tilde{\mathbb{C}}_i^0 =  
-    4 \frac{\partial ^2 \Psi_i^0}{\partial\tensor C \partial\tensor C}
+    4 \frac{\partial ^2 \Psi_i^0}{\partial\bC \partial\bC}
 \end{equation}
 
 It should be noted that the 4th-order tangent $\tilde{\mathbb{C}}$ 
-from \eqref{eq:aniso_tangent} is computed as the derivative of strain 
+from \eref{eq:aniso_tangent} is computed as the derivative of strain 
 energy with respect to the right Cauchy-Green tensor. The strong 
-ellipticity condition \eqref{eq:strong-ellipticity} requires the 
+ellipticity condition \eref{eq:strong-ellipticity} requires the 
 tangent $\mathbb{C}$ to be computed as a derivative with respect to 
 the deformation gradient. These two tangents can be converted using 
 the following relation (in indicial notation)
@@ -1117,14 +1045,14 @@ matrix and fibers are listed in Table \ref{tab:aniso_material}.
       &
       Direction vector
       &
-      $\tensor M_1 = \{ 0.8,~0.6,~0.0\}$
+      $\bM_1 = \{ 0.8,~0.6,~0.0\}$
       \\
       &
 
       &
 	       
       &
-      $\tensor M_2 = \{ 0.8,-0.6,~0.0\}$
+      $\bM_2 = \{ 0.8,-0.6,~0.0\}$
       \\
       \bottomrule
     \end{tabular}
@@ -1135,15 +1063,16 @@ matrix and fibers are listed in Table \ref{tab:aniso_material}.
 
 %\begin{figure}[H]
 %  \centering \subfigure[]{
-%    \includegraphics[width=0.45\textwidth]{figs/uniaxial_aniso_stress_strain.pdf}
+%    \includegraphics[width=0.45\textwidth]
+%      {figs/uniaxial_aniso_stress_strain.pdf}
 %  } \subfigure[]{
 %    \includegraphics[width=0.45\textwidth]{figs/uniaxial_aniso_detAmin.pdf}
 %  }
 %  \caption{Uniaxial extension test on anisotropic damage model: (a)
 %    stress strain behavior, with red cross indicating bifurcation, and
-%    (b) degradation of ${\rm det}\tensor A$ for different
+%    (b) degradation of ${\rm det}\bA$ for different
 %    parametrizations. Red star indicates points for reporting ${\rm
-%      det}\tensor A$ landscape.}
+%      det}\bA$ landscape.}
 %  \label{fig:uniaxial_aniso_stress_strain}
 %\end{figure}
 
@@ -1168,7 +1097,7 @@ parametrization, but far less robust.
 4. The stereographic and exponential parametrization are the least
 robust parametrizations, i.e., they are more likely to have
 convergence issues, which is expected given the complicated shape of
-the minimization function det$\tensor A$.
+the minimization function $\det\bA$.
 
 \bibliographystyle{plainnat}
 \bibliography{acpami}
