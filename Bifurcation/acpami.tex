@@ -710,6 +710,7 @@ the bifurcation condition.
 \end{figure}
 
 \section{Bifurcation Detection}
+\label{sec:detection}
 
 Within an incremental update setting, the detection of the bifurcation
 condition for each time increment using any of the parametrizations
@@ -744,17 +745,17 @@ in use, and the index $n$ indicates that the evaluation occurs at time
 $t_n$. 
 
 Consider the original time increment from $t_n$ to $t_{n+1}$, where 
-$\mu_n > 0$ and $\mu_{n+1} < 0$. This means that between time $t_n$ and 
-$t_{n+1}$, the strong ellipticity condition is violated and hence 
-material bifurcates. Assume also that $\mu_n / \mu_0 > \epsilon$, where 
-$\mu_0$ is the value of the determinant function evaluated at time 
-$t_0$ and $\epsilon$ is a target tolerance. We wish to find a better 
-estimate for the determinant function $\mu_n$, and hence the 
-bifurcation time $t_n$, such that $\mu_n / \mu_0 \le \epsilon$. This is 
-achieved by an adaptive time increment procedure by means of bisection, 
-as shown in Algorithm~\ref{alg:adaptive-step}. This algorithm 
-essentially cut the time increment to half until the convergence 
-criteria $\mu_n / \mu_0 \le \epsilon$ is met.
+$\mu_n > 0$ and $\mu_{n+1} < 0$. This means that between time $t_n$ 
+and $t_{n+1}$, the strong ellipticity condition is violated and hence 
+material bifurcates. Assume also that $\mu_n / \mu_0 > \epsilon$, 
+where $\mu_0$ is the value of the determinant function evaluated at 
+time $t_0$ and $\epsilon$ is a target tolerance. We wish to find a 
+better estimate for the determinant function $\mu_n$, and hence the 
+bifurcation time $t_n$, such that $\mu_n / \mu_0 \le \epsilon$. This 
+is achieved by an adaptive time increment procedure by means of 
+bisection, as shown in Algorithm~\ref{alg:adaptive-step}. This 
+algorithm essentially cut the time increment to half until the 
+convergence criteria $\mu_n / \mu_0 \le \epsilon$ is met.
 
 \begin{algorithm}
   \caption{$\text{AdaptiveStep}(\mu_0, \mu_{n+1}, t_{n+1}, \epsilon)$}
@@ -807,13 +808,16 @@ efficiency of different parametrizations.
 \subsection{Small deformation isotropic elastic damage model}
 \label{subsec:isotropic}
 
-We start with the bifurcation analysis on a simple isotropic damage 
-model under infinitesimal deformation. The model formulation is 
-briefly presented in the next section.
+We start the bifurcation analysis on a simple small deformation 
+isotropic damage model. The model formulation is briefly presented 
+first. Then, a simple shear test will be performed to study the 
+performance of different parametrizations on the detection of material 
+bifurcation.
 
 \subsubsection{Model formulation}
-The strain-energy function of the isotropic damage model is assumed to 
-have the following form
+The stress and constitutive tangent of the small deformation isotropic 
+damage model will be derived from a strain-energy function, which is 
+assumed to have the following form:
 
 \begin{equation}\label{eq:iso_psi}
  \Psi(\bepsilon ^e, \xi)
@@ -821,9 +825,11 @@ have the following form
      \bepsilon ^e : \mathbb{C}^e : \bepsilon ^e
 \end{equation}
 
-where $\bepsilon^e$ is the infinitesimal elastic strain tensor, $\xi$ 
-is a damage parameter and $\mathbb{C}^e$ is the fourth-order elastic
-modulus. For isotropic linear elasticity
+where $\bepsilon^e$ is the infinitesimal elastic strain tensor, 
+$\mathbb{C}^e$ is the fourth-order elastic modulus, and $\xi$ 
+is a damage parameter introduced to trigger material bifurcation. For 
+isotropic linear elasticity, the elastic modulus $\mathbb{C}^e$ is 
+given as
 
 \begin{equation}
   \mathbb{C}^e = \lambda \bdelta\otimes\delta + 2\mu\bI
@@ -864,22 +870,197 @@ respect to strain measure $\bepsilon_e$, which results in
     (\bsigma_0\otimes\bsigma_0)
 \end{equation}
 
-where $\beta \neq 0$ if and only if damage evolves within the time
-increment.
+where $\beta = 1$ if damage evolves within the time increment and 
+$\beta=0$ otherwise. This tangent modulus will be used to compute the 
+acoustic tensor \eref{eq:acoustic-tensor}, which will then be checked 
+for material bifurcation.
 
 \subsubsection{Simple shear test}
 
-\textit{TODO: add simple shear test results}
+The above small deformation material model is loaded under a simple 
+shear condition, where the following material properties are used:
+$\lambda = 80$, $\mu = 80$, $\xi_{\infty} = 1.0$ and $\tau = 1.0$. The 
+resulting shear stress vs. shear strain is plotted in Figure 
+\ref{fig:iso_stress_strain}(a). The softening response is due to the 
+evolution of the introduced damage parameter $\xi$. 
+
+For the detection of material bifurcation, the two-step procedure 
+described in Section \ref{sec:detection} is adopted, i.e., (1) an 
+initial sampling performed over the parametric space, and (2) a 
+Newton-type iterative procedure for better estimation of the minimum 
+det$\bA$. Figure \ref{fig:iso_stress_strain}(b) shows the degradation 
+of the determinant function det$\bA$ for all five 
+parametrizations. When det$\bA = 0$, the material bifurcates. In 
+this example, all five parametrizations detect bifurcation at the same 
+time, i.e., when the shear strain $\bepsilon_{12}=0.0559$ as marked in 
+Figure \ref{fig:iso_stress_strain}(a). With the adaptive time step 
+algorithm, the precise time (upto the set tolerance) of bifurcation 
+can be detected.
+
+\begin{figure}[H]
+  \centering \subfigure[]{
+    \includegraphics[width=0.45\textwidth]
+    {figs/iso_shear_stress_strain.pdf}
+  } \subfigure[]{
+    \includegraphics[width=0.45\textwidth]
+    {figs/iso_shear_mindetA_strain.pdf}
+  }
+  \caption{Simple shear test on small deformation 
+  isotropic damage model: 
+  (a)stress strain behavior, with red cross indicating bifurcation, and
+  (b) degradation of det$\bA$ for different
+  parametrizations.}
+  \label{fig:iso_stress_strain}
+\end{figure}
+
+While all five parametrizations detect bifurcation at the same time, 
+Figure \ref{fig:iso_stress_strain}(b) provides little information on 
+their computational efficiency and robustness, which are the focus of 
+this work. The computational cost of bifurcation detection mainly 
+consists of two parts: (1) the time for the initial sampling over the 
+parametric space, and (2) the time for the Newton-type iterative 
+solve. 
+
+The time for the initial sampling depends on the number of sampling 
+points, or equivalently, the density of the initial sampling grid. The 
+denser the initial sampling grid is, the more expensive it is 
+computationally to perform the sweep. The time for the Newton-type 
+iterative solve depends mainly on the complexity of the objective 
+function, i.e., det$\bA$, as well as the quality of the initial guess.
+
+To compare computational costs of different parametrizations, we 
+record the time spent on bifurcation check at a particular loading 
+increment, e.g., at the increment leading to bifurcation. For 
+robustness, we will change the density of initial sampling grids and 
+study the effect of this change on the detection of bifurcation using 
+different parametrizations. A robust parametrization should be 
+relatively insensitive to the density of the initial sampling grids.
+
+The results on computational cost and robustness are summarized in 
+Table \ref{tab:iso_shear_runtime}. The density of the initial 
+sampling grid is represented by the sampling interval and the number 
+of sampling points. The table only shows the number of sampling 
+points, $N$, along one dimension of the parametric space. The total 
+number of sampling points should be the $N^{dim}$, where $dim$ is the 
+total dimension of the parametric space. For instance, for spherical 
+parametrization, there are two independent parameters, $\varphi$ and $
+\theta$. Therefore, $dim=2$ for spherical parametrization.
+
+It can be seen from Table \ref{tab:iso_shear_runtime}, as the number 
+of sampling points $N$ per dimension decreases, so does the 
+computational cost. The spherical and the Cartesian parametrizations 
+are the most efficient and robust. The stereographic, projective and 
+tangent are more expensive. In the extreme case with $N=1$, meaning 
+there is only one initial sampling point per dimension, the 
+stereographic, projective and tangent fail to correctly detect 
+bifurcation, shown as `n/a' in the table. 
+
+\begin{table}[H]
+  \begin{center}
+    %\begin{tabular}{ p{1.5cm} | p{1.7cm} p{1.7cm} p{1.7cm} p{1.7cm} p{1.7cm} }
+    \begin{tabular}{c c | r r r r r}
+      \toprule
+      Sampling   & Sampling &   \multicolumn{5}{c}{Run time ($\mu$s)}	\\   
+      interval     & points ($N$)     &  Spherical    &   Stereographic  &   Projective  &   Tangent   & Cartesian  \\
+      \midrule         
+      0.05      &      41     &    340        &       188       &       5458      &      225       &       401         \\
+      0.1        &      21     &    152        &       92         &       909        &      123       &       162         \\
+      0.2        &      11     &    87          &       69         &       218        &      91         &       100         \\
+      0.3        &      7       &    83          &       201       &       216        &      221       &       81          \\
+      0.4        &      5       &    83          &       232       &       242        &      185       &       71          \\       
+      0.5        &	    5       &    75          &       63         &       143        &      80         &       71          \\
+      0.6        &	    3       &    76          &       251       &       221        &      282       &       66          \\
+      0.7        &	    3       &    76	      &       203       &       242        &      260       &       66          \\
+      0.8        &      3       &    76          &       204       &       246        &      177       &       65          \\	      
+      0.9        &	    3       &    76          &       207       &       194        &      272       &       69          \\	
+      1.0        &      3	     &    66	      &       76         &       166        &      76         &       67          \\	
+      1.5        &	    1       &    75	      &       n/a        &       n/a         &      n/a        &       66          \\	       
+      \bottomrule
+    \end{tabular}
+    \caption{Computational cost of different parametrizations in 
+    simple shear test at loading increment leading to bifurcation. 
+    `n/a' means the parametrization fails to detect bifurcation in 
+    this loading increment.}
+    \label{tab:iso_shear_runtime}
+  \end{center}
+\end{table}
+
+As aforementioned, the choice of parametrization directly affects the 
+complexity of the objective function ${\rm det}\bA$ in 
+\eref{eq:minimization-derivative}, which in turn affects the 
+computational efficiency and robustness of different parametrizations 
+on detection of material bifurcation as shown in 
+Table \ref{tab:iso_shear_runtime}. To illustrate this point, the 
+landscapes of the objective function ${\rm det}\bA$ at bifurcation, 
+i.e., at $\bepsilon_{12}=0.0559$ are plotted in 
+Figure  \ref{fig:iso_shear_detA}. The corresponding plane views of the 
+determinant landscapes are shown in 
+Figure \ref{fig:iso_shear_detAXplane}, where the white stars indicate 
+global minimum point(s). The projective parametrization requires three parameters and is not visualized in this work.
+
+From the landscape plots, it is clear that the complexity of the 
+determinant function depends greatly on the choices of 
+parametrization. Even for a very simple small deformation isotropic 
+model adopted in this example, the landscape of the determinant 
+function can be quite complicated in certain parametrizations, e.g., 
+the stereographic and tangent ones. 
+
+The cartesian parametrization results in a simple `bowl-shaped' 
+objective function, which makes the Newton-type iterative solve 
+particularly robust and insensitive to the initial guess. This has 
+been reflected in Table \ref{tab:iso_shear_runtime}, where the 
+cartesian parametrization is able to correctly detect bifurcation even 
+with very few initial sampling point. 
+
+\begin{figure}[H]
+   \centering \subfigure[Spherical]{
+   \includegraphics[width=0.45\textwidth]
+   {figs/iso_shear_spherical_detA.pdf}
+ } \subfigure[Cartesian]{
+   \includegraphics[width=0.45\textwidth]
+   {figs/iso_shear_cartesian_detA.pdf}
+ } \subfigure[Stereographic]{
+   \includegraphics[width=0.45\textwidth]
+   {figs/iso_shear_stereographic_detA.pdf}
+ } \subfigure[Tangent]{
+   \includegraphics[width=0.45\textwidth]
+   {figs/iso_shear_tangent_detA.pdf}
+ }
+   \caption{det$\bA$ landscapes at bifurcation
+   for simple shear test on small deformation isotropic damage model.}
+   \label{fig:iso_shear_detA}
+ \end{figure}
+
+\begin{figure}[H]
+   \centering \subfigure[Spherical]{
+   \includegraphics[width=0.45\textwidth]
+   {figs/iso_shear_spherical_detAXplane.pdf}
+ } \subfigure[Cartesian]{
+   \includegraphics[width=0.45\textwidth]
+   {figs/iso_shear_cartesian_detAXplane.pdf}
+ } \subfigure[Stereographic]{
+   \includegraphics[width=0.45\textwidth]
+   {figs/iso_shear_stereographic_detAXplane.pdf}
+ } \subfigure[Tangent]{
+   \includegraphics[width=0.45\textwidth]
+   {figs/iso_shear_tangent_detAXplane.pdf}
+ }
+   \caption{Plane views det$\bA$ landscapes at bifurcation
+   for simple shear test on small deformation isotropic damage model. 
+   The white stars indicate global minimum point in the landscape.}
+   \label{fig:iso_shear_detAXplane}
+ \end{figure}
 
 \subsection{Finite deformation anisotropic hyperelastic damage model}
 \label{subsec:anisotropic}
 
-In this section, a finite deformation anisotropic hyperelastic damage 
-model is analyzed for material bifurcation. By adding complexity to 
-the material model, and hence the tangent modulus, we would like to 
-study how is the performance of different parametrizations effected, 
-especially in terms of the computational cost and robustness. The key 
-feature of the model is first proposed.
+The second material model tested is a finite deformation anisotropic 
+hyperelastic damage model. By adding complexity to the material model, 
+and hence the tangent modulus, we would like to study how is the 
+performance of different parametrizations effected, especially in 
+terms of the computational cost and robustness. As in the previous 
+example, we first present the key feature of this proposed finite 
+deformation material model.
 
 \subsubsection{Model formulation}
 The free energy function of the finite-deformation anisotropic 
@@ -1061,24 +1242,189 @@ matrix and fibers are listed in Table \ref{tab:aniso_material}.
   \end{center}
 \end{table}
 
-%\begin{figure}[H]
-%  \centering \subfigure[]{
-%    \includegraphics[width=0.45\textwidth]
-%      {figs/uniaxial_aniso_stress_strain.pdf}
-%  } \subfigure[]{
-%    \includegraphics[width=0.45\textwidth]{figs/uniaxial_aniso_detAmin.pdf}
-%  }
-%  \caption{Uniaxial extension test on anisotropic damage model: (a)
-%    stress strain behavior, with red cross indicating bifurcation, and
-%    (b) degradation of ${\rm det}\bA$ for different
-%    parametrizations. Red star indicates points for reporting ${\rm
-%      det}\bA$ landscape.}
-%  \label{fig:uniaxial_aniso_stress_strain}
-%\end{figure}
+The axial stress vs. stretch behavior in the uniaxial tension test is 
+shown in Figure \ref{fig:aniso_stress_stretch}(a). The material 
+bifurcation is marked on the stress vs. stretch plot. As detailed in 
+Section \ref{sec:detection}, a two-step procedure is adopted: an 
+initial sampling followed by a Newton-type iterative solve. With the 
+adaptive time step algorithm, the precise time (upto the set 
+tolerance) of bifurcation can be detected. In this loading test, all 
+five parametrizations detect bifurcation at the same time, i.e., when 
+the axial component of the deformation gradient $F_11 = 1.1954$. The 
+degradations of the determinant function ${\rm det}\bA$ for all five 
+parametrizations are shown in Figure \ref{fig:aniso_stress_stretch}(b)
 
+\begin{figure}[H]
+  \centering \subfigure[]{
+    \includegraphics[width=0.45\textwidth]
+    {figs/aniso_uniaxial_stress_stretch.pdf}
+  } \subfigure[]{
+    \includegraphics[width=0.45\textwidth]
+    {figs/aniso_uniaxial_mindetA_stretch.pdf}
+  }
+  \caption{Uniaxial tension test on finite deformation 
+  anisotropic damage model: 
+  (a)stress strain behavior, with red cross indicating bifurcation, and
+  (b) degradation of det$\bA$ for different
+  parametrizations.}
+  \label{fig:aniso_stress_stretch}
+\end{figure}
+
+As in the previous example, the computational cost of different 
+parametrizations at the loading increment leading to bifurcation is 
+recorded and shown in Table \ref{tab:aniso_uniaxial_runtime}. Again, 
+the density of the initial sampling is represented by the sampling 
+interval and the number of sampling points. In general, as the number 
+of sampling points decreases, so does the computational cost. However, 
+the fewer sampling points also leads to a very poor initial guess for 
+the Newton iterative solve, which may cost more time to arrive at a 
+converged solution if there is one at all. Because of the added 
+complexity of the material model, different parametrizations are more 
+sensitive to the density of the initial sampling grids. The spherical 
+parametrization is unable to detect correctly the bifurcation when the 
+sampling interval is greater than 0.4. The stereographic, projective 
+and tangent parametrizations, though more robust in this case, are 
+computationally more expensive. The cartesian parametrization is 
+computationally efficient and at the same time, relatively insensitive 
+to the sampling interval. 
+
+\begin{table}[H]
+  \begin{center}
+    %\begin{tabular}{ p{1.5cm} | p{1.7cm} p{1.7cm} p{1.7cm} p{1.7cm} p{1.7cm} }
+    \begin{tabular}{c c | r r r r r}
+      \toprule
+      Sampling   & Sampling &   \multicolumn{5}{c}{Run time ($\mu$s)}	\\   
+      interval     & points     &  Spherical    &   Stereographic  &   Projective  &   Tangent   & Cartesian  \\
+      \midrule         
+      0.05      &      41     &      508     &    351        &       5671       &       368        &      476           \\
+      0.1        &      21     &      291      &    260        &       993         &       275 &      230           \\
+      0.2        &      11     &      n/a      &    225        &       367          &       n/a         &      224            \\
+      0.3        &      7       &      221      &    220         &       327         &       n/a         &      340           \\
+      0.4        &      5       &      283      &    n/a        &       245          &       297        &      205           \\       
+      0.5        &      5       &	  n/a      &    402         &       252          &      405         &      146           \\
+      0.6        &      3       &	  n/a      &    220         &       n/a         &       360        &      183           \\
+      0.7        &      3       &	  n/a     &    395 	      &        n/a         &       205         &      n/a            \\
+      0.8        &      3       &      n/a      &    n/a        &        n/a         &       303        &       n/a            \\	      
+      0.9        &      3       &	  n/a      &    n/a         &        n/a         &       n/a        &       n/a         \\	
+      1.0        &      3       &      n/a      &    n/a	      &       n/a          &       n/a        &       n/a          \\	
+      1.5        &      1       &	  n/a      &    n/a	      &       n/a          &       n/a        &       n/a          \\	       
+      \bottomrule
+    \end{tabular}
+    \caption{Computational cost of different parametrizations in 
+    uniaxial tension test at loading increment leading to bifurcation. 
+    `n/a' means the parametrization fails to detect bifurcation in 
+    this loading increment.}
+    \label{tab:aniso_uniaxial_runtime}
+  \end{center}
+\end{table}
+
+
+To gain insights into the influence of parametrizations on the 
+determinant function det$\bA$ as loading proceeds, we plot the 
+landscapes at four different axial stretch levels for different 
+parametrizations, as shown in Figures \ref{fig:aniso_spherical_detA} - 
+\ref{fig:aniso_cartesian_detA}.
+
+\begin{figure}[H]
+   \centering \subfigure[$F_{11}=1.0074$]{
+   \includegraphics[width=0.45\textwidth]
+   {figs/aniso_uniaxial_spherical_detA_F1p0074.pdf}
+ } \subfigure[$F_{11}=1.0762$]{
+   \includegraphics[width=0.45\textwidth]
+   {figs/aniso_uniaxial_spherical_detA_F1p0762.pdf}
+ } \subfigure[$F_{11}=1.1583$]{
+   \includegraphics[width=0.45\textwidth]
+   {figs/aniso_uniaxial_spherical_detA_F1p1583.pdf}
+ } \subfigure[$F_{11}=1.1954$ (bifurcation)]{
+   \includegraphics[width=0.45\textwidth]
+   {figs/aniso_uniaxial_spherical_detA_F1p1954.pdf}
+ }
+   \caption{Spherical parametrization: landscapes of det$\bA$ 
+   for uniaxial tension test on finite deformation anisotropic model at
+   different axial stretch levels.}
+   \label{fig:aniso_spherical_detA}
+ \end{figure}
+
+\begin{figure}[H]
+   \centering \subfigure[$F_{11}=1.0074$]{
+   \includegraphics[width=0.45\textwidth]
+   {figs/aniso_uniaxial_stereographic_detA_F1p0074.pdf}
+ } \subfigure[$F_{11}=1.0762$]{
+   \includegraphics[width=0.45\textwidth]
+   {figs/aniso_uniaxial_stereographic_detA_F1p0762.pdf}
+ } \subfigure[$F_{11}=1.1583$]{
+   \includegraphics[width=0.45\textwidth]
+   {figs/aniso_uniaxial_stereographic_detA_F1p1583.pdf}
+ } \subfigure[$F_{11}=1.1954$ (bifurcation)]{
+   \includegraphics[width=0.45\textwidth]
+   {figs/aniso_uniaxial_stereographic_detA_F1p1954.pdf}
+ }
+   \caption{Stereographic parametrization: landscapes of det$\bA$ 
+   for uniaxial tension test on finite deformation anisotropic model at
+   different axial stretch levels.}
+   \label{fig:aniso_stereographic_detA}
+ \end{figure}
+
+\begin{figure}[H]
+   \centering \subfigure[$F_{11}=1.0074$]{
+   \includegraphics[width=0.45\textwidth]
+   {figs/aniso_uniaxial_tangent_detA_F1p0074.pdf}
+ } \subfigure[$F_{11}=1.0762$]{
+   \includegraphics[width=0.45\textwidth]
+   {figs/aniso_uniaxial_tangent_detA_F1p0762.pdf}
+ } \subfigure[$F_{11}=1.1583$]{
+   \includegraphics[width=0.45\textwidth]
+   {figs/aniso_uniaxial_tangent_detA_F1p1583.pdf}
+ } \subfigure[$F_{11}=1.1954$ (bifurcation)]{
+   \includegraphics[width=0.45\textwidth]
+   {figs/aniso_uniaxial_tangent_detA_F1p1954.pdf}
+ }
+   \caption{Tangent parametrization: landscapes of det$\bA$ 
+   for uniaxial tension test on finite deformation anisotropic model at
+   different axial stretch levels.}
+   \label{fig:aniso_tangent_detA}
+ \end{figure} 
+
+\begin{figure}[H]
+   \centering \subfigure[$F_{11}=1.0074$]{
+   \includegraphics[width=0.45\textwidth]
+   {figs/aniso_uniaxial_cartesian_detA_F1p0074.pdf}
+ } \subfigure[$F_{11}=1.0762$]{
+   \includegraphics[width=0.45\textwidth]
+   {figs/aniso_uniaxial_cartesian_detA_F1p0762.pdf}
+ } \subfigure[$F_{11}=1.1583$]{
+   \includegraphics[width=0.45\textwidth]
+   {figs/aniso_uniaxial_cartesian_detA_F1p1583.pdf}
+ } \subfigure[$F_{11}=1.1954$ (bifurcation)]{
+   \includegraphics[width=0.45\textwidth]
+   {figs/aniso_uniaxial_cartesian_detA_F1p1954.pdf}
+ }
+   \caption{Cartesian parametrization: landscapes of det$\bA$ 
+   for uniaxial tension test on finite deformation anisotropic model at
+   different axial stretch levels.}
+   \label{fig:aniso_cartesian_detA}
+ \end{figure} 
+
+As seen from Figure \ref{fig:aniso_cartesian_detA}, the cartesian 
+parametrization again results a simple `bowl-shaped' landscape of det$
+\bA$ consistently throughout the loading process, which is in contrast 
+to the complex landscapes using alternative parametrizations in 
+Figures \ref{fig:aniso_spherical_detA},
+\ref{fig:aniso_stereographic_detA} and \ref{fig:aniso_tangent_detA}. 
+
+Similar as in the case of the small deformation model example in 
+Section \ref{subsec:isotropic}, the gradient-based optimization 
+technique using Newton's iterative solve is more likely to achieve 
+convergence, even the initial sweep is performed over a relatively 
+coarse grid. The cartesian parametrization is `optimal' in term of trade-off between computational efficiency and robustness. 
+
+In a non-linear large scale finite element simulation, this optimal 
+trade-off between computational efficiency and robustness becomes 
+critical. The cartesian parametrization could provide a valuable tool 
+in material bifurcation analysis. 
 
 \section{Concluding remarks on material point simulations}
-Summarizing results from numerical bifurcationa analyses on all three
+Summarizing results from numerical bifurcation analyses on all three
 material models, it is found that:
 
 1. The spherical parametrization is the most efficient in terms of
