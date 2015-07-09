@@ -62,8 +62,7 @@
 %[\fancyplain{}{\bf{\today}}]
 %{\fancyplain{}{\bf{\today}}}
 
-\title{A Cartesian Parametrization for the Analysis of Material
-  Instability}
+\title{A Cartesian Parametrization for the Numerical Analysis of Material Instability}
 
 \author{
   \Large Alejandro~Mota$^1$,
@@ -88,51 +87,117 @@
 
 \begin{abstract}
   We propose a Cartesian parametrization for vectors to test for the
-  loss of the ellipticity condition in the analysis of material
-  instability.
-
-  The parametrization is used to construct a tensor that is the
-  acoustic tensor multiplied by a scalar factor. It is shown that both
-  tensors become singular at the same time and in the same planes in
-  the presence of a material instability.
-
-  The performance of the Cartesian parametrization is compared against
-  other common and uncommon parametrizations of the acoustic
-  tensor. The results of these comparisons show that the Cartesian
-  parametrization is more robust and more numerically efficient than
-  the other tested parametrizations in general.
-
+  loss of the ellipticity condition in the numerical analysis of
+  material instability. The parametrization is used to construct a 
+  tensor that is the acoustic tensor multiplied by a scalar factor. It 
+  is shown that both tensors become singular at the same time and in 
+  the same planes in the presence of a material instability. The 
+  performance of the Cartesian parametrization is compared against 
+  other common and uncommon parametrizations of the acoustic tensor. 
+  The results of these comparisons show that the Cartesian 
+  parametrization is more robust and more numerically efficient than 
+  the other tested parametrizations in general.  
 \end{abstract}
 
 \section{Introduction}
 \label{sec:intro}
 
-The analysis of material instability plays an important role in the
-simulation of constitutive behavior. A reliable method for the
-detection of material instability is required whether one is
-interested in studying the instability itself or to devise numerical
-regularization methods that prevent lack of convergence once an
-instability is present.
+The numerical analysis of material instability plays an important role 
+in understanding and simulating material failure mechanics problems. A 
+reliable and efficient method to determine the onset of material 
+instability and the bifurcation directions is required whether one is 
+interested in studying the instability itself or to devise numerical 
+regularization methods that prevent lack of convergence once an 
+instability is present (e.g., \cite{Simo.etal:1993, Oliver:1996a, Oliver:1996b, Armero.Garikipati:1996, Moes.Belytschko:2002, Foster.etal:2007, Chen.etal:2011}).
 
-Herein we adopt the definition of material instability as the loss of
-the \emph{strong ellipticity condition}, which is equivalent to the
-loss of the \emph{strong Legendre-Hadamard condition} for stored
-energy densities that are twice continuously differentiable
-\citep{Antman:2005}.
+Herein we adopt the classical definition of material instability as 
+the loss of the \emph{strong ellipticity condition}, which is  
+equivalent to the loss of the \emph{strong Legendre-Hadamard 
+condition} for stored energy densities that are twice continuously 
+differentiable \citep{Antman:2005} and has been associated with the 
+existence of discontinuous acceleration propagating waves by 
+\citet{Hill:1962}.
 
 \subsection{Previous Work}
 
-Extensive work has been done on the subject of material
-instabilities. See \citet*{Armero.Garikipati:1996} and
-\citet*{Miehe.Lambrecht.Gurses:2004} for a brief historical overview
-of the development of classical localization analysis, starting with
-the seminal work of \citet{Hadamard:1903}, followed by
-\citet{Thomas:1961}, \citet{Hill:1962}, \citet{Rice:1976} and others.
+Extensive work has been done on the subject of material instabilities.  
+The basic theoretical principles follow from the seminal work of 
+\citet{Hadamard:1903} on elastic stability and were later extended to 
+the inelastic regime by \citet{Thomas:1961}, \citet{Hill:1962} and 
+others. The work of \citet{Rice:1976} and \citet{Rudnicki.Riche:1975}, 
+among others, tied the instability in the constitutive description of 
+homogeneous deformation to the onset of localized deformation, which 
+was linked to the loss of the positive definiteness of the acoustic or 
+localization tensor of the material at a given state. See also 
+\citet*{Armero.Garikipati:1996} and \citet*{Miehe.etal:2004} for a 
+brief historical overview of the development of classical localization 
+analysis.
 
-In all these works, the criterion for determining the existence of a
-material instability is the loss of the strong ellipticity condition.
+In the context of finite element analysis, existing approaches to 
+detect material instability as well as the bifurcation direction 
+generally fall into two categories, i.e., analytical and numerical 
+approaches.
 
-Assumptions \citep{Becker:2002}.
+For selected material models under specific loading conditions, 
+analytical solution of the instability problem can be derived. For 
+instance, \citet{Oliver.Huespe:2004} provided closed-form solutions 
+for detection of singularity of the localization tensor for a wide 
+class of small-deformation isotropic and anisotropic damage models. 
+\citet{Xue.Belytschko:2010} derived a closed-form expression to 
+determine the onset of instability and the bifurcation directions for 
+a small deformation damage model. The analytical approaches are 
+computationally very efficient, robust and also avoids the pitfall of 
+not being able to find true global minima \cite{Oliver.etal:2010}. 
+However, closed form solutions are not available for more complicated 
+material models under general loading conditions, which motivates the 
+development and implementation of numerical approaches 
+\cite{Mosler:2005}. 
+
+Numerical resolution of material instability problem started with the 
+work of Ortiz and coworkers \cite{Ortiz:1987, Ortiz.etal:1987}. 
+\citet{Ortiz.etal:1987} formulated the detection of instability as a 
+constrained minimization problem. A two-step procedure is proposed, 
+where a sweep is performed over the parametric space of possible 
+bifurcation directions, followed by an iterative solve using the 
+Lagrange multiplier to enforce the constraint. The algorithm was 
+applied to the bifurcation analysis of small deformation, isotropic 
+elastoplastic material model with symmetric acoustic tensor. 
+\citet{Mosler:2005} proposed a numerical algorithm based on sweep over 
+discrete parametric space and used the result of the sweep as an 
+initial guess for a Newton method to find a better approximation to 
+the exact minimum of the acoustic tensor and corresponding bifurcation 
+directions. More recently, \citet{Oliver.etal:2010} developed a new 
+efficient algorithm based on the iterative resolution of a coupled 
+eigenvalue problems in terms of the localization tensor. The algorithm 
+is very efficient and is exact for symmetric cases, where material 
+tangent has both major and minor symmetries). However, for unsymmetric 
+cases, the algorithm only gives approximation, which limits its 
+applicability to finite deformation material models, or non-
+associative plasticity material models.
+
+Compared to analytical approaches, the numerical algorithms are more 
+general in the sense that they can be applied to different material 
+models in different loading conditions, for both 2D and 3D problems. 
+However, the drawbacks are also clear: they are much more 
+computational demanding and less robust, e.g., sensitive to the 
+initial guess of an iterative solve. In the context of a non-linear 
+finite element analysis, material instability has to be checked at 
+every integration point and at every time step, the computational 
+efficiency and robustness become major concerns.
+
+In this work, we use a sweep-based algorithm followed by a Newton 
+iterative method to solve the minimization problem of material 
+instability. The normal vector used to construct the acoustic tensor 
+is parametrized by different sets of parameters. The hypothesis is 
+that the parametrization of this normal vector greatly affects the 
+computational cost and robustness of the numerical solution algorithm.  
+To this end, we propose a new cartesian parametrization to construct 
+the acoustic tensor and also critically analyze other common and 
+uncommon parametrizations. The numerical algorithms developed in this 
+work is general and is applicable to both small and finite deformation 
+material models with symmetric or unsymmetric tangents. The focus is 
+on the computational efficiency and robustness of different 
+parametrizations.
 
 \section{General Framework}
 
@@ -142,9 +207,9 @@ incremental variational constitutive updates. Within this framework,
 an incremental stress potential embodies the constitutive behavior of
 the material during a time increment, including elasticity,
 viscoelasticity, viscoplasticity, and rate dependence
-\citep{Ortiz.Stainier:1999, Lambrecht.Miehe.Dettmar:2003,
-  Miehe.Lambrecht.Gurses:2004, Weinberg.etal:2006,
-  Fancello.Ponthot.Stainier:2006, Mosler.Bruhns:2010,
+\citep{Ortiz.Stainier:1999, Lambrecht.etal:2003,
+  Miehe.etal:2004, Weinberg.etal:2006,
+  Fancello.etal:2006, Mosler.Bruhns:2010,
   Bleier.Mosler:2012}.
 
 \subsection{Variational Constitutive Updates}
@@ -329,7 +394,7 @@ Euler-Lagrange equation corresponding to
   \mathbf{0}.
 \end{equation}
 which is a discrete version of Biot's equation
-\eref{eq:Biots-equation} \citep{Miehe:Schotte:Lambrecht:2002}. The
+\eref{eq:Biots-equation} \citep{Miehe.etal:2002}. The
 incremental first Piola-Kirchhoff stress and tangent moduli can be
 computed in turn as
 \begin{equation} \label{eq:incremental-stress-moduli}
@@ -360,7 +425,7 @@ The ellipticity condition can be expressed as
 If the condition holds strictly for non-zero vectors $\bm$ and $\bn$,
 then it is called the strong ellipticity condition
 \citep{Hadamard:1903, Truesdell.Noll:2004,
-  Miehe.Lambrecht.Gurses:2004}. It is customary to \emph{assume} that
+  Miehe.etal:2004}. It is customary to \emph{assume} that
 $\bm$ and $\bn$ are unit vectors, \emph{i.e.} $\bm, \bn \in S^2$ where
 $S^2 := \{ \bt \in \bbR^3 \, | \, \| \bt \| = 1\}$ is the unit
 sphere. Define the acoustic tensor as
@@ -482,7 +547,7 @@ $Q$. The normal vector $\bn$ in terms of the canonical basis is
 
 In the projective parametrization, the norm of the position vector of
 a point $P$ with respect to the center of the sphere is constrained to
-obtain a unit vector $\bn$ \citep{Ortiz.Leroy.Needleman:1986}. This is
+obtain a unit vector $\bn$ \citep{Ortiz.etal:1987}. This is
 equivalent to project the point $P$ onto the unit sphere $S^2$, as
 shown in Figure~\ref{fig:projective}.  The normalization is effected
 by means of a constraint enforced by a Lagrange multiplier as
@@ -1445,7 +1510,8 @@ robust parametrizations, i.e., they are more likely to have
 convergence issues, which is expected given the complicated shape of
 the minimization function $\det\bA$.
 
-\bibliographystyle{plainnat}
+%\bibliographystyle{plainnat}
+\bibliographystyle{unsrtnat}
 \bibliography{acpami}
 
 \end{document}
