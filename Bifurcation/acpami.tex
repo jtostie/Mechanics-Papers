@@ -134,19 +134,20 @@ brief historical overview of the development of classical localization
 analysis.
 
 In the context of finite element analysis, existing approaches to 
-detect material instability as well as the bifurcation direction 
+detect material instability as well as the bifurcation directions 
 generally fall into two categories, i.e., analytical and numerical 
 approaches.
 
 For selected material models under specific loading conditions, 
 analytical solution of the instability problem can be derived. For 
 instance, \citet{Oliver.Huespe:2004} provided closed-form solutions 
-for detection of singularity of the localization tensor for a wide 
-class of small-deformation isotropic and anisotropic damage models. 
+for the detection of singularity of the localization tensor for a wide 
+class of small-deformation isotropic and anisotropic damage models. On 
+the basis of the general Hadamard instability criterion, 
 \citet{Xue.Belytschko:2010} derived a closed-form expression to 
 determine the onset of instability and the bifurcation directions for 
-a small deformation damage model. The analytical approaches are 
-computationally very efficient, robust and also avoids the pitfall of 
+a particular damage plasticity model. These analytical approaches are 
+computationally very efficient, robust and can avoid the pitfall of 
 not being able to find true global minima \cite{Oliver.etal:2010}. 
 However, closed form solutions are not available for more complicated 
 material models under general loading conditions, which motivates the 
@@ -158,7 +159,7 @@ work of Ortiz and coworkers \cite{Ortiz:1987, Ortiz.etal:1987}.
 \citet{Ortiz.etal:1987} formulated the detection of instability as a 
 constrained minimization problem. A two-step procedure is proposed, 
 where a sweep is performed over the parametric space of possible 
-bifurcation directions, followed by an iterative solve using the 
+bifurcation directions and is followed by an iterative solve using the 
 Lagrange multiplier to enforce the constraint. The algorithm was 
 applied to the bifurcation analysis of small deformation, isotropic 
 elastoplastic material model with symmetric acoustic tensor. 
@@ -170,7 +171,7 @@ directions. More recently, \citet{Oliver.etal:2010} developed a new
 efficient algorithm based on the iterative resolution of a coupled 
 eigenvalue problems in terms of the localization tensor. The algorithm 
 is very efficient and is exact for symmetric cases, where material 
-tangent has both major and minor symmetries). However, for unsymmetric 
+tangent has both major and minor symmetries. However, for unsymmetric 
 cases, the algorithm only gives approximation, which limits its 
 applicability to finite deformation material models, or non-
 associative plasticity material models.
@@ -195,9 +196,7 @@ To this end, we propose a new cartesian parametrization to construct
 the acoustic tensor and also critically analyze other common and 
 uncommon parametrizations. The numerical algorithms developed in this 
 work is general and is applicable to both small and finite deformation 
-material models with symmetric or unsymmetric tangents. The focus is 
-on the computational efficiency and robustness of different 
-parametrizations.
+material models with symmetric or unsymmetric tangents. 
 
 \section{General Framework}
 
