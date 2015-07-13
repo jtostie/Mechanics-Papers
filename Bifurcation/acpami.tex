@@ -190,13 +190,13 @@ In this work, we use a sweep-based algorithm followed by a Newton
 iterative method to solve the minimization problem of material 
 instability. The normal vector used to construct the acoustic tensor 
 is parametrized by different sets of parameters. The hypothesis is 
-that the parametrization of this normal vector greatly affects the 
-computational cost and robustness of the numerical solution algorithm.  
-To this end, we propose a new cartesian parametrization to construct 
-the acoustic tensor and also critically analyze other common and 
-uncommon parametrizations. The numerical algorithms developed in this 
-work is general and is applicable to both small and finite deformation 
-material models with symmetric or unsymmetric tangents. 
+that the parametrization of this normal vector significantly affects 
+the computational cost and robustness of the numerical solution 
+algorithm. To this end, we propose a new Cartesian parametrization to 
+construct the acoustic tensor and also critically analyze other common 
+and uncommon parametrizations. The numerical algorithms developed in 
+this work is general and is applicable to both small and finite 
+deformation material models with symmetric or unsymmetric tangents. 
 
 \section{General Framework}
 
@@ -462,6 +462,7 @@ parameters $\bq$, thus turning the determinant of the acoustic tensor
 $\det \bA$ into a function of $\bq$.  Then the determinant of the
 acoustic tensor $\det \bA(\bq)$ is minimized with respect to
 $\bq$. Thus the loss of strong ellipticity may be stated as
+
 \begin{equation} \label{eq:minimization-determinant}
   f(\bq) := \det \bA(\bq),
   \quad
@@ -469,11 +470,14 @@ $\bq$. Thus the loss of strong ellipticity may be stated as
   \quad
   \bn(\bq) \in S^2.
 \end{equation}
+
 If the determinant function $f(\bq)$ is differentiable, the
 minimization problem can be rewritten equivalently as
+
 \begin{equation}\label{eq:minimization-derivative}
   \frac{\partial f}{\partial \bq}(\bq) = \mathbf{0},
 \end{equation}
+
 which can be solved by standard numerical optimization techniques,
 \emph{e.g.} a Newton-type iterative procedure.
 
@@ -497,13 +501,16 @@ reference originates from the center of each one.
 \subsection{Spherical Parametrization}
 \label{subsec:spherical}
 
-Elements $\bn$ of the unit sphere $S^2$ are simply parametrized by
-their spherical coordinates with polar angle $\varphi \in [0, \pi]$,
-azimuthal angle $\theta \in [0, \pi]$ and radial distance $r = \|
-\bn \| = 1$. The reduced range in the angle $\theta$ is due to
-symmetry of the bifurcation condition, as for this purpose $\bn$ and
-$- \bn$ will yield the same result, see Figure~\ref{fig:spherical}. In
-terms of the canonical basis
+Spherical parametrization is the most commonly used in the numerical 
+bifurcation analysis, e.g., \cite{Mosler:2005, Regueiro.Foster:2011}. 
+In Spherical parametrization, elements $\bn$ of the unit sphere $S^2$ 
+are simply parametrized by their spherical coordinates with polar 
+angle $\varphi \in [0, \pi]$, azimuthal angle $\theta \in [0, \pi]$ 
+and radial distance $r = \|\bn \| = 1$. The reduced range in the angle 
+$\theta$ is due to symmetry of the bifurcation condition, as for this 
+purpose $\bn$ and $- \bn$ will yield the same result, see Figure~
+\ref{fig:spherical}. In terms of the canonical basis
+
 \begin{equation}
   \bn(\varphi, \theta)
   :=
@@ -548,7 +555,7 @@ In the projective parametrization, the norm of the position vector of
 a point $P$ with respect to the center of the sphere is constrained to
 obtain a unit vector $\bn$ \citep{Ortiz.etal:1987}. This is
 equivalent to project the point $P$ onto the unit sphere $S^2$, as
-shown in Figure~\ref{fig:projective}.  The normalization is effected
+shown in Figure~\ref{fig:projective}. The normalization is effected
 by means of a constraint enforced by a Lagrange multiplier as
 \begin{equation}
   \bn(x,y,z)
@@ -631,16 +638,25 @@ the canonical basis as
 \subsection{Cartesian Parametrization}
 \label{subsec:Cartesian}
 
-The strong ellipticity condition
+All the previous four common or uncommon parametrizations are 
+parametrizations of the unit sphere. Here, we propose a new 
+parametrizations, termed Cartesian, where such restriction of the 
+normal vector is relaxed.
+
+To set the stage for the Cartesian parametrization, we revisit the 
+strong ellipticity condition
+
 \begin{equation}
   (\bu \otimes \bv) : \bbC : (\bu \otimes \bv) > 0,
   \quad
   \forall \, \bu, \bv \in \bbR^3 \setminus \{\mathbf{0}\}
 \end{equation}
-only requires that the vectors $\bu$ and $\bv$ be non-zero. Thus, the
-condition that they belong to the unit sphere $S^2$ may be relaxed. In
-analogy to the classical acoustic tensor \eref{eq:acoustic-tensor},
-define
+
+Note that this condition only requires that the vectors $\bu$ and $\bv
+$ be non-zero. Thus, the condition that they belong to the unit sphere 
+$S^2$ may be relaxed. In analogy to the classical acoustic tensor 
+\eref{eq:acoustic-tensor}, define
+
 \begin{equation} \label{eq:Cartesian-acoustic-tensor}
   \bB := \bv \cdot \bbC \cdot \bv
   \quad \text{or} \quad
@@ -648,14 +664,18 @@ define
   \quad
   \bv \in \bbR^3 \setminus \{\mathbf{0}\},
 \end{equation}
+
 thus the strong ellipticity condition may be expressed as
+
 \begin{equation} \label{eq:Cartesian-acoustic-ellipticity}
   \bu \cdot \bB \cdot \bu > 0,
   \quad
   \bu \in \bbR^3 \setminus \{\mathbf{0}\}.
 \end{equation}
+
 As in \eref{eq:acoustic-determinant}, the strong ellipticity
 condition becomes
+
 \begin{equation} \label{Cartesian-acoustic-determinant}
   \det \bB > 0.
 \end{equation}
@@ -679,8 +699,10 @@ condition becomes
     \quad
     \bn := \frac{\bv}{v} \in S^2,
   \end{equation}
+  
   therefore from \eref{eq:acoustic-ellipticity} and
   \eref{eq:Cartesian-acoustic-ellipticity}
+  
   \begin{equation} \label{eq:Cartesian-from-acoustic}
       \bB(v, \bn)
       =
@@ -688,7 +710,9 @@ condition becomes
       \quad \text{and} \quad
       \det \bB(v, \bn) = v^6 \det \bA(\bn).
   \end{equation}
+  
   Now let the bifurcation condition for $\bA$ be
+  
   \begin{equation}
     \min_{\bn} \det \bA(\bn) = 0,
     \quad
@@ -696,7 +720,9 @@ condition becomes
     \quad
     \det \bA(\bn) > 0 \, \forall \, \bn \neq \ba,
   \end{equation}
+  
   then it follows from \eref{eq:Cartesian-from-acoustic} that
+  
   \begin{equation}
     \det \bB(s, \ba) = 0,
     \quad
@@ -704,7 +730,9 @@ condition becomes
     \quad \forall \, \bn \neq \ba
     \text{ and } \forall \, s \in \bbR^+,
   \end{equation}
+  
   which means that
+  
   \begin{equation}
     \min_{v, \bn} \det \bB(v, \bn) = 0,
     \quad
@@ -712,6 +740,7 @@ condition becomes
     \,
     \forall \, s \in \bbR^+,
   \end{equation}
+  
   as required.
 \end{proof}
 
@@ -719,6 +748,7 @@ In order to remove the multiple minima associated with the arbitrary
 value of the scalar parameter $s$ and obtain a parametrization, we
 restrict the range of the Cartesian coordinates such that $x,y,z \in
 [-1,1]$ and set the normal vector to
+
 \begin{equation}
   \bv(x,y,z)
   :=
@@ -740,6 +770,7 @@ restrict the range of the Cartesian coordinates such that $x,y,z \in
     \text{ otherwise }.
   \end{cases}
 \end{equation}
+
 This confines the normal vector to the cube of side length $2$
 centered at the origin as shown in Figure~\ref{fig:Cartesian}. Only
 three faces of the cube need to be considered due to the symmetry of
@@ -776,27 +807,27 @@ the bifurcation condition.
 \section{Bifurcation Detection}
 \label{sec:detection}
 
-Within an incremental update setting, the detection of the bifurcation
-condition for each time increment using any of the parametrizations
-just described may be effected by the following procedure:
+Within an incremental update setting, the numerical detection of the bifurcation condition for each time increment using any of the parametrizations just described consists of the following two steps:
 
 \begin{itemize}
   
-\item An initial coarse sampling is performed over the parametric
-  space for $\bq$ for the normal vector $\bn \in S^2$ or $\bv \in
-  \bbR^3 \setminus \{\mathbf{0}\}$ associated with the
-  parametrization. This leads to a coarse estimate of the determinant
-  function $f(\bq)$.
+\item STEP 1: An initial coarse sampling is performed over the 
+parametric space for $\bq$ for the normal vector $\bn \in S^2$ or $\bv 
+\in \bbR^3 \setminus \{\mathbf{0}\}$ associated with the 
+parametrization. This leads to a coarse estimate of minimum of the 
+determinant function \eqref{eq:minimization-determinant} and the 
+associated bifurcation directions.
   
-\item The coarse estimate is used to initiate a Newton-type iterative
-  procedure to find a better approximation to the minimum.
-
+\item STEP 2: The coarse estimate is used to initiate a Newton-type 
+iterative procedure to find a more accurate estimate of onset of 
+bifurcation and its associated directions.
 
 \end{itemize}
 
-This simple procedure may not yield estimates of the bifurcation
-condition that are accurate enough. One way to improve the solution is
-to introduce adaptive time increments. Define
+In an actual finite element simulation, the above two-step procedure 
+may not yield estimates of the bifurcation condition that are accurate 
+enough due to finite time increment. One way to improve the solution 
+is to introduce adaptive time increments. Define
 
 \begin{equation} \label{eq:general-minimization-problem}
   \mu_n := \min_{\bq} f_n(\bq) = \min_{\bq} \det \bB_n(\bq)
@@ -818,7 +849,7 @@ better estimate for the determinant function $\mu_n$, and hence the
 bifurcation time $t_n$, such that $\mu_n / \mu_0 \le \epsilon$. This 
 is achieved by an adaptive time increment procedure by means of 
 bisection, as shown in Algorithm~\ref{alg:adaptive-step}. This 
-algorithm essentially cut the time increment to half until the 
+algorithm repeatedly cut the time increment to half until the 
 convergence criteria $\mu_n / \mu_0 \le \epsilon$ is met.
 
 \begin{algorithm}
