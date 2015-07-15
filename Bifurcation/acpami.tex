@@ -138,18 +138,18 @@ detect material instability as well as the bifurcation directions
 generally fall into two categories, i.e., analytical and numerical 
 approaches.
 
-For selected material models under specific loading conditions, 
-analytical solution of the instability problem can be derived. For 
+For certain material models under specific loading conditions, 
+analytical solutions of the instability problem can be derived. For 
 instance, \citet{Oliver.Huespe:2004} provided closed-form solutions 
 for the detection of singularity of the localization tensor for a wide 
-class of small-deformation isotropic and anisotropic damage models. On 
+class of small deformation isotropic and anisotropic damage models. On 
 the basis of the general Hadamard instability criterion, 
 \citet{Xue.Belytschko:2010} derived a closed-form expression to 
 determine the onset of instability and the bifurcation directions for 
 a particular damage plasticity model. These analytical approaches are 
 computationally very efficient, robust and can avoid the pitfall of 
 not being able to find true global minima \cite{Oliver.etal:2010}. 
-However, closed form solutions are not available for more complicated 
+However, closed-form solutions are not available for more complicated 
 material models under general loading conditions, which motivates the 
 development and implementation of numerical approaches 
 \cite{Mosler:2005}. 
@@ -177,7 +177,7 @@ applicability to finite deformation material models, or non-
 associative plasticity material models. \citet{Boussaa-Aravas:2001} 
 proposed an alternative approach where the numerical and symbolic 
 computations were combined to detect the loss of strong ellipticity 
-and were applied to a Gurson-type porous material.
+and applied this approach to a Gurson-type porous material.
 
 Compared to the analytical approaches, the numerical algorithms are 
 more general in the sense that they can be applied to different 
@@ -993,15 +993,17 @@ We adopt the following evolution law for the scalar damage parameter $
 \end{equation}
 
 where $\xi_{\infty}$ describes the dimensionless maximum damage and
-$\tau$ is referred to as the damage saturation parameter. $s \in
-[0,t]$ denotes the history variable. The parameter $\alpha$ is the
-maximum thermodynamic force \cite{Holzapfel:2000}
+$\tau$ is referred to as the damage saturation parameter. The 
+parameter $\alpha$ is the maximum thermodynamic force 
+\cite{Holzapfel:2000} with the same dimension as the effective strain 
+energy. Within the closed time interval $[0,t]$, $\alpha$ is given as
 
 \begin{equation}
   \alpha(t) = \max_{s\in [0,t]}\Psi_0(s)
 \end{equation}
 
 where $\Psi_0(s)$ is the undamaged strain energy at time $s$.
+$s \in [0,t]$ denotes the history variable.
 
 Given the strain-energy function \eref{eq:iso_psi} and the damage
 evolution \eref{eq:iso_xi}, the fourth-order tangent modulus can be
@@ -1014,10 +1016,11 @@ respect to the strain measure $\bepsilon_e$, which results in
     (\bsigma_0\otimes\bsigma_0)
 \end{equation}
 
-where $\beta = 1$ if damage evolves within the time increment and 
-$\beta=0$ otherwise. This tangent modulus will be used to compute the 
-acoustic tensor \eref{eq:acoustic-tensor}, which will then be checked 
-for material bifurcation.
+where $\bsigma_0$ is the effective (undamaged) Cauchy stress. 
+$\beta = 1$ if damage evolves within the time increment and $\beta=0$ 
+otherwise. This tangent modulus will be used to compute the acoustic 
+tensor \eref{eq:acoustic-tensor}, which will then be checked for 
+material bifurcation.
 
 \subsubsection{Simple shear test}
 
@@ -1091,7 +1094,7 @@ the parametric space. For instance, for spherical parametrization,
 there are two independent parameters, $\varphi$ and $\theta$. 
 Therefore, $dim=2$ for spherical parametrization.
 
-It can be seen from Table \ref{tab:iso_shear_runtime}, as the number 
+It can be seen from Table~\ref{tab:iso_shear_runtime}, as the number 
 of sampling points $N$ per dimension decreases, so does the 
 computational cost. The spherical and the Cartesian parametrizations 
 are the most efficient. The stereographic, projective and tangent are 
@@ -1135,7 +1138,7 @@ complexity of the objective function ${\rm det}\bA$ in
 \eref{eq:minimization-derivative}, which in turn affects the 
 computational efficiency and robustness of different parametrizations 
 on detection of material bifurcation as shown in 
-Table \ref{tab:iso_shear_runtime}. To illustrate this point, the 
+Table~\ref{tab:iso_shear_runtime}. To illustrate this point, the 
 landscapes of the objective function ${\rm det}\bA$ at bifurcation, 
 i.e., at $\bepsilon_{12}=0.0559$ are plotted in 
 Figure~\ref{fig:iso_shear_detA}. The corresponding plane views of the 
@@ -1192,7 +1195,7 @@ stereographic and tangent parametrizations.
 The Cartesian parametrization results in a simple `bowl-shaped' 
 objective function, which makes the Newton-type iterative solve 
 particularly robust and insensitive to the initial guess. This has 
-been shown in Table \ref{tab:iso_shear_runtime} and will be 
+been shown in Table~\ref{tab:iso_shear_runtime} and will be 
 elaborated further when the initial sweep is eliminated. 
 
 To further analyze the robustness of different parametrizations, we 
@@ -1265,7 +1268,7 @@ robustness study results.
    \caption{Isotropic small deformation model: results of Newton 
    iterative solve with a single random initial point plotted on the 
    contour of determinant function at bifurcation. A solid circle 
-   ($\bullet$) means the initial point leads to success detection of 
+   ($\bullet$) means the initial point leads to a success detection of 
    bifurcation and its directions. A cross ($\times$) means the Newton 
    iterative solve fails. A total of 1000 random trials are performed 
    for each parametrization.}
@@ -1359,9 +1362,7 @@ function with respect to some strain measures, in particular
    - \sum_i^n \beta_i \xi_i' (\bS_i^0 \otimes \bS_i^0 )
 \end{equation}
 
-where $\beta_m\neq 0$ if and only if damages evolves in matrix, and
-$\beta_i \neq 0$ if and only if damages evolves in fiber $i$. The 
-effective tangent modulus tensor is given by
+where $\bS_m^0$ and $\bS_i^0$ are the effective (undamaged) second Piola-Kirchhoff stress for the matrix and the $i$th fibers, respectively. $\beta_m = 1$ if damage of the matrix evolves within the time increment and $\beta_m=0$ otherwise. $\beta_i = 1$ if damage of the $i$th fiber evolves within the time increment and $\beta_i=0$ otherwise.The effective tangent modulus tensor is given by
 
 \begin{equation}\label{eq:aniso_tangent1}
   \tilde{\mathbb{C}}_m^0 = 
@@ -1381,13 +1382,13 @@ tangent $\mathbb{C}$ to be computed as a derivative with respect to
 the deformation gradient. These two tangents can be converted using 
 the following relation (in indicial notation)
 
-\begin{equation}
-  \mathbb{C}_{ijkl} = S_{lj}\delta_{ik}
+\begin{equation}\label{eq:aniso_tangent3}
+  \mathbb{C}_{ijkl} = S_{lj}^0\delta_{ik}
     + F_{ip} \tilde{\mathbb{C}}_{pjlq} F_{kq}
 \end{equation}
 
-where $\bS$ is the 2nd Piola-Kirchhoff tensor, $\bdelta$ is the 
-Kronecker delta and $\bF$ is the deformation gradient.
+where $S_{lj}^0$ is the effective second Piola-Kirchhoff stress of the corresponding phase (e.g., matrix or fiber component). $\bdelta$ is the 
+Kronecker delta and $\bF$ is the deformation gradient. Note that in \eref{eq:aniso_tangent3}, the indices in the subscript refer to the individual component of a tensor, not to confuse with the subscripts '$m$' and '$i$' used in \eref{eq:aniso_tangent} to represent different phases.
 
 \subsubsection{Uniaxial tension test}
 
@@ -1471,7 +1472,7 @@ bifurcation, as detailed in Section~\ref{sec:detection}. Figure~
 determinant function for all five parametrizations upto the point 
 material bifurcation is detected. In this loading test, all five 
 parametrizations detect bifurcation at the same time, i.e., when the 
-axial component of the deformation gradient $F_11 = 1.1954$. 
+axial component of the deformation gradient $F_{11} = 1.1954$. 
 
 \begin{figure}[H]
   \centering \subfigure[]{
@@ -1683,7 +1684,7 @@ marked as a cross ($\times$).
    \caption{Anisotropic finite deformation model: results of Newton 
    iterative solve with a single random initial point plotted on the 
    contour of determinant function at bifurcation. A solid circle 
-   ($\bullet$) means the initial point leads to success detection of 
+   ($\bullet$) means the initial point leads to a success detection of 
    bifurcation and its directions. A cross ($\times$) means the Newton 
    iterative solve fails. A total of 1000 random trials are performed 
    for each parametrization.}
