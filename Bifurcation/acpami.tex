@@ -611,8 +611,8 @@ by means of a constraint enforced by a Lagrange multiplier as
   \quad
   \text{subjected to}~x^2+y^2+z^2 = 1.
 \end{equation}
-where 
-
+where the parameters $x \in [-1, 1]$, $y \in [-1, 1]$ 
+and $z \in [-1, 1]$.
 \subsection{Tangent Parametrization}
 \label{subsec:tangent}
 
@@ -1366,11 +1366,18 @@ function with respect to some strain measures, in particular
   \tilde{\mathbb{C}} 
    = (1-\xi_m) f_m \tilde{\mathbb{C}}_m^0 
    + \sum_i^n (1-\xi_i) f_i \tilde{\mathbb{C}}_i^0
-   -\beta_m \xi_m' f_m (\bS_m^0 \otimes \bS_m^0 )
-   - \sum_i^n \beta_i \xi_i' f_i (\bS_i^0 \otimes \bS_i^0 )
+   -\beta_m \xi_m'  (f_m\bS_m^0 \otimes f_m\bS_m^0 )
+   - \sum_i^n \beta_i \xi_i' (f_i \bS_i^0 \otimes f_i \bS_i^0 )
 \end{equation}
 
-where $\bS_m^0$ and $\bS_i^0$ are the effective (undamaged) second Piola-Kirchhoff stress for the matrix and the $i$th fibers, respectively. $\beta_m = 1$ if damage of the matrix evolves within the time increment and $\beta_m=0$ otherwise. $\beta_i = 1$ if damage of the $i$th fiber evolves within the time increment and $\beta_i=0$ otherwise. $\xi_m'$ and $\xi_i'$ are the derivative of the damage parameters defined in \eref{eq:iso_xi} with respect to the maximum thermodynamic force defined in \eref{eq:alpha}. 
+where $\bS_m^0$ and $\bS_i^0$ are the effective (undamaged) second 
+Piola-Kirchhoff stress for the matrix and the $i$th fibers, 
+respectively. $\beta_m = 1$ if damage of the matrix evolves within the 
+time increment and $\beta_m=0$ otherwise. $\beta_i = 1$ if damage of 
+the $i$th fiber evolves within the time increment and $\beta_i=0$ 
+otherwise. $\xi_m'$ and $\xi_i'$ are the derivative of the damage 
+parameters defined in \eref{eq:iso_xi} with respect to the maximum 
+thermodynamic force defined in \eref{eq:alpha}. 
 
 The effective tangent modulus tensor is given by
 
@@ -1393,12 +1400,18 @@ the deformation gradient. These two tangents can be converted using
 the following relation (in indicial notation)
 
 \begin{equation}\label{eq:aniso_tangent3}
-  \mathbb{C}_{ijkl} = S_{lj}^0\delta_{ik}
+  \mathbb{C}_{ijkl} = f S_{lj}^0\delta_{ik}
     + F_{ip} \tilde{\mathbb{C}}_{pjlq} F_{kq}
 \end{equation}
 
-where $S_{lj}^0$ is the effective second Piola-Kirchhoff stress of the corresponding phase (e.g., matrix or fiber component). $\bdelta$ is the 
-Kronecker delta and $\bF$ is the deformation gradient. Note that in \eref{eq:aniso_tangent3}, the indices in the subscript refer to the individual component of a tensor, not to confuse with the subscripts '$m$' and '$i$' used in \eref{eq:aniso_tangent} to represent different phases.
+where $S_{lj}^0$ is the effective second Piola-Kirchhoff stress of the 
+corresponding phase (e.g., matrix or fiber component), $f$ is the 
+corresponding volume fraction, and $\bdelta$ is the 
+Kronecker delta and $\bF$ is the deformation gradient. Note that in 
+\eref{eq:aniso_tangent3}, the indices in the subscript refer to the 
+individual component of a tensor, not to confuse with the subscripts 
+'$m$' and '$i$' used in \eref{eq:aniso_tangent} to represent different 
+phases.
 
 \subsubsection{Uniaxial tension test}
 
