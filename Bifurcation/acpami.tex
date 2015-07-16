@@ -586,6 +586,8 @@ $Q$. The normal vector $\bn$ in terms of the canonical basis is
   \end{Bmatrix}.
 \end{equation}
 
+where the parameters $x \in [-1, 1]$ and $y \in [-1, 1]$.
+
 \subsection{Projective Parametrization}
 \label{subsec:projective}
 
@@ -609,6 +611,7 @@ by means of a constraint enforced by a Lagrange multiplier as
   \quad
   \text{subjected to}~x^2+y^2+z^2 = 1.
 \end{equation}
+where 
 
 \subsection{Tangent Parametrization}
 \label{subsec:tangent}
@@ -680,6 +683,9 @@ the canonical basis as
     \cos \sqrt{x^2+y^2}
   \end{Bmatrix}.
 \end{equation}
+
+where the parameters $x \in [-\pi / 2, \pi / 2]$ and
+$y \in [-\pi / 2, \pi / 2]$
 
 \subsection{Cartesian Parametrization}
 \label{subsec:Cartesian}
@@ -998,7 +1004,7 @@ parameter $\alpha$ is the maximum thermodynamic force
 \cite{Holzapfel:2000} with the same dimension as the effective strain 
 energy. Within the closed time interval $[0,t]$, $\alpha$ is given as
 
-\begin{equation}
+\begin{equation}\label{eq:alpha}
   \alpha(t) = \max_{s\in [0,t]}\Psi_0(s)
 \end{equation}
 
@@ -1056,7 +1062,7 @@ can be detected.
   }
   \caption{Simple shear test on small deformation 
   isotropic damage model: 
-  (a)stress strain behavior, with red cross indicating bifurcation, and
+  (a)stress strain behavior, with the cross indicating bifurcation, and
   (b) degradation of det$\bA$ for different
   parametrizations upto the point material bifurcation is detected ($\epsilon_{12}=0.0559$).}
   \label{fig:iso_stress_strain}
@@ -1299,15 +1305,17 @@ following form:
 
 \begin{equation}\label{eq:aniso_energy}
   \Psi (\bC, \bM, \xi_m, \xi_i) 
-    = (1-\xi_m) \Psi_m^0(\bC) 
-    + \sum_{i}^{n} (1-\xi_i)\Psi_i^0(\bC, \bM)
+    = (1-\xi_m) f_m \Psi_m^0(\bC) 
+    + \sum_{i}^{n} (1-\xi_i) f_i \Psi_i^0(\bC, \bM)
 \end{equation}
 
 where $\bC$ is the Right Cauchy-Green tensor, $\bM$ is a
-unit vector characterizing the preferred fiber direction. $\xi_m$ and
-$\xi_i$ are the damage factors corresponding to the matrix and the 
-$i$th fibers, respectively. In the following examples, we assume that 
-there are two preferred fiber directions, i.e., $n=2$.
+unit vector characterizing the preferred fiber direction, $f_m$ and 
+$f_i$ are the volume fraction of the matrix and $i$th fiber, $n$ is 
+the number of fiber terms, $\xi_m$ and $\xi_i$ are the damage factors 
+corresponding to the matrix and the $i$th fibers, respectively. In the 
+following examples, we assume that there are two preferred fiber 
+directions, i.e., $n=2$.
 
 We adopt a compressible Neo-Hookean type energy function for the 
 effective (undamaged) matrix component
@@ -1343,26 +1351,28 @@ The strain invariants $I_1$, $I_3$ and $I_4$ are defined as
 \end{equation}
 
 \begin{equation}
-  I_4 = \bM \cdot (\bC \bM)
+  I_4 = \bM \cdot (\bC \cdot \bM)
 \end{equation}
 
 For the damage parameter, the same evolution law as in 
 \eref{eq:iso_xi} will be used, except that for each phase of the 
 material, there will be a different set of parameters \cite{Chen.etal:2014}.
 
-Given the energy function \eref{eq:aniso_energy}, a 4th-order
+Given the energy function \eref{eq:aniso_energy}, the fourth-order
 tangent modulus can be derived by taking derivative of the energy 
 function with respect to some strain measures, in particular
 
 \begin{equation}\label{eq:aniso_tangent}
   \tilde{\mathbb{C}} 
-   = (1-\xi_m)\tilde{\mathbb{C}}_m^0 
-   + \sum_i^n (1-\xi_i) \tilde{\mathbb{C}}_i^0
-   -\beta_m \xi_m' (\bS_m^0 \otimes \bS_m^0 )
-   - \sum_i^n \beta_i \xi_i' (\bS_i^0 \otimes \bS_i^0 )
+   = (1-\xi_m) f_m \tilde{\mathbb{C}}_m^0 
+   + \sum_i^n (1-\xi_i) f_i \tilde{\mathbb{C}}_i^0
+   -\beta_m \xi_m' f_m (\bS_m^0 \otimes \bS_m^0 )
+   - \sum_i^n \beta_i \xi_i' f_i (\bS_i^0 \otimes \bS_i^0 )
 \end{equation}
 
-where $\bS_m^0$ and $\bS_i^0$ are the effective (undamaged) second Piola-Kirchhoff stress for the matrix and the $i$th fibers, respectively. $\beta_m = 1$ if damage of the matrix evolves within the time increment and $\beta_m=0$ otherwise. $\beta_i = 1$ if damage of the $i$th fiber evolves within the time increment and $\beta_i=0$ otherwise.The effective tangent modulus tensor is given by
+where $\bS_m^0$ and $\bS_i^0$ are the effective (undamaged) second Piola-Kirchhoff stress for the matrix and the $i$th fibers, respectively. $\beta_m = 1$ if damage of the matrix evolves within the time increment and $\beta_m=0$ otherwise. $\beta_i = 1$ if damage of the $i$th fiber evolves within the time increment and $\beta_i=0$ otherwise. $\xi_m'$ and $\xi_i'$ are the derivative of the damage parameters defined in \eref{eq:iso_xi} with respect to the maximum thermodynamic force defined in \eref{eq:alpha}. 
+
+The effective tangent modulus tensor is given by
 
 \begin{equation}\label{eq:aniso_tangent1}
   \tilde{\mathbb{C}}_m^0 = 
@@ -1374,7 +1384,7 @@ where $\bS_m^0$ and $\bS_i^0$ are the effective (undamaged) second Piola-Kirchho
     4 \frac{\partial ^2 \Psi_i^0}{\partial\bC \partial\bC}
 \end{equation}
 
-It should be noted that the 4th-order tangent $\tilde{\mathbb{C}}$ 
+It should be noted that the fourth-order tangent $\tilde{\mathbb{C}}$ 
 from \eref{eq:aniso_tangent} is computed as the derivative of strain 
 energy with respect to the right Cauchy-Green tensor. The strong 
 ellipticity condition \eref{eq:strong-ellipticity} requires the 
@@ -1442,6 +1452,14 @@ the matrix and microfibers are listed in Table~
       &
       $\tau_1 = \tau_2 = 4.0$
       \\
+      Volume fraction
+      &
+      $f_m = 0.3$
+      &
+      Volume fraction
+      &
+      $f_1 = f_2 = 0.4$
+      \\      
       &
       
       &
@@ -1484,7 +1502,7 @@ axial component of the deformation gradient $F_{11} = 1.1954$.
   }
   \caption{Uniaxial tension test on finite deformation 
   anisotropic damage model: 
-  (a)stress strain behavior, with red cross indicating bifurcation, and
+  (a)stress strain behavior, with the cross indicating bifurcation, and
   (b) degradation of det$\bA$ for different
   parametrizations.}
   \label{fig:aniso_stress_stretch}
