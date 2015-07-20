@@ -1411,17 +1411,17 @@ the deformation gradient. These two tangents can be converted using
 the following relation (in indicial notation)
 
 \begin{equation}\label{eq:aniso_tangent3}
-  \mathbb{C}_{ijkl} = S_{lj}^0\delta_{ik}
+  \mathbb{C}_{ijkl} = S_{lj} \delta_{ik}
     + F_{ip} \tilde{\mathbb{C}}_{pjlq} F_{kq}
 \end{equation}
 
-where $S_{lj}^0$ is the effective second Piola-Kirchhoff stress of the 
-corresponding phase (e.g., matrix or fiber component), and $\bdelta$ 
-is the Kronecker delta and $\bF$ is the deformation gradient. Note 
-that in \eref{eq:aniso_tangent3}, the indices in the subscript refer 
-to the individual component of a tensor, not to confuse with the 
-subscripts `$m$' and `$i$' used in \eref{eq:aniso_tangent} to 
-represent different phases.
+where $S_{lj}$ is the second Piola-Kirchhoff stress (including 
+damage contribution) of the corresponding phase (e.g., matrix or fiber 
+component), and $\bdelta$ is the Kronecker delta and $\bF$ is the 
+deformation gradient. Note that in \eref{eq:aniso_tangent3}, the 
+indices in the subscript refer to the individual component of a 
+tensor, not to confuse with the subscripts `$m$' and `$i$' used in 
+\eref{eq:aniso_tangent} to represent different phases.
 
 \subsubsection{Uniaxial tension test}
 
@@ -1513,7 +1513,7 @@ bifurcation, as detailed in Section~\ref{sec:detection}. Figure~
 determinant function for all five parametrizations upto the point 
 material bifurcation is detected. In this loading test, all five 
 parametrizations detect bifurcation at the same time, i.e., when the 
-axial component of the deformation gradient $F_{11} = 1.1954$. 
+axial component of the deformation gradient $F_{11} = 1.1999$. 
 
 \begin{figure}[H]
   \centering \subfigure[]{
@@ -1556,18 +1556,18 @@ same time, relatively insensitive to the sampling interval.
       Sampling   & Sampling &   \multicolumn{5}{c}{Run time ($\mu$s)}	\\   
       interval     & points     &  Spherical    &   Stereographic  &   Projective  &   Tangent   & Cartesian  \\
       \midrule         
-      0.05      &      41     &      508     &    351        &       5671       &       368        &      476           \\
-      0.1        &      21     &      291      &    260        &       993         &       275 &      230           \\
-      0.2        &      11     &      n/a      &    225        &       367          &       n/a         &      224            \\
-      0.3        &      7       &      221      &    220         &       327         &       n/a         &      340           \\
-      0.4        &      5       &      283      &    n/a        &       245          &       297        &      205           \\       
-      0.5        &      5       &	  n/a      &    402         &       252          &      405         &      146           \\
-      0.6        &      3       &	  n/a      &    220         &       n/a         &       360        &      183           \\
-      0.7        &      3       &	  n/a     &    395 	      &        n/a         &       205         &      n/a            \\
-      0.8        &      3       &      n/a      &    n/a        &        n/a         &       303        &       n/a            \\	      
-      0.9        &      3       &	  n/a      &    n/a         &        n/a         &       n/a        &       n/a         \\	
-      1.0        &      3       &      n/a      &    n/a	      &       n/a          &       n/a        &       n/a          \\	
-      1.5        &      1       &	  n/a      &    n/a	      &       n/a          &       n/a        &       n/a          \\	       
+      0.05      &      41     &      500     &    403       &       5897       &       389        &      522           \\
+      0.1        &      21     &      427     &    387       &       1053       &       376        &      317           \\
+      0.2        &      11     &      306     &    299       &       380         &       266        &      182           \\
+      0.3        &      7       &      343     &    286       &       345         &       283        &      229           \\
+      0.4        &      5       &      287     &    n/a        &       357         &       n/a         &      n/a            \\       
+      0.5        &      5       &	  n/a      &    330       &       314         &       n/a         &      347           \\
+      0.6        &      3       &	  n/a      &    230       &       n/a          &       251        &      235           \\
+      0.7        &      3       &	  n/a      &    n/a 	     &       n/a          &       310        &      201            \\
+      0.8        &      3       &      n/a      &    n/a        &       n/a          &       n/a         &       n/a            \\	      
+      0.9        &      3       &	  n/a      &    n/a        &       n/a          &       n/a         &       n/a           \\	
+      1.0        &      3       &      n/a      &    n/a	     &       n/a          &       n/a         &       n/a          \\	
+      1.5        &      1       &	  n/a      &    n/a	     &       n/a          &       n/a         &       n/a          \\	     
       \bottomrule
     \end{tabular}
     \caption{Computational cost of different parametrizations in 
@@ -1594,9 +1594,9 @@ parametrizations, as shown in Figures~\ref{fig:aniso_spherical_detA} -
  } \subfigure[$F_{11}=1.1583$]{
    \includegraphics[width=0.45\textwidth]
    {figs/aniso_uniaxial_spherical_detA_F1p1583.pdf}
- } \subfigure[$F_{11}=1.1954$ (bifurcation)]{
+ } \subfigure[$F_{11}=1.1999$ (bifurcation)]{
    \includegraphics[width=0.45\textwidth]
-   {figs/aniso_uniaxial_spherical_detA_F1p1954.pdf}
+   {figs/aniso_uniaxial_spherical_detA_F1p1999.pdf}
  }
    \caption{Spherical parametrization: landscapes of det$\bA$ 
    for uniaxial tension test on finite deformation anisotropic model at
@@ -1614,9 +1614,9 @@ parametrizations, as shown in Figures~\ref{fig:aniso_spherical_detA} -
  } \subfigure[$F_{11}=1.1583$]{
    \includegraphics[width=0.45\textwidth]
    {figs/aniso_uniaxial_stereographic_detA_F1p1583.pdf}
- } \subfigure[$F_{11}=1.1954$ (bifurcation)]{
+ } \subfigure[$F_{11}=1.1999$ (bifurcation)]{
    \includegraphics[width=0.45\textwidth]
-   {figs/aniso_uniaxial_stereographic_detA_F1p1954.pdf}
+   {figs/aniso_uniaxial_stereographic_detA_F1p1999.pdf}
  }
    \caption{Stereographic parametrization: landscapes of det$\bA$ 
    for uniaxial tension test on finite deformation anisotropic model at
@@ -1634,9 +1634,9 @@ parametrizations, as shown in Figures~\ref{fig:aniso_spherical_detA} -
  } \subfigure[$F_{11}=1.1583$]{
    \includegraphics[width=0.45\textwidth]
    {figs/aniso_uniaxial_tangent_detA_F1p1583.pdf}
- } \subfigure[$F_{11}=1.1954$ (bifurcation)]{
+ } \subfigure[$F_{11}=1.1999$ (bifurcation)]{
    \includegraphics[width=0.45\textwidth]
-   {figs/aniso_uniaxial_tangent_detA_F1p1954.pdf}
+   {figs/aniso_uniaxial_tangent_detA_F1p1999.pdf}
  }
    \caption{Tangent parametrization: landscapes of det$\bA$ 
    for uniaxial tension test on finite deformation anisotropic model at
@@ -1654,9 +1654,9 @@ parametrizations, as shown in Figures~\ref{fig:aniso_spherical_detA} -
  } \subfigure[$F_{11}=1.1583$]{
    \includegraphics[width=0.45\textwidth]
    {figs/aniso_uniaxial_cartesian_detA_F1p1583.pdf}
- } \subfigure[$F_{11}=1.1954$ (bifurcation)]{
+ } \subfigure[$F_{11}=1.1999$ (bifurcation)]{
    \includegraphics[width=0.45\textwidth]
-   {figs/aniso_uniaxial_cartesian_detA_F1p1954.pdf}
+   {figs/aniso_uniaxial_cartesian_detA_F1p1999.pdf}
  }
    \caption{Cartesian parametrization: landscapes of det$\bA$ 
    for uniaxial tension test on finite deformation anisotropic model at
@@ -1692,9 +1692,9 @@ parametrization is most robust and at the same time, computationally efficient.
       \toprule
         &  Spherical    &   Stereographic   & Projective   &   Tangent   &   Cartesian                 \\
       \midrule
-      Success rate ($\%$)                      &    26.6    &    28.9    &    83.4     &    43.2     &   91.8          \\ 
-      Averaged iteration count                         &    6.95    &    6.66    &    9.63     &    8.70     &   8.67          \\
-      Averaged run time (${\mu}s$)     &    305     &    283     &    468      &    373      &     254         \\
+      Success rate ($\%$)                      &    25.5    &    17.9     &    81.5     &    41.6     &     83.1          \\ 
+      Averaged iteration count               &    5.91    &    6.18    &    8.99     &    9.98    &    7.85         \\
+      Averaged run time (${\mu}s$)     &    334     &    288     &    535      &    488      &    268         \\
       \bottomrule
     \end{tabular}
     \caption{Anisotropic finite deformation model: success rate and computational cost of Newton iterative solve with a single random initial point. A total of 1000 random trials are performed for each parametrization.}
