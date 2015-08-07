@@ -863,16 +863,16 @@ Within an incremental update setting, the numerical detection of the bifurcation
 
 \begin{itemize}
   
-\item STEP 1: An initial coarse sampling is performed over the 
+\item An initial sampling is performed over the 
 parametric space for $\bq$ for the normal vector $\bn \in S^2$ or $\bv 
 \in \bbR^3 \setminus \{\mathbf{0}\}$ associated with the 
-parametrization. This leads to a coarse estimate of minimum of the 
+parametrization. This leads to a rough estimate of minimum of the 
 determinant function \eqref{eq:minimization-determinant} and the 
 associated bifurcation directions.
   
-\item STEP 2: The coarse estimate is used to initiate a Newton
-iterative procedure to find a more accurate estimate of the onset of 
-bifurcation and its associated directions.
+\item The coarse estimate can be used to initiate an iterative 
+procedure to find a more accurate estimate of the onset of bifurcation 
+and its associated directions by solving the optimization problem in \eqref{eq:minimization-derivative}. 
 
 \end{itemize}
 
