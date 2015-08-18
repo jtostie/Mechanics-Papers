@@ -1,7 +1,9 @@
 Cases:
 
-1. vary diffusivity
+1. transient, no deformation, same diffusivity, D_{fast} = 10^3*D
+2. transient, deformation along x, same diffusivity, D_{fast} = 10^3*D
+3. transient, deformation along y, same diffusivity, D_{fast} = 10^3*D
 
 Locked down: "realistic" h, "converged" mesh size, "converged" time step
 
-diffusivity -> D_{fast} = 10^3*D, 10^4*D, 10^5*D
+Total simulations: 6
