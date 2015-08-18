@@ -1,0 +1,12 @@
+Cases:
+
+1. transient, no deformation, vary h 
+2. transient, deformation, vary h
+3. transient, deformation, fast-pathway
+   a. vary h
+   b. vary mesh size
+   c. vary diffusivity
+   
+variation in h -> 1.0e-2, 1.0e-3, 1.0e-4
+variation in D_{fast} -> 1.0e3*D, 1.0e4*D, 1.0e5*D
+variation in mesh size -> coarse, medium, fine

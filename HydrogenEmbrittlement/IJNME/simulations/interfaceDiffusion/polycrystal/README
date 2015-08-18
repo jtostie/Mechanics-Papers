@@ -1,0 +1,7 @@
+Cases:
+
+1. vary diffusivity
+
+Locked down: "realistic" h, "converged" mesh size, "converged" time step
+
+diffusivity -> D_{fast} = 10^3*D, 10^4*D, 10^5*D

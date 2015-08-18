@@ -149,15 +149,15 @@
 %
 \title{Finite-deformation diffusion of hydrogen in stainless steel alloys}
 
-\author[SNL]{J.W. Foulk III\corref{cor1}}\ead{jwfoulk@sandia.gov} \author[UC]{W. Sun}\author[NW]{G.J. Wagner}\author[SNL]{J.T. Ostien}\author[SNL]{A. Mota}
-\author[UCB]{G.L. Bergel} \cortext[cor1]{Corresponding author}
+\author[SNL]{J.W. Foulk III\corref{cor1}}\ead{jwfoulk@sandia.gov} \author[UC]{W. Sun}\author[NW]{G.J. Wagner}\author[SNL]{J.T. Ostien}
+\author[UCB]{G.L. Bergel} \cortext[cor1]{Corresponding author}\author[SNL]{A. Mota}
 \address[SNL]{Sandia National Laboratories, Livermore, CA, 94550, USA}
 \address[UC]{Columbia University, New York, NY, 10027, USA}
 \address[NW]{Northwestern University, Evanston, IL, 60208, USA}
 \address[UCB]{University of California, Berkeley, Berkeley, CA 94720, USA}
 %------------------------ abstract ----------------------
 \begin{abstract}
-In this work we seek to derive the hydrogen transport equation in both the reference and current configuration given constitutive assumptions in each configuration. \end{abstract}
+In this work, we revisit hydrogen transport and trapping under finite deformations for both bulk and surface approaches. Consistent assumptions regarding the flux and the expression of lattice and trapping sites in the reference configuration yield a simplified balance law in the reference configuration expressed in terms of the Cauchy-Green tensor and the Kirchhoff pressure. We illustrate the effects of deformation on transient diffusion for idealized configurations. We also develop surface element gradient operators to facilitate both deformation and transport through and along interfaces. Fast pathways for diffusion are investigated through both regular and tessellated structures. These approaches are then applied to a crack tip to illustrate the utility of the coupled methodology.\end{abstract}
 %------------------------ abstract ----------------------
 \begin{keyword}
 hydrogen \sep transport \sep coupling \sep embrittlement
@@ -456,129 +456,6 @@ The resultant finite dimensional trial and weighting spaces for $\bu$, $C_{L}$ a
     \end{eqnarray}
 where $n_{np}$ denotes the number of nodal points per element.     
 
-\subsection{Stabilization procedure}
-For stainless steel or other materials with very low diffusivity, the transient hydrogen
-transport simulation may exhibits spurious oscillation if standard Galerkin method is
-used without introducing proper stabilization. This spurious oscillation may exist
-with or without boundary layer, and can lead to misleading, mesh dependent hydrogen profiles. Harari analyzed this numerous deficiency in \citep{Harari:2004} and found that spurious oscillation occurs in the linear transient diffusivity problem if the following condition holds, 
-\begin{equation}
-\label{eq:StabilityLimit} \frac{D^{*}}{D_{L}} < \frac{6 \vartheta \Delta t}{h^{2}}
-\end{equation}
-where $h$ is the mesh size, $\Delta t$ is the time step size and $\vartheta \in [0,1]$
-is the integration parameter which leads to backward Euler scheme if $\vartheta = 1$
-and forward Euler scheme if $\vartheta = 0$. One of the feasible cure to the
-pathological mesh dependence is to introduce stabilization schemes such that
-the spurious mode is eliminated from the numerical solutions without introducing
-significant over-diffusion. Artificial diffusion,
-lumped mass, Petrov-Galerkin, Galerkin least square, finite increment calculus and
-projection based stabilization procedures are some of the commonly used
-procedures available in finite element method literature \citep{Onate:2000,
-Dohrmann:2004, Johnson:2009, Sun:2013}. 
-In this study, we adopt an adaptive projection based stabilization procedure
-originated in \citep{Sun:2013}. In this formulation,  a stabilization term is introduced into the residual of the weak
-form of the transport equation \eqref{eq.hconservationref5}, i.e.,
-\begin{equation}
-\label{eq:stabilization2} R^{stab}(v, C_{L}) = \sum_{K \in \Omega}  \int_{K}  \Big( v  - \Pi (v)  \Big)  \gamma D^{*} \Big( C_{L} - \Pi (C_{L}) \Big)  dV
-\end{equation}
-$\Pi(\cdot)$ is a $L^{2}$ projection operator that projects $C_{L}$ onto a piecewise constant $\Pi (C_{L})$ and $\gamma$ is the stabilization parameter. One may think of the stabilization term in \eqref{eq:stabilization2} as a penalty that limits how much the data at one node affect the solution at all nodes, and therefore constrains spatial oscillations when near the hyperbolic limit with $D=0$ (note: in standard Galerkin method with consistent mass, the data at one node always affect all solution at all nodes even when $D=0$).
-
-To illustrate this point and for the completeness of presentation, we briefly revisit the stabilized formulation here. Consider hydrogen transport in a 1D bar at which linearized transient diffusion neglecting the hydrostatic
-stress term reads, 
-\begin{equation}
-\label{eq:perturbationP}  D \frac{ \partial^{2} C_{L} }{\partial x^{2}} =  \frac{\partial C_{L}}{\partial t},
-\end{equation} 
-where $D=D_{L}/D^{*}$. Equations taking the form of \eqref{eq:perturbationP} can be
-discretized in time and that leads to a modified Helmholtz operator in
-space \citep{Harari:2004}, which reads,
-\begin{equation}
-\label{eq:semidisform}
-C_{L}^{n+1} + \vartheta  D \Delta t \frac{\partial^{2}}{\partial x^{2} }C_{L}^{n+1} = C_{L}^{n} - (1-\vartheta) D \Delta t \frac{\partial^{2}}{\partial x^{2}} C_{L}^{n} 
-\end{equation}
-where $C_{L}^{i}$ denotes the lattice concentration of hydrogen at $i$-th time step.
- Without introducing any boundary
-conditions, \eqref{eq:semidisform} has an exact solution that reads
-\citep{Harari:2004},
-\begin{equation}
-  \label{eq:FreeexactSol} 
-  C_{L}(x) = \exp ( \pm x/\sqrt{\vartheta D \Delta t}) 
-\end{equation}
-Notice that the finite element approximate growth and decay rate of
-the solution can be determined by assuming that $x_{A} = Ah$ such
-that,
-\begin{equation}
-  \label{eq:approxgrow} 
-  C_{L}^{A} = \exp ( \pm  (h/  (\sqrt{\vartheta D \Delta t})^{h} )^{A}
-\end{equation}
-where $\sqrt{\vartheta D \Delta t}^{h} $ is the approximate
-growth/decay term in the finite element solution. Obviously the finite
-element solution may exhibit spurious oscillations if $\sqrt{\vartheta
-  D \Delta t}^{h}$ is complex valued, as pointed out in
-\citep{Harari:2004}. 
-
-To determine the range of the stabilization
-parameters that prevent $\sqrt{\vartheta D \Delta t}^{h}$ being
-complex valued, we consider a simple case in which piecewise-linear
-finite elements are of uniform size $h$. As a result, we may construct
-a three-node stencil via the standard Galerkin method, i.e.,
-\begin{eqnarray}
-\label{eq:standardGM}
- &-&C_{L}^{A-1} + 2 C_{L}^{A}  - C_{L}^{A-1} \nonumber \\ 
- &+& \frac{h^{2}}{6 \vartheta D\Delta t  }  \Large( C_{L}^{A-1} + 4 C_{L}^{A} + C_{L}^{A+1} \Large)  = 0  
-\end{eqnarray}
-Substituting the solution in \eqref{eq:approxgrow} leads to the following relation \citep{Harari:2004}, 
-\begin{equation}
-  \label{eq:Orgcoshbound} 
-  \cosh \frac{h}{(\sqrt{\vartheta D \Delta t})^{h} }= \frac{ (1 + h^2/\vartheta D \Delta t) /3 }{ (1 - h^2/\vartheta D \Delta t) /6}
-\end{equation}
-By examining \eqref{eq:Orgcoshbound}, one may notice that the exponential growth
-rate will become complex-valued if  \eqref{eq:StabilityLimit} is not hold. Now let us introduce the stabilziation term  \eqref{eq:stabilization2} into
-\eqref{eq:semidisform}. By assembling the effective stiffness matrices
-of the $L^{2}$ projection stabilization term, we obtain,
-\begin{eqnarray}
-\label{eq:L2correction}
- & -C_{L}^{A-1}  & + 2 C_{L}^{A}  - C_{L}^{A-1} \nonumber \\ 
- &+ \frac{h^{2}}{12 \vartheta c\Delta t  } & \Huge[ (2-\gamma)C_{L}^{A-1}  \nonumber \\
- & & + (8 +2\gamma) C_{L}^{A} + (2-\gamma) C_{L}^{A+1} \Huge]  = 0  
-\end{eqnarray}
-where $\gamma$ is the stabilization parameter for the pressure
-projection term. 
-To compute the stability bound for the $L^{2}$ projection stabilization,
-we first apply \eqref{eq:approxgrow} into \eqref{eq:L2correction},
-which leads to
-\begin{equation}
-  \label{eq:coshbound} 
-  \cosh \frac{h}{(\sqrt{\vartheta D \Delta t})^{h} }= \frac{ (1 + h^2/\vartheta D \Delta t) ( 4 + \gamma)/6}{ (1 - h^2/\vartheta D \Delta t) ( 2 - \gamma)/12}
-\end{equation}
-The approximate growth/decay rate does not contain an imaginary part
-if the hyperbolic cosine term is positive. Provided that $\gamma$ is positive, the stabilization parameter that eliminates
-spurious oscillation can be determined from the denominator in the
-right hand side of \eqref{eq:coshbound},
-\begin{equation}
-  \label{eq:stabL2bound} 
-  \gamma > 2 -12 \frac{\vartheta D \Delta t}{h^{2}} > 0 
-\end{equation}
-Notice that the above formulation can be reduced to the
-  classical 1D lumped mass case if $\gamma = 2$. In our implementation, 
-  we employ the $L^{2}$ projection scheme and define $\gamma$ as
-\begin{equation}
-  \label{eq:arctang} 
-  \gamma = (2 - 6 \frac{\vartheta D \Delta t}{h^{2}}) \Big(\frac{1}{2} + \frac{1}{2} \tanh( 2 - 12 \frac{\vartheta D \Delta t}{h^{2}}) \Big) 
-\end{equation}
-Notice that the term $1/2 + \tanh( 2 - 12 \frac{\vartheta D \Delta
-  t}{h^{2}})/2 $ approaches zero if diffusivity is high and equal to 1
-if diffusivity is low.  This treatment is to limit over-diffusion
-caused by usage of the stabilization term as mentioned in
-\citep{Sun:2013}. 
-
-Finally, we also notice that  that stability of the steady state solution may also exhibit spurious oscillation if the P\'{e}clet number is less than one, i.e.,
-\begin{equation}
-\label{eq:Pnumber} P_{e}  = \frac{V_{H}}{RT} || \nabla_{\bs{X}}  S_{H} || h < 1
-\end{equation} 
-Nevertheless, since the condition listed in \eqref{eq:Pnumber} does not occur in our
-numerical example for stainless steel due to the small molar volume, the
-advection-dominated stabilization is not considered in this paper. Interested readers
-may refer to \citep{Onate:2000} and \citep{Tezduyar:1986} for further details. 
-
 \section{Extension to a suface element}
 \label{section.extension}
 
@@ -689,71 +566,8 @@ of the integration point $(\xi^{1}_{j}, \xi_{j}^{2})$, $\tensor{D_{l}}$ is the
 the diffusion coefficient pull-back to the reference configuration, whereas 
 $C_{a}^{+}$ and $C_{a}^{-}$ denote the nodal value of the lattice
 concentration in the reference configuration.  
-
-
-\section{Implementation}
-The fully coupled hydrogen transport  problem is implemented
-in a problem solving environment called the Laboratory for Computational Mechanics
-(LCM). LCM is an open-source computational mechanics environment
-which utilizes the agile components code Albany \citep{Salinger:2010, Salinger:2013}
-as its code base. Both Albany and the LCM are developed at Sandia
-National Laboratories, and leverage strongly the open source
-Trilinos project \citep{Heroux:2005}. This problem solving
-environment employs a template-based generic programming approach
-to fully integrate algorithms and technologies required to solve
-large-scale problems in an object-oriented framework. This
-approach offers several salient features over current
-computational mechanics environments, including but not limited
-to, rapid and flexible additions of physics and the automatic
-propagation of derivatives. Here we provides a brief overview
-of these features.
-
-%\subsection{Evaluator Class}
- A typical numerical model consists of a description of a physical process
-stemming from a governing equation or physical quantities whose values 
-and properties depend on each others. For instance, in the hydrogen
-transport problem defined in \eqref{eq.hconservation2}--\eqref{eq.hconservation5},
-changes of temperature $T$ leads to change on the equilibrium constant $k_{T}$
-and in return affects the trapped concentration $C_{T}$, the effective diffusion
-constant $D^{*}$ and the diffusion coefficient $D_{L}$ and therefore affect how 
-lattice concentration of hydrogen distribute in the metal. 
-
-If the weak form of the governing equation \eqref{eq.hconservation5} is 
-consistently linearized, as in the fully implicit schemes available 
-in the literature, then this 
-hierarchical dependence must be taken into account via the chain rules. 
-While deriving the tangents is certainly not a conceptually difficult task, 
-it is otherwise a time-consuming process that requires 
-substantial effort . Moreover, if any changes in the formulation leads to changes in 
-the hierarchical structure of mathematical expressions, then the derivations of the consistent linearization must
-start from scratch. 
-
-In Albany, the agile components code we adopted to implement the hydrogen
-transport model,  physical quantities, such as the equilibrium constant and the
-diffusion coefficient, are programmed as C++ templates called \emph{evaluators}.
-The hierarchical dependence of these physical quantities are recorded. 
-This hierarchical structure of the evaluators can be used to obtain partial, total,
-and directional derivatives via automatic differentiation tool available in 
-Trillions. With the ability to automatically compute derivatives, collection of 
-evaluators can be used to assembly the weak form. The consistent linearization
-is done without directly implementing the expression of linearized
-residuals of the field equations. 
-
-Furthermore, usage of evaluators also make it
-easier to debug, as the hierarchy of physical quantities can be easily visualized
-as directed graph as shown in Figure \ref{fig:graph}. 
-\begin{figure}[h!]
-%  \centering
-%    \includegraphics[trim = 0mm 0mm 0mm 0mm, clip,width=0.99\textwidth]{graph.pdf}
-%    \caption{Directed graph that represents the weak form of the fully coupled
-%    deformation-diffusion problem.}
-%    \label{fig:graph}
-\end{figure}
-Interested readers please refer to \citep{Salinger:2010, Pawlowski:2012a, Pawlowski:2012b, Salinger:2013, Sun:2013}
-for further detail on how multiphysics boundary value problems
-are implemented in Albany. 
  
-\section{Illustrative problems}
+\section{Case studies}
 In this section, we introduce three numerical examples to demonstrate the potentials of the 
 new grain boundary diffusion formulation presented in the previous sections.
 In the first example, we varies the ratio between the diffusivity of the grain boundary 
@@ -762,6 +576,8 @@ and surface-boundary diffusion. In the second example, the same specimen is pull
 under tension load while hydrogen diffuses at different rates. In the third example,
 we apply a K-field load to the microstructure to analyize the diffusion in materials that 
 exhibits path-dependent behavior in geometrically nonlinear regime.  
+
+\subseciton{Finite-deformation diffusion for a block}
 
 All three numerical examples are conducted with a $1000nm \times 1000nm$ domain. The mesh is generated via blah blah blah (JAY: PLEASE DESCRIBE HOW THE MESH IS GENERATED)..... 
 
@@ -923,6 +739,195 @@ As shown in figures \ref{fig:DeformedConcentration} and \ref{fig:ConcentrationPl
 %------------------------ bibliography ----------------------
 %------------------------ appendices -----------------------
 %
+\appendix
+\section{Stabilization proceedure}
+\label{sec:appendixStab}
+For stainless steel or other materials with very low diffusivity, the transient hydrogen
+transport simulation may exhibits spurious oscillation if standard Galerkin method is
+used without introducing proper stabilization. This spurious oscillation may exist
+with or without boundary layer, and can lead to misleading, mesh dependent hydrogen profiles. Harari analyzed this numerous deficiency in \citep{Harari:2004} and found that spurious oscillation occurs in the linear transient diffusivity problem if the following condition holds, 
+\begin{equation}
+\label{eq:StabilityLimit} \frac{D^{*}}{D_{L}} < \frac{6 \vartheta \Delta t}{h^{2}}
+\end{equation}
+where $h$ is the mesh size, $\Delta t$ is the time step size and $\vartheta \in [0,1]$
+is the integration parameter which leads to backward Euler scheme if $\vartheta = 1$
+and forward Euler scheme if $\vartheta = 0$. One of the feasible cure to the
+pathological mesh dependence is to introduce stabilization schemes such that
+the spurious mode is eliminated from the numerical solutions without introducing
+significant over-diffusion. Artificial diffusion,
+lumped mass, Petrov-Galerkin, Galerkin least square, finite increment calculus and
+projection based stabilization procedures are some of the commonly used
+procedures available in finite element method literature \citep{Onate:2000,
+Dohrmann:2004, Johnson:2009, Sun:2013}. 
+In this study, we adopt an adaptive projection based stabilization procedure
+originated in \citep{Sun:2013}. In this formulation,  a stabilization term is introduced into the residual of the weak
+form of the transport equation \eqref{eq.hconservationref5}, i.e.,
+\begin{equation}
+\label{eq:stabilization2} R^{stab}(v, C_{L}) = \sum_{K \in \Omega}  \int_{K}  \Big( v  - \Pi (v)  \Big)  \gamma D^{*} \Big( C_{L} - \Pi (C_{L}) \Big)  dV
+\end{equation}
+$\Pi(\cdot)$ is a $L^{2}$ projection operator that projects $C_{L}$ onto a piecewise constant $\Pi (C_{L})$ and $\gamma$ is the stabilization parameter. One may think of the stabilization term in \eqref{eq:stabilization2} as a penalty that limits how much the data at one node affect the solution at all nodes, and therefore constrains spatial oscillations when near the hyperbolic limit with $D=0$ (note: in standard Galerkin method with consistent mass, the data at one node always affect all solution at all nodes even when $D=0$).
+
+To illustrate this point and for the completeness of presentation, we briefly revisit the stabilized formulation here. Consider hydrogen transport in a 1D bar at which linearized transient diffusion neglecting the hydrostatic
+stress term reads, 
+\begin{equation}
+\label{eq:perturbationP}  D \frac{ \partial^{2} C_{L} }{\partial x^{2}} =  \frac{\partial C_{L}}{\partial t},
+\end{equation} 
+where $D=D_{L}/D^{*}$. Equations taking the form of \eqref{eq:perturbationP} can be
+discretized in time and that leads to a modified Helmholtz operator in
+space \citep{Harari:2004}, which reads,
+\begin{equation}
+\label{eq:semidisform}
+C_{L}^{n+1} + \vartheta  D \Delta t \frac{\partial^{2}}{\partial x^{2} }C_{L}^{n+1} = C_{L}^{n} - (1-\vartheta) D \Delta t \frac{\partial^{2}}{\partial x^{2}} C_{L}^{n} 
+\end{equation}
+where $C_{L}^{i}$ denotes the lattice concentration of hydrogen at $i$-th time step.
+ Without introducing any boundary
+conditions, \eqref{eq:semidisform} has an exact solution that reads
+\citep{Harari:2004},
+\begin{equation}
+  \label{eq:FreeexactSol} 
+  C_{L}(x) = \exp ( \pm x/\sqrt{\vartheta D \Delta t}) 
+\end{equation}
+Notice that the finite element approximate growth and decay rate of
+the solution can be determined by assuming that $x_{A} = Ah$ such
+that,
+\begin{equation}
+  \label{eq:approxgrow} 
+  C_{L}^{A} = \exp ( \pm  (h/  (\sqrt{\vartheta D \Delta t})^{h} )^{A}
+\end{equation}
+where $\sqrt{\vartheta D \Delta t}^{h} $ is the approximate
+growth/decay term in the finite element solution. Obviously the finite
+element solution may exhibit spurious oscillations if $\sqrt{\vartheta
+  D \Delta t}^{h}$ is complex valued, as pointed out in
+\citep{Harari:2004}. 
+
+To determine the range of the stabilization
+parameters that prevent $\sqrt{\vartheta D \Delta t}^{h}$ being
+complex valued, we consider a simple case in which piecewise-linear
+finite elements are of uniform size $h$. As a result, we may construct
+a three-node stencil via the standard Galerkin method, i.e.,
+\begin{eqnarray}
+\label{eq:standardGM}
+ &-&C_{L}^{A-1} + 2 C_{L}^{A}  - C_{L}^{A-1} \nonumber \\ 
+ &+& \frac{h^{2}}{6 \vartheta D\Delta t  }  \Large( C_{L}^{A-1} + 4 C_{L}^{A} + C_{L}^{A+1} \Large)  = 0  
+\end{eqnarray}
+Substituting the solution in \eqref{eq:approxgrow} leads to the following relation \citep{Harari:2004}, 
+\begin{equation}
+  \label{eq:Orgcoshbound} 
+  \cosh \frac{h}{(\sqrt{\vartheta D \Delta t})^{h} }= \frac{ (1 + h^2/\vartheta D \Delta t) /3 }{ (1 - h^2/\vartheta D \Delta t) /6}
+\end{equation}
+By examining \eqref{eq:Orgcoshbound}, one may notice that the exponential growth
+rate will become complex-valued if  \eqref{eq:StabilityLimit} is not hold. Now let us introduce the stabilziation term  \eqref{eq:stabilization2} into
+\eqref{eq:semidisform}. By assembling the effective stiffness matrices
+of the $L^{2}$ projection stabilization term, we obtain,
+\begin{eqnarray}
+\label{eq:L2correction}
+ & -C_{L}^{A-1}  & + 2 C_{L}^{A}  - C_{L}^{A-1} \nonumber \\ 
+ &+ \frac{h^{2}}{12 \vartheta c\Delta t  } & \Huge[ (2-\gamma)C_{L}^{A-1}  \nonumber \\
+ & & + (8 +2\gamma) C_{L}^{A} + (2-\gamma) C_{L}^{A+1} \Huge]  = 0  
+\end{eqnarray}
+where $\gamma$ is the stabilization parameter for the pressure
+projection term. 
+To compute the stability bound for the $L^{2}$ projection stabilization,
+we first apply \eqref{eq:approxgrow} into \eqref{eq:L2correction},
+which leads to
+\begin{equation}
+  \label{eq:coshbound} 
+  \cosh \frac{h}{(\sqrt{\vartheta D \Delta t})^{h} }= \frac{ (1 + h^2/\vartheta D \Delta t) ( 4 + \gamma)/6}{ (1 - h^2/\vartheta D \Delta t) ( 2 - \gamma)/12}
+\end{equation}
+The approximate growth/decay rate does not contain an imaginary part
+if the hyperbolic cosine term is positive. Provided that $\gamma$ is positive, the stabilization parameter that eliminates
+spurious oscillation can be determined from the denominator in the
+right hand side of \eqref{eq:coshbound},
+\begin{equation}
+  \label{eq:stabL2bound} 
+  \gamma > 2 -12 \frac{\vartheta D \Delta t}{h^{2}} > 0 
+\end{equation}
+Notice that the above formulation can be reduced to the
+  classical 1D lumped mass case if $\gamma = 2$. In our implementation, 
+  we employ the $L^{2}$ projection scheme and define $\gamma$ as
+\begin{equation}
+  \label{eq:arctang} 
+  \gamma = (2 - 6 \frac{\vartheta D \Delta t}{h^{2}}) \Big(\frac{1}{2} + \frac{1}{2} \tanh( 2 - 12 \frac{\vartheta D \Delta t}{h^{2}}) \Big) 
+\end{equation}
+Notice that the term $1/2 + \tanh( 2 - 12 \frac{\vartheta D \Delta
+  t}{h^{2}})/2 $ approaches zero if diffusivity is high and equal to 1
+if diffusivity is low.  This treatment is to limit over-diffusion
+caused by usage of the stabilization term as mentioned in
+\citep{Sun:2013}. 
+
+Finally, we also notice that  that stability of the steady state solution may also exhibit spurious oscillation if the P\'{e}clet number is less than one, i.e.,
+\begin{equation}
+\label{eq:Pnumber} P_{e}  = \frac{V_{H}}{RT} || \nabla_{\bs{X}}  S_{H} || h < 1
+\end{equation} 
+Nevertheless, since the condition listed in \eqref{eq:Pnumber} does not occur in our
+numerical example for stainless steel due to the small molar volume, the
+advection-dominated stabilization is not considered in this paper. Interested readers
+may refer to \citep{Onate:2000} and \citep{Tezduyar:1986} for further details. 
+
+\appendix
+\section{Implementation in Albany}
+\label{sec:appendixImplementation}
+The fully coupled hydrogen transport  problem is implemented
+in a problem solving environment called the Laboratory for Computational Mechanics
+(LCM). LCM is an open-source computational mechanics environment
+which utilizes the agile components code Albany \citep{Salinger:2010, Salinger:2013}
+as its code base. Both Albany and the LCM are developed at Sandia
+National Laboratories, and leverage strongly the open source
+Trilinos project \citep{Heroux:2005}. This problem solving
+environment employs a template-based generic programming approach
+to fully integrate algorithms and technologies required to solve
+large-scale problems in an object-oriented framework. This
+approach offers several salient features over current
+computational mechanics environments, including but not limited
+to, rapid and flexible additions of physics and the automatic
+propagation of derivatives. Here we provides a brief overview
+of these features.
+
+%\subsection{Evaluator Class}
+ A typical numerical model consists of a description of a physical process
+stemming from a governing equation or physical quantities whose values 
+and properties depend on each others. For instance, in the hydrogen
+transport problem defined in \eqref{eq.hconservation2}--\eqref{eq.hconservation5},
+changes of temperature $T$ leads to change on the equilibrium constant $k_{T}$
+and in return affects the trapped concentration $C_{T}$, the effective diffusion
+constant $D^{*}$ and the diffusion coefficient $D_{L}$ and therefore affect how 
+lattice concentration of hydrogen distribute in the metal. 
+
+If the weak form of the governing equation \eqref{eq.hconservation5} is 
+consistently linearized, as in the fully implicit schemes available 
+in the literature, then this 
+hierarchical dependence must be taken into account via the chain rules. 
+While deriving the tangents is certainly not a conceptually difficult task, 
+it is otherwise a time-consuming process that requires 
+substantial effort . Moreover, if any changes in the formulation leads to changes in 
+the hierarchical structure of mathematical expressions, then the derivations of the consistent linearization must
+start from scratch. 
+
+In Albany, the agile components code we adopted to implement the hydrogen
+transport model,  physical quantities, such as the equilibrium constant and the
+diffusion coefficient, are programmed as C++ templates called \emph{evaluators}.
+The hierarchical dependence of these physical quantities are recorded. 
+This hierarchical structure of the evaluators can be used to obtain partial, total,
+and directional derivatives via automatic differentiation tool available in 
+Trillions. With the ability to automatically compute derivatives, collection of 
+evaluators can be used to assembly the weak form. The consistent linearization
+is done without directly implementing the expression of linearized
+residuals of the field equations. 
+
+Furthermore, usage of evaluators also make it
+easier to debug, as the hierarchy of physical quantities can be easily visualized
+as directed graph as shown in Figure \ref{fig:graph}. 
+\begin{figure}[h!]
+%  \centering
+%    \includegraphics[trim = 0mm 0mm 0mm 0mm, clip,width=0.99\textwidth]{graph.pdf}
+%    \caption{Directed graph that represents the weak form of the fully coupled
+%    deformation-diffusion problem.}
+%    \label{fig:graph}
+\end{figure}
+Interested readers please refer to \citep{Salinger:2010, Pawlowski:2012a, Pawlowski:2012b, Salinger:2013, Sun:2013}
+for further detail on how multiphysics boundary value problems
+are implemented in Albany. 
+
 \end{document}
 %
 
