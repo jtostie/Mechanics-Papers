@@ -6,4 +6,6 @@ Cases:
 
 Locked down: "realistic" h, "converged" mesh size, "converged" time step
 
+Displacement of 10 on 6x6 polycrystal
+
 Total simulations: 6
