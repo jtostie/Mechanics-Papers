@@ -9,6 +9,7 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{amsthm}
+\usepackage{boldtensors}
 \usepackage{booktabs}
 \usepackage{eepic}
 \usepackage{epic}
@@ -62,7 +63,8 @@
 %[\fancyplain{}{\bf{\today}}]
 %{\fancyplain{}{\bf{\today}}}
 
-\title{A Cartesian Parametrization for the Numerical Analysis of Material Instability}
+\title{A Cartesian Parametrization for the Numerical Analysis of
+  Material Instability}
 
 \author{
   \Large Alejandro~Mota$^1$,
@@ -86,29 +88,36 @@
 \maketitle
 
 \begin{abstract}
-  We propose a Cartesian parametrization for vectors to test for the
-  loss of the ellipticity condition in the numerical analysis of
-  material instability. The parametrization is used to construct a 
-  tensor that is the acoustic tensor multiplied by a scalar factor. It 
-  is shown that both tensors become singular at the same time and in 
-  the same planes in the presence of a material instability. The 
-  performance of the Cartesian parametrization is compared against 
-  other common and uncommon parametrizations of the acoustic tensor. 
-  The results of these comparisons show that the Cartesian 
-  parametrization is more robust and more numerically efficient than 
-  the other tested parametrizations in general.  
+  We examine some common and uncommon parametrizations of the unit
+  sphere $S^2 \subset {"R}^3$ within the context of material stability
+  analysis by means of the singularity of the acoustic tensor. We then
+  propose a Cartesian parametrization for vectors $\{~v \in {"R}^3 \,
+  : \, ||~v||_{\infty} = 1\}$, \ie, the unit square. We use these
+  vectors in lieu of unit normals to test for the loss of the
+  ellipticity condition. This parametrization is used to construct a
+  tensor that is the acoustic tensor multiplied by a scalar factor. It
+  is shown that both tensors become singular at the same time and in
+  the same planes in the presence of a material instability. The
+  performance of the Cartesian parametrization is compared against the
+  other parametrizations, with the results of these comparisons
+  showing that in general the Cartesian parametrization is more robust
+  and more numerically efficient than the other tested
+  parametrizations.
 \end{abstract}
 
 \section{Introduction}
 \label{sec:intro}
 
-The numerical analysis of material instability plays an important role 
-in understanding and simulating material failure mechanics problems. A 
-reliable and efficient method to determine the onset of material 
-instability and the bifurcation directions is required whether one is 
-interested in studying the instability itself or to devise numerical 
-regularization methods that prevent lack of convergence once an 
-instability is present (e.g., \cite{Simo.etal:1993, Oliver:1996a, Oliver:1996b, Armero.Garikipati:1996, Moes.Belytschko:2002, Foster.etal:2007, Chen.etal:2011}).
+The numerical analysis of material instability plays an important role
+in the understanding and simulation of material failure in solid
+mechanics problems. A reliable and efficient method to determine the
+onset of material instability and the bifurcation directions is
+required whether one is interested in studying the instability itself
+or to devise numerical regularization methods that prevent lack of
+convergence once an instability is present (e.g.,
+\cite{Simo.etal:1993, Oliver:1996a, Oliver:1996b,
+  Armero.Garikipati:1996, Moes.Belytschko:2002, Foster.etal:2007,
+  Chen.etal:2011}).
 
 Herein we adopt the classical definition of material instability as 
 the loss of the \emph{strong ellipticity condition}, which is  
@@ -133,9 +142,9 @@ localization tensor of the material at a given state. See also
 brief historical overview of the development of classical localization 
 analysis.
 
-In the context of finite element analysis, existing approaches to 
-detect material instability as well as the bifurcation directions 
-generally fall into two categories, i.e., analytical and numerical 
+In the context of finite element analysis, existing approaches to
+detect material instability as well as the bifurcation directions
+generally fall into two categories: analytical and numerical
 approaches.
 
 For certain material models under specific loading conditions, 
