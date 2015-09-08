@@ -119,13 +119,15 @@ convergence once an instability is present (e.g.,
   Armero.Garikipati:1996, Moes.Belytschko:2002, Foster.etal:2007,
   Chen.etal:2011}).
 
-Herein we adopt the classical definition of material instability as 
-the loss of the \emph{strong ellipticity condition}, which is  
-equivalent to the loss of the \emph{strong Legendre-Hadamard 
-condition} for stored energy densities that are twice continuously 
-differentiable \citep{Antman:2005} and has been associated with the 
-existence of discontinuous acceleration propagating waves by 
-\citet{Hill:1962}.
+Herein we adopt the classical definition of material instability as
+the loss of the \emph{strong ellipticity condition}, which is
+equivalent to the loss of the \emph{strong Legendre-Hadamard
+  condition} for stored energy densities that are twice continuously
+differentiable \citep{Antman:2005} and has been associated with the
+existence of discontinuous acceleration propagating waves by
+\citet{Hill:1962}. We will use the term \emph{acoustic tensor} or
+\emph{localization tensor} interchangeably for the second-order tensor
+associated with the strong ellipticity condition.
 
 \subsection{Previous Work}
 
@@ -147,68 +149,73 @@ detect material instability as well as the bifurcation directions
 generally fall into two categories: analytical and numerical
 approaches.
 
-For certain material models under specific loading conditions, 
-analytical solutions of the instability problem can be derived. For 
-instance, \citet{Oliver.Huespe:2004} provided closed-form solutions 
-for the detection of singularity of the localization tensor for a wide 
-class of small deformation isotropic and anisotropic damage models. On 
-the basis of the general Hadamard instability criterion, 
-\citet{Xue.Belytschko:2010} derived a closed-form expression to 
-determine the onset of instability and the bifurcation directions for 
-a particular damage plasticity model. These analytical approaches are 
-computationally very efficient, robust and can avoid the pitfall of 
-not being able to find true global minima \cite{Oliver.etal:2010}. 
-However, closed-form solutions are not available for more complicated 
-material models under general loading conditions, which motivates the 
-development and implementation of numerical approaches 
-\cite{Mosler:2005}. 
+For certain material models under specific loading conditions,
+analytical solutions of the instability problem can be derived. For
+instance, \citet{Oliver.Huespe:2004} provided closed-form solutions
+for the detection of singularity of the localization tensor for a wide
+class of small deformation isotropic and anisotropic damage models. On
+the basis of the general Hadamard instability criterion,
+\citet{Xue.Belytschko:2010} derived a closed-form expression to
+determine the onset of instability and the bifurcation directions for
+a particular damage plasticity model. These analytical approaches are
+computationally very efficient, robust and avoid the pitfall of the
+inability to find true global minima \cite{Oliver.etal:2010}.
+Closed-form solutions, however, are not available for more complicated
+material models under general loading conditions, which motivates the
+development and implementation of numerical approaches
+\cite{Mosler:2005}.
 
-Numerical resolution of material instability problem started with the 
-work of Ortiz and coworkers \cite{Ortiz:1987, Ortiz.etal:1987}. 
-\citet{Ortiz.etal:1987} formulated the detection of instability as a 
-constrained minimization problem. A two-step procedure is proposed, 
-where a sweep is performed over the parametric space of possible 
-bifurcation directions and is followed by an iterative solve using the 
-Lagrange multiplier to enforce the constraint. The algorithm was 
-applied to the bifurcation analysis of small deformation, isotropic 
-elastoplastic material model with symmetric acoustic tensor. 
-\citet{Mosler:2005} proposed a numerical algorithm based on sweep over 
-discrete parametric space and used the result of the sweep as an 
-initial guess for a Newton method to find a better approximation to 
-the exact minimum of the acoustic tensor and corresponding bifurcation 
-directions. More recently, \citet{Oliver.etal:2010} developed a new 
-efficient algorithm based on the iterative resolution of a coupled 
-eigenvalue problems in terms of the localization tensor. The algorithm 
-is very efficient and is exact for symmetric cases, where material 
-tangent has both major and minor symmetries. However, for unsymmetric 
-cases, the algorithm only gives approximation, which limits its 
-applicability to finite deformation material models, or non-
-associative plasticity material models. \citet{Boussaa-Aravas:2001} 
-proposed an alternative approach where the numerical and symbolic 
-computations were combined to detect the loss of strong ellipticity 
-and applied this approach to a Gurson-type porous material.
+Among the works that address the numerical resolution of material
+instability are those of Ortiz and coworkers \cite{Ortiz:1987,
+  Ortiz.etal:1987}.  \citet{Ortiz.etal:1987} formulated the detection
+of instability as a constrained minimization problem. A two-step
+procedure is proposed, wherein a sweep is performed over the
+parametric space of possible bifurcation directions followed by an
+iterative solution scheme using a Lagrange multiplier to enforce the
+unit-vector constraint. The algorithm was applied to the bifurcation
+analysis of a small deformation, isotropic elastoplastic material
+model.  \citet{Mosler:2005} proposed a numerical algorithm based on a
+sweep over a discrete parametric space and using the result of this
+sweep as an initial guess for a Newton method to find a better
+approximation to the exact minimum of the determinant of the acoustic
+tensor and corresponding bifurcation directions. More recently,
+\citet{Oliver.etal:2010} developed a new efficient algorithm based on
+the iterative solution of a coupled eigenvalue problem in terms of the
+localization tensor. The algorithm is very efficient and accurate for
+symmetric cases, where the material tangent has both major and minor
+symmetries. For cases that lack minor symmetries, however, the
+algorithm only gives an approximation, which limits its applicability
+to finite deformation material models, or non-associative plasticity
+material models. \citet{Boussaa-Aravas:2001} proposed an alternative
+approach where numerical and symbolic computations were combined to
+detect the loss of strong ellipticity and applied this approach to a
+Gurson-type porous material.
 
-Compared to the analytical approaches, the numerical algorithms are 
-more general in the sense that they can be applied to different 
-material models in different loading conditions, for both 2D and 3D 
-problems. However, the drawbacks are also clear: they are much more 
-computationally demanding and less robust. The convergence is 
-sensitive to the initial guess of an iterative solve. In the context 
-of a non-linear finite element analysis, material instability has to 
-be checked at every integration point and at every time step, the 
-computational efficiency and robustness become major concerns.
+Compared to analytical approaches, numerical algorithms are more
+general in the sense that they can be applied to different material
+models under different loading conditions, for both 2D and 3D
+problems. The drawbacks are also clear, however: they are much more
+computationally demanding and less robust. The convergence of an
+iterative method is sensitive to the initial guess, for instance. In
+the context of a non-linear finite element analysis, the material
+instability condition has to be checked at every integration point and
+at every time step, and therefore the computational efficiency and
+robustness of any numerical algorithm used for its detection become
+major concerns.
 
-In this work, we use a sweep-based algorithm followed by a Newton 
-iterative method to solve the minimization problem of material 
-instability. The normal vector used to construct the acoustic tensor 
-is parametrized by different sets of parameters. The hypothesis is 
-that the parametrization of this normal vector significantly affects 
-the computational cost and robustness of the numerical solution 
-algorithm. To this end, we propose a new Cartesian parametrization to 
-construct the acoustic tensor and also critically analyze other common 
-and uncommon parametrizations. The numerical algorithms developed in 
-this work are general and can be applied to both small and finite 
-deformation material models with symmetric or unsymmetric tangents. 
+In this work, we use a sweep-based algorithm followed by a Newton
+iterative method to solve the minimization problem associated with the
+strong ellipticity condition for the detection of material
+instability. We present several parametrizations for the
+representation of the unit normal vector used to construct the
+acoustic tensor. The hypothesis is that the parametrization of this
+normal vector significantly affects the computational cost and
+robustness of the numerical solution algorithm. To this end, we
+propose a new Cartesian parametrization to construct the acoustic
+tensor and compare its performance and robustness against other common
+and uncommon parametrizations. The numerical algorithms developed in
+this work are general and can be applied to both small and finite
+deformation material models with symmetric or unsymmetric tangents.
 
 \section{General Framework}
 
@@ -227,225 +234,201 @@ viscoelasticity, viscoplasticity, and rate dependence
 
 The mechanical response of the solids considered here is characterized
 by a dissipation potential of the form
-
 \begin{equation} \label{eq:power-density}
-  D(\bF, \dot{\bF}, \bZ, \dot{\bZ})
-  =
-  \dot{A}(\bF, \bZ)
+  D(~F, \dot{~F}, ~Z, \dot{~Z})
+  :=
+  \dot{A}(~F, ~Z)
   +
-  \phi(\bF, \dot{\bF}, \bZ)
+  \phi(~F, \dot{~F}, ~Z)
   +
-  \psi^*(\bZ, \dot{\bZ}),
+  \psi^*(~Z, \dot{~Z}),
 \end{equation}
-
-in which $A(\bF, \bZ)$ is the Helmholtz free-energy density,
-$\phi(\bF, \dot{\bF}, \bZ)$ is a viscous potential, $\psi^*(\bZ,
-\dot{\bZ})$ is a dual kinetic potential or dissipation function, $\bF$
-is the deformation gradient and $\bZ$ is a collection of suitable
+in which $A(~F, ~Z)$ is the Helmholtz free-energy density,
+$\phi(~F, \dot{~F}, ~Z)$ is a viscous potential, $\psi^*(~Z,
+\dot{~Z})$ is a dual kinetic potential or dissipation function, $~F$
+is the deformation gradient and $~Z$ is a collection of suitable
 internal variables that describe the state of the material at a given
 point. The first Piola-Kirchhoff stress and the conjugate
-thermodynamic forces to $\bZ$ are given by
-
+thermodynamic forces to $~Z$ are given by
 \begin{equation} \label{eq:1PKstress-and-Y}
-  \bP
+  ~P
+  :=
+  \frac{\partial D}{\partial \dot{~F}}(~F, \dot{~F}, ~Z, \dot{~Z})
   =
-  \frac{\partial D}{\partial \dot{\bF}}(\bF, \dot{\bF}, \bZ, \dot{\bZ})
-  =
-  \frac{\partial A}{\partial \bF}(\bF, \bZ)
+  \frac{\partial A}{\partial ~F}(~F, ~Z)
   +
-  \frac{\partial \phi}{\partial \dot{\bF}}(\bF, \dot{\bF}, \bZ),
+  \frac{\partial \phi}{\partial \dot{~F}}(~F, \dot{~F}, ~Z),
   \quad
-  \bY = - \frac{\partial A}{\partial \bZ} (\bF, \bZ),
+  ~Y := - \frac{\partial A}{\partial ~Z} (~F, ~Z),
 \end{equation}
-
 respectively. In order to ensure a variational structure, we have
 postulated the existence of a dual kinetic potential or dissipation
-function $\psi^*(\bZ, \dot{\bZ})$ such that
-
+function $\psi^*(~Z, \dot{~Z})$ such that
 \begin{equation} \label{eq:dual-kinetic-potential}
-  \bY = \frac{\partial \psi^*}{\partial \dot{\bZ}} (\bZ, \dot{\bZ}).
+  ~Y = \frac{\partial \psi^*}{\partial \dot{~Z}} (~Z, \dot{~Z}).
 \end{equation}
-
 Next, we minimize the dissipation potential \eref{eq:power-density}
 with respect to the internal variable rates as
-
 \begin{equation}
   \begin{split}
-    \inf_{\dot{\bZ}} [ D(\bF, \dot{\bF}, \bZ, \dot{\bZ}) ]
+    \inf_{\dot{~Z}} [ D(~F, \dot{~F}, ~Z, \dot{~Z}) ]
     =
     &
-    \inf_{\dot{\bZ}}
+    \inf_{\dot{~Z}}
     \left[
-      \dot{A}(\bF, \bZ)
+      \dot{A}(~F, ~Z)
       +
-      \psi^*(\bZ, \dot{\bZ})
+      \psi^*(~Z, \dot{~Z})
     \right] +
-    \phi(\bF, \dot{\bF}, \bZ),
+    \phi(~F, \dot{~F}, ~Z),
     \\
     =
     &
-    \inf_{\dot{\bZ}}
+    \inf_{\dot{~Z}}
     \left[
-      \frac{\partial A}{\partial \bF}(\bF, \bZ) : \dot{\bF}
+      \frac{\partial A}{\partial ~F}(~F, ~Z) : \dot{~F}
       +
-      \frac{\partial A}{\partial \bZ}(\bF, \bZ) \cdot \dot{\bZ}
+      \frac{\partial A}{\partial ~Z}(~F, ~Z) \cdot \dot{~Z}
       +
-      \psi^*(\bZ, \dot{\bZ})
+      \psi^*(~Z, \dot{~Z})
     \right] +
-    \phi(\bF, \dot{\bF}, \bZ),
+    \phi(~F, \dot{~F}, ~Z),
   \end{split}
 \end{equation}
-
 which in turn leads to Biot's equation for standard dissipative systems
-
 \begin{equation} \label{eq:Biots-equation}
-  \frac{\partial A}{\partial \bZ} (\bF, \bZ)
+  \frac{\partial A}{\partial ~Z} (~F, ~Z)
   +
-  \frac{\partial \psi^*}{\partial \dot{\bZ}} (\bZ, \dot{\bZ})
+  \frac{\partial \psi^*}{\partial \dot{~Z}} (~Z, \dot{~Z})
   =
-  \mathbf{0}.
+  ~0.
 \end{equation}
-
 This is equivalent to state that the internal variables should not
-produce any net work, i.e.
-
+produce any net work, \ie
 \begin{equation} \label{eq:internal-no-work}
   \left[
-    \frac{\partial A}{\partial \bZ} (\bF, \bZ)
+    \frac{\partial A}{\partial ~Z} (~F, ~Z)
     +
-    \frac{\partial \psi^*}{\partial \dot{\bZ}} (\bZ, \dot{\bZ})
+    \frac{\partial \psi^*}{\partial \dot{~Z}} (~Z, \dot{~Z})
   \right]
   \cdot
-   \dot{\bZ}
+   \dot{~Z}
   =
   0
   \quad
-  \forall \dot{\bZ}.
+  \forall \dot{~Z}.
 \end{equation}
 
 Approximate solutions to \eref{eq:Biots-equation} may be found by
 recourse to the incremental energy density function for a time
 increment $t \in [t_n, t_{n+1}]$
-
 \begin{equation} \label{incremental-energy-density}
-  w(\bF_{n+1}, \bZ_{n+1}) := 
+  w(~F_{n+1}, ~Z_{n+1}) := 
   \int_{t_n}^{t_{n+1}}
   \left[
-    \dot{A}(\bF, \bZ)
+    \dot{A}(~F, ~Z)
     +
-    \phi(\bF, \dot{\bF}, \bZ)
+    \phi(~F, \dot{~F}, ~Z)
     +
-    \psi^*(\bZ, \dot{\bZ})
+    \psi^*(~Z, \dot{~Z})
   \right]
   \, dt,
 \end{equation}
-
 in which the integral is evaluated using a midpoint-like rule
 as follows
-
 \begin{equation} \label{incremental-energy-density-mid-point}
   \begin{split}
-    w(\bF_{n+1}, \bZ_{n+1}) \approx
+    w(~F_{n+1}, ~Z_{n+1}) \approx
     &
-    A(\bF_{n+1}, \bZ_{n+1}) - A(\bF_n, \bZ_n) +
+    A(~F_{n+1}, ~Z_{n+1}) - A(~F_n, ~Z_n) +
     \\
     &
     \triangle t
     \left[
       \phi
       \left(
-        \bF_{n+\alpha}, \frac{\triangle \bF}{\triangle t}, \bZ_{n+\alpha}
+        ~F_{n+\alpha}, \frac{\triangle ~F}{\triangle t}, ~Z_{n+\alpha}
       \right)
       +
       \psi^*
       \left(
-        \bZ_{n+\alpha}, \frac{\triangle \bZ}{\triangle t}
+        ~Z_{n+\alpha}, \frac{\triangle ~Z}{\triangle t}
       \right)
     \right].
   \end{split}
 \end{equation}
-
 with
-
 \begin{equation} \label{eq:increments}
   \triangle t := t_{n+1} - t_n,
   \quad
-  \triangle \bF := \bF_{n+1} \bF_n^{-1},
+  \triangle ~F := ~F_{n+1} ~F_n^{-1},
   \quad
-  \triangle \bZ := \bZ_{n+1} - \bZ_n,
+  \triangle ~Z := ~Z_{n+1} - ~Z_n,
 \end{equation}
-
 and
-
 \begin{equation} \label{eq:mid-values}
   \begin{split}
-    \bF_{n+\alpha} & := \exp[(1 - \alpha) \log \bF_n + \alpha \log \bF_{n+1}],
+    ~F_{n+\alpha} & := \exp[(1 - \alpha) \log ~F_n + \alpha \log ~F_{n+1}],
     \\
-    \bZ_{n+\alpha} & := (1 - \alpha) \bZ_n + \alpha \bZ_{n+1},
+    ~Z_{n+\alpha} & := (1 - \alpha) ~Z_n + \alpha ~Z_{n+1},
   \end{split}
 \end{equation}
-
 where $\alpha$ is an algorithmic parameter. In order to obtain an
 explicit scheme, we choose $\alpha = 0$. Next, we define the
 incremental stress potential as
-
 \begin{equation} \label{eq:incremental-stress-potential}
   \begin{split}
-    W(\bF_{n+1})
+    W(~F_{n+1})
     :=
     &
-    \inf_{\bZ_{n+1}}[w(\bF_{n+1}, \bZ_{n+1})]
+    \inf_{~Z_{n+1}}[w(~F_{n+1}, ~Z_{n+1})]
     \\
     =
     &
-    \inf_{\bZ_{n+1}}
+    \inf_{~Z_{n+1}}
     \left[
-      A(\bF_{n+1}, \bZ_{n+1}) - A(\bF_n, \bZ_n)
+      A(~F_{n+1}, ~Z_{n+1}) - A(~F_n, ~Z_n)
       +
       \triangle t
-      \psi^*\left(\bZ_n, \frac{\triangle \bZ}{\triangle t}\right)
+      \psi^*\left(~Z_n, \frac{\triangle ~Z}{\triangle t}\right)
     \right]
     +
     \\
     &
     \triangle t
-    \phi\left(\bF_n, \frac{\triangle \bF}{\triangle t}, \bZ_n\right).
+    \phi\left(~F_n, \frac{\triangle ~F}{\triangle t}, ~Z_n\right).
   \end{split}
 \end{equation}
-
 This minimization provides an optimal path for the internal variables
-$\bZ$ in the time increment $t \in [t_n, t_{n+1}]$. Furthermore, the
+$~Z$ in the time increment $t \in [t_n, t_{n+1}]$. Furthermore, the
 Euler-Lagrange equation corresponding to
 \eref{eq:incremental-stress-potential} is
-
 \begin{equation} \label{eq:Biots-equation-discrete}
-  \frac{\partial A}{\partial \bZ_{n+1}}(\bF_{n+1}, \bZ_{n+1})
+  \frac{\partial A}{\partial ~Z_{n+1}}(~F_{n+1}, ~Z_{n+1})
   +
   \triangle t
-  \frac{\partial \psi^*}{\partial \bZ_{n+1}}
-  \left(\bZ_n, \frac{\triangle \bZ}{\triangle t}\right)
+  \frac{\partial \psi^*}{\partial ~Z_{n+1}}
+  \left(~Z_n, \frac{\triangle ~Z}{\triangle t}\right)
   =
-  \mathbf{0}.
+  ~0.
 \end{equation}
-
 which is a discrete version of Biot's equation
 \eref{eq:Biots-equation} \citep{Miehe.etal:2002}. The
 incremental first Piola-Kirchhoff stress and tangent moduli can be
 computed in turn as
-
 \begin{equation} \label{eq:incremental-stress-moduli}
-  \bP_{n+1} := \frac{\partial W}{\partial \bF} (\bF_{n+1}),
+  ~P_{n+1} := \frac{\partial W}{\partial ~F} (~F_{n+1}),
   \quad
-  \bbC_{n+1} := \frac{\partial^2 W}{\partial \bF^2} (\bF_{n+1}),
+  \bbC_{n+1} := \frac{\partial^2 W}{\partial ~F^2} (~F_{n+1}),
 \end{equation}
-
 respectively. Thus, by using variational constitutive updates, the
 stress and the tangent moduli can be derived from the
-hyperleastic-like potential \eref{eq:incremental-stress-potential}
-for a very general class of constitutive behavior that may include
+hyperleastic-like potential \eref{eq:incremental-stress-potential} for
+a very general class of constitutive behavior that may include
 viscosity and rate dependence. This in turn provides the means to
-apply the classical analysis tools that are used in hyperelasticity
-for complex inelastic materials as well.
+apply the classical analysis tools that are used in hyperelasticity,
+such as the strong ellipticity condition, for complex inelastic
+materials as well.
 
 \subsection{The Strong Ellipticity Condition}
 
@@ -456,31 +439,31 @@ developments take place at time $t_{n+1}$.
 The ellipticity condition can be expressed as
 
 \begin{equation} \label{eq:strong-ellipticity}
-  (\bm \otimes \bn) : \bbC : (\bm \otimes \bn) \ge 0,
+  (~m \otimes ~n) : \bbC : (~m \otimes ~n) \ge 0,
   \quad
-  \forall \, \bm, \bn \in \bbR^3.
+  \forall \, ~m, ~n \in \bbR^3.
 \end{equation}
 
-If the condition holds strictly for non-zero vectors $\bm$ and $\bn$,
+If the condition holds strictly for non-zero vectors $~m$ and $~n$,
 then it is called the strong ellipticity condition
 \citep{Hadamard:1903, Truesdell.Noll:2004,
   Miehe.etal:2004}. It is customary to \emph{assume} that
-$\bm$ and $\bn$ are unit vectors, \emph{i.e.} $\bm, \bn \in S^2$ where
-$S^2 := \{ \bt \in \bbR^3 \, | \, \| \bt \| = 1\}$ is the unit
+$~m$ and $~n$ are unit vectors, \emph{i.e.} $~m, ~n \in S^2$ where
+$S^2 := \{ ~t \in \bbR^3 \, | \, \| ~t \| = 1\}$ is the unit
 sphere. Define the acoustic tensor as
 
 \begin{equation} \label{eq:acoustic-tensor}
-  \bA := \bn \cdot \bbC \cdot \bn
+  ~A := ~n \cdot \bbC \cdot ~n
   \quad \text{or} \quad
   A_{ik} := n_j C_{ijkl} n_l,
   \quad
-  \bn \in S^2,
+  ~n \in S^2,
 \end{equation}
 
 then the strong ellipticity condition becomes
 
 \begin{equation} \label{eq:acoustic-ellipticity}
-  \bm \cdot \bA \cdot \bm > 0, \quad \bm \in S^2.
+  ~m \cdot ~A \cdot ~m > 0, \quad ~m \in S^2.
 \end{equation}
 
 In order to satisfy the strong ellipticity condition, the acoustic
@@ -489,7 +472,7 @@ tensor must be positive definite. Therefore,
 reduce to
 
 \begin{equation} \label{eq:acoustic-determinant}
-  \det \bA > 0,
+  \det ~A > 0,
 \end{equation}
 
 which provides a method to determine the onset of a material
@@ -503,25 +486,25 @@ tensor \eref{eq:acoustic-determinant}, the detection of bifurcation
 or loss of ellipticity in the material is fully characterized by its
 fourth-order tangent moduli \eref{eq:incremental-stress-moduli}. The
 onset of bifurcation is then posed as a minimization problem.  First
-we assume that the normal vector $\bn$ is parametrized by a set of
-parameters $\bq$, thus turning the determinant of the acoustic tensor
-$\det \bA$ into a function of $\bq$.  Then the determinant of the
-acoustic tensor $\det \bA(\bq)$ is minimized with respect to
-$\bq$. Thus the loss of strong ellipticity may be stated as
+we assume that the normal vector $~n$ is parametrized by a set of
+parameters $~q$, thus turning the determinant of the acoustic tensor
+$\det ~A$ into a function of $~q$.  Then the determinant of the
+acoustic tensor $\det ~A(~q)$ is minimized with respect to
+$~q$. Thus the loss of strong ellipticity may be stated as
 
 \begin{equation} \label{eq:minimization-determinant}
-  f(\bq) := \det \bA(\bq),
+  f(~q) := \det ~A(~q),
   \quad
-  \min_{\bq} f(\bq) = 0,
+  \min_{~q} f(~q) = 0,
   \quad
-  \bn(\bq) \in S^2.
+  ~n(~q) \in S^2.
 \end{equation}
 
-If the determinant function $f(\bq)$ is differentiable, the
+If the determinant function $f(~q)$ is differentiable, the
 minimization problem can be rewritten equivalently as
 
 \begin{equation}\label{eq:minimization-derivative}
-  \frac{\partial f}{\partial \bq}(\bq) = \mathbf{0},
+  \frac{\partial f}{\partial ~q}(~q) = ~0,
 \end{equation}
 
 which can be solved by standard numerical optimization techniques,
@@ -532,10 +515,10 @@ which can be solved by standard numerical optimization techniques,
 
 Efficient computation of the minimization problem
 \eref{eq:minimization-derivative} requires a careful choice of the
-parametrization for the normal vector $\bn(\bq) \in S^2$, which is
+parametrization for the normal vector $~n(~q) \in S^2$, which is
 equivalent to select a parametrization for the unit sphere. This
 choice has a significant effect on the complexity of the determinant
-function $f(\bq)$ and its derivatives with respect to $\bq$ needed to
+function $f(~q)$ and its derivatives with respect to $~q$ needed to
 solve the optimization problem. Herein, five different options are
 explored. The first four (spherical, stereographic, projective,
 tangent) are indeed parametrizations of the unit sphere.  The last
@@ -549,16 +532,16 @@ reference originates from the center of each one.
 
 Spherical parametrization is the most commonly used in the numerical 
 bifurcation analysis, e.g., \cite{Mosler:2005, Regueiro.Foster:2011}. 
-In spherical parametrization, elements $\bn$ of the unit sphere $S^2$ 
+In spherical parametrization, elements $~n$ of the unit sphere $S^2$ 
 are simply parametrized by their spherical coordinates with polar 
 angle $\varphi \in [0, \pi]$, azimuthal angle $\theta \in [0, \pi]$ 
-and radial distance $r = \|\bn \| = 1$. The reduced range in the angle 
+and radial distance $r = \|~n \| = 1$. The reduced range in the angle 
 $\theta$ is due to symmetry of the bifurcation condition, as for this 
-purpose $\bn$ and $- \bn$ will yield the same result, see Figure~
+purpose $~n$ and $- ~n$ will yield the same result, see Figure~
 \ref{fig:spherical}. In terms of the canonical basis
 
 \begin{equation}
-  \bn(\varphi, \theta)
+  ~n(\varphi, \theta)
   :=
   \begin{Bmatrix}
     \sin\varphi \sin\theta
@@ -575,16 +558,16 @@ purpose $\bn$ and $- \bn$ will yield the same result, see Figure~
 The unit sphere is parametrized with the aid of an equatorial plane as
 shown in Figure~\ref{fig:stereographic}.  Consider a point $P$ that is
 both on this plane and on a line that passes through the north pole
-$Q$ of the sphere and the tip of the vector $\bn$. The Cartesian
+$Q$ of the sphere and the tip of the vector $~n$. The Cartesian
 coordinates $x$ and $y$ of $P$ provide the desired parametrization,
 which can be easily derived by finding the intersection of the line
 and the sphere. The upper hemisphere can be ignored due to the
 symmetry of the bifurcation condition, thus avoiding the singularity
 in parametrizing a normal vector that points to the north pole
-$Q$. The normal vector $\bn$ in terms of the canonical basis is
+$Q$. The normal vector $~n$ in terms of the canonical basis is
 
 \begin{equation}
-  \bn(x,y)
+  ~n(x,y)
   := 
   \begin{Bmatrix}
     \frac{\displaystyle 2x}{\displaystyle x^2+y^2+1}
@@ -602,13 +585,13 @@ where the parameters $x \in [-1, 1]$ and $y \in [-1, 1]$.
 
 In the projective parametrization, the norm of the position vector of
 a point $P$ with respect to the center of the sphere is constrained to
-obtain a unit vector $\bn$ \citep{Ortiz.etal:1987}. This is
+obtain a unit vector $~n$ \citep{Ortiz.etal:1987}. This is
 equivalent to project the point $P$ onto the unit sphere $S^2$, as
 shown in Figure~\ref{fig:projective}. The normalization is effected
 by means of a constraint enforced by a Lagrange multiplier as
 
 \begin{equation}
-  \bn(x,y,z)
+  ~n(x,y,z)
   := 
   \begin{Bmatrix}
     x
@@ -626,15 +609,15 @@ and $z \in [-1, 1]$.
 \label{subsec:tangent}
 
 This parametrization of the unit sphere is defined by a tangent plane
-\citep{Simo.Fox:1989}. Let $\bu\in \bbR^3$ be the position vector
+\citep{Simo.Fox:1989}. Let $~u\in \bbR^3$ be the position vector
 of the point $P$ in the tangent plane with respect to the contact
-point $Q$ between the sphere and the plane, then let $\be \in S^2$ be
+point $Q$ between the sphere and the plane, then let $~e \in S^2$ be
 the position vector of the contact point $Q$ with respect to the
 center of the sphere $O$, as shown in Figure~\ref{fig:tangent}. Define
-a rotation vector $\btheta := \be \times \bu$, then the rotation angle
-is $\theta := \| \btheta \| \equiv \| \bu \|$. Let also
+a rotation vector $\btheta := ~e \times ~u$, then the rotation angle
+is $\theta := \| \btheta \| \equiv \| ~u \|$. Let also
 $\check{\btheta} \in so(3)$ be the skew-symmetric tensor such that
-$\check{\btheta} \cdot \bv \equiv \btheta \times \bv \ \forall \ \bv
+$\check{\btheta} \cdot ~v \equiv \btheta \times ~v \ \forall \ ~v
 \in \bbR^3$. The expression for the exponential map for
 $\check{\btheta}$ is
 
@@ -642,12 +625,12 @@ $\check{\btheta}$ is
   \exp \check{\btheta}
   :=
   \begin{cases}
-    \bI \in SO(3),
+    ~I \in SO(3),
     &
     \text{ if }\theta = 0;
     \\
     \displaystyle{
-      \bI + \frac{\sin \theta}{\theta} \check{\btheta} +
+      ~I + \frac{\sin \theta}{\theta} \check{\btheta} +
       \frac{(1 - \cos \theta)}{\theta^2} \check{\btheta}^2 \in SO(3),
     }
     &
@@ -660,29 +643,29 @@ which is often accredited to Rodrigues
 \citep{Gallier:2011}. Next define
 
 \begin{equation}
-  \exp_{\be} \bu
+  \exp_{~e} ~u
   :=
-  \exp \check{\btheta} \cdot \be
+  \exp \check{\btheta} \cdot ~e
   =
-  \cos \theta \be + \frac{\sin \theta}{\theta}
-  \bu \in S^2.
+  \cos \theta ~e + \frac{\sin \theta}{\theta}
+  ~u \in S^2.
 \end{equation}
 
 The parametrization follows immediately by setting the contact point
-$Q$ to the north pole of the sphere, \emph{i.e.} $\be = [0,0,1]^T$ and
-$\bu = [x,y,0]^T$ with the normal vector $\bn$ given by
+$Q$ to the north pole of the sphere, \emph{i.e.} $~e = [0,0,1]^T$ and
+$~u = [x,y,0]^T$ with the normal vector $~n$ given by
 
 \begin{equation}
-  \bn
+  ~n
   =
-  \exp_{\be} \bu \in S^2.
+  \exp_{~e} ~u \in S^2.
 \end{equation}
 
 which leads to a more explicit representation for the normal vector in
 the canonical basis as
 
 \begin{equation}
-  \bn(x,y)
+  ~n(x,y)
   := 
   \begin{Bmatrix}
     \frac{\displaystyle x \sin \sqrt{x^2+y^2}}{\displaystyle \sqrt{x^2+y^2}}
@@ -708,96 +691,96 @@ To set the stage for the Cartesian parametrization, we revisit the
 strong ellipticity condition
 
 \begin{equation}
-  (\bu \otimes \bv) : \bbC : (\bu \otimes \bv) > 0,
+  (~u \otimes ~v) : \bbC : (~u \otimes ~v) > 0,
   \quad
-  \forall \, \bu, \bv \in \bbR^3 \setminus \{\mathbf{0}\}
+  \forall \, ~u, ~v \in \bbR^3 \setminus \{~0\}
 \end{equation}
 
-Note that this condition only requires that the vectors $\bu$ and $\bv
+Note that this condition only requires that the vectors $~u$ and $~v
 $ be non-zero. Thus, the condition that they belong to the unit sphere 
 $S^2$ may be relaxed. In analogy to the classical acoustic tensor 
 \eref{eq:acoustic-tensor}, define
 
 \begin{equation} \label{eq:Cartesian-acoustic-tensor}
-  \bB := \bv \cdot \bbC \cdot \bv
+  ~B := ~v \cdot \bbC \cdot ~v
   \quad \text{or} \quad
   B_{ik} := v_j C_{ijkl} v_l,
   \quad
-  \bv \in \bbR^3 \setminus \{\mathbf{0}\},
+  ~v \in \bbR^3 \setminus \{~0\},
 \end{equation}
 
 thus the strong ellipticity condition may be expressed as
 
 \begin{equation} \label{eq:Cartesian-acoustic-ellipticity}
-  \bu \cdot \bB \cdot \bu > 0,
+  ~u \cdot ~B \cdot ~u > 0,
   \quad
-  \bu \in \bbR^3 \setminus \{\mathbf{0}\}.
+  ~u \in \bbR^3 \setminus \{~0\}.
 \end{equation}
 
 As in \eref{eq:acoustic-determinant}, the strong ellipticity
 condition becomes
 
 \begin{equation} \label{Cartesian-acoustic-determinant}
-  \det \bB > 0.
+  \det ~B > 0.
 \end{equation}
 
 \begin{proposition}
-  The tensor $\bB$ from \eref{eq:Cartesian-acoustic-tensor} leads to
-  the same bifurcation condition than the acoustic tensor $\bA$ from
+  The tensor $~B$ from \eref{eq:Cartesian-acoustic-tensor} leads to
+  the same bifurcation condition than the acoustic tensor $~A$ from
   \eref{eq:acoustic-tensor}.
 \end{proposition}
 
 \begin{proof}
-  Introduce the bijective map $g : \bbR^3 \setminus \{\mathbf{0}\}
+  Introduce the bijective map $g : \bbR^3 \setminus \{~0\}
   \mapsto S^2 \times \bbR^+$ that allows the representation of
   nonzero vectors in $\bbR^3$ as unit vectors in the unit sphere
   (direction) and the corresponding nonzero norm (magnitude). Then
   define
   \begin{equation}
-    \bv \in \bbR^3 \setminus \{\mathbf{0}\},
+    ~v \in \bbR^3 \setminus \{~0\},
     \quad
-    v := \| \bv \| \in \bbR^+,
+    v := \| ~v \| \in \bbR^+,
     \quad
-    \bn := \frac{\bv}{v} \in S^2,
+    ~n := \frac{~v}{v} \in S^2,
   \end{equation}
   
   therefore from \eref{eq:acoustic-ellipticity} and
   \eref{eq:Cartesian-acoustic-ellipticity}
   
   \begin{equation} \label{eq:Cartesian-from-acoustic}
-      \bB(v, \bn)
+      ~B(v, ~n)
       =
-      v^2 \bA(\bn)
+      v^2 ~A(~n)
       \quad \text{and} \quad
-      \det \bB(v, \bn) = v^6 \det \bA(\bn).
+      \det ~B(v, ~n) = v^6 \det ~A(~n).
   \end{equation}
   
-  Now let the bifurcation condition for $\bA$ be
+  Now let the bifurcation condition for $~A$ be
   
   \begin{equation}
-    \min_{\bn} \det \bA(\bn) = 0,
+    \min_{~n} \det ~A(~n) = 0,
     \quad
-    \ba := \arg \min_{\bn} \det \bA(\bn) \in S^2,
+    ~a := \arg \min_{~n} \det ~A(~n) \in S^2,
     \quad
-    \det \bA(\bn) > 0 \, \forall \, \bn \neq \ba,
+    \det ~A(~n) > 0 \, \forall \, ~n \neq ~a,
   \end{equation}
   
   then it follows from \eref{eq:Cartesian-from-acoustic} that
   
   \begin{equation}
-    \det \bB(s, \ba) = 0,
+    \det ~B(s, ~a) = 0,
     \quad
-    \det \bB(s, \bn) > 0,
-    \quad \forall \, \bn \neq \ba
+    \det ~B(s, ~n) > 0,
+    \quad \forall \, ~n \neq ~a
     \text{ and } \forall \, s \in \bbR^+,
   \end{equation}
   
   which means that
   
   \begin{equation}
-    \min_{v, \bn} \det \bB(v, \bn) = 0,
+    \min_{v, ~n} \det ~B(v, ~n) = 0,
     \quad
-    \{s, \ba\} := \arg \min_{v, \bn} \det \bB(v, \bn)
+    \{s, ~a\} := \arg \min_{v, ~n} \det ~B(v, ~n)
     \,
     \forall \, s \in \bbR^+,
   \end{equation}
@@ -811,7 +794,7 @@ restrict the range of the Cartesian coordinates such that $x,y,z \in
 [-1,1]$ and set the normal vector to
 
 \begin{equation}
-  \bv(x,y,z)
+  ~v(x,y,z)
   :=
   \begin{cases}
     [x,y,1]^T,
@@ -873,8 +856,8 @@ Within an incremental update setting, the numerical detection of the bifurcation
 \begin{itemize}
   
 \item An initial sampling is performed over the 
-parametric space for $\bq$ for the normal vector $\bn \in S^2$ or $\bv 
-\in \bbR^3 \setminus \{\mathbf{0}\}$ associated with the 
+parametric space for $~q$ for the normal vector $~n \in S^2$ or $~v 
+\in \bbR^3 \setminus \{~0\}$ associated with the 
 parametrization. This leads to a rough estimate of minimum of the 
 determinant function \eqref{eq:minimization-determinant} and the 
 associated bifurcation directions.
@@ -891,10 +874,10 @@ enough due to finite time increment. One way to improve the solution
 is to introduce adaptive time increments. Define
 
 \begin{equation} \label{eq:general-minimization-problem}
-  \mu_n := \min_{\bq} f_n(\bq) = \min_{\bq} \det \bB_n(\bq)
+  \mu_n := \min_{~q} f_n(~q) = \min_{~q} \det ~B_n(~q)
 \end{equation}
 
-where the tensor $\bB_n(\bq)$ may be either the one from
+where the tensor $~B_n(~q)$ may be either the one from
 \eref{eq:acoustic-tensor} or the one from
 \eref{eq:Cartesian-acoustic-tensor}, depending on the parametrization
 in use, and the index $n$ indicates that the evaluation occurs at time
@@ -929,8 +912,8 @@ convergence criteria $\mu_n / \mu_0 \le \epsilon$ is met.
     \WHILE{ $\mu_{n+1,k} < 0$ {  or  } $ \mu_{n+1,k} / \mu_0
       > \epsilon$ }
     \STATE $t_{n+1,k} \leftarrow t_n + \alpha \triangle t$
-    \STATE compute $\bF(t_{n+1,k})$ using the global solution scheme
-    \STATE compute $\triangle \bZ(t_{n+1,k})$
+    \STATE compute $~F(t_{n+1,k})$ using the global solution scheme
+    \STATE compute $\triangle ~Z(t_{n+1,k})$
     by solving \eref{eq:Biots-equation-discrete}
     \STATE compute $\bbC(t_{n+1,k})$
     using \eref{eq:incremental-stress-moduli}
@@ -991,12 +974,12 @@ isotropic linear elasticity, the elastic modulus $\mathbb{C}^e$ is
 given as
 
 \begin{equation}
-  \mathbb{C}^e = \lambda \bdelta\otimes\delta + 2\mu\bI
+  \mathbb{C}^e = \lambda \bdelta\otimes\delta + 2\mu~I
 \end{equation}
 
 where $\lambda$ and $\mu$ are Lam\'{e} constant and shear modulus,
 respectively. $\bdelta$ is the second-order identity tensor,
-$(\bI)_{ijkl} = 1/2(\delta_{ik}\delta_{jl} +
+$(~I)_{ijkl} = 1/2(\delta_{ik}\delta_{jl} +
 \delta_{il}\delta_{jk})$ is the fourth-order symmetric identity
 tensor.
 
@@ -1052,8 +1035,8 @@ procedure described in Section \ref{sec:detection} is adopted, i.e.,
 Newton iterative procedure for better estimate of the onset of  
 bifurcation and its associated directions. Figure~
 \ref{fig:iso_stress_strain}(b) shows the degradation of the 
-determinant function (det$\bA$) for all five parametrizations upto the 
-point material bifurcation is detected. When det$\bA = 0$, the 
+determinant function (det$~A$) for all five parametrizations upto the 
+point material bifurcation is detected. When det$~A = 0$, the 
 material bifurcates. In this example, all five parametrizations detect 
 bifurcation at the same time, i.e., when the shear strain 
 $\epsilon_{12}=0.0559$ as marked in Figure~
@@ -1072,7 +1055,7 @@ can be detected.
   \caption{Simple shear test on small deformation 
   isotropic damage model: 
   (a)stress strain behavior, with the cross indicating bifurcation, and
-  (b) degradation of det$\bA$ for different
+  (b) degradation of det$~A$ for different
   parametrizations upto the point material bifurcation is detected ($\epsilon_{12}=0.0559$).}
   \label{fig:iso_stress_strain}
 \end{figure}
@@ -1089,7 +1072,7 @@ points, or equivalently, the density of the initial sampling grid. The
 denser the initial sampling grid is, the more expensive it is 
 computationally to perform the sweep. The time for the Newton 
 iterative solve, on the other hand, depends mainly on the complexity 
-of the objective function, i.e., det$\bA$, as well as the quality of 
+of the objective function, i.e., det$~A$, as well as the quality of 
 the initial guess.
 
 To compare computational costs of different parametrizations, we 
@@ -1149,12 +1132,12 @@ bifurcation, shown as `n/a' in the table.
 \end{table}
 
 As aforementioned, the choice of parametrization directly affects the 
-complexity of the objective function ${\rm det}\bA$ in 
+complexity of the objective function ${\rm det}~A$ in 
 \eref{eq:minimization-derivative}, which in turn affects the 
 computational efficiency and robustness of different parametrizations 
 on detection of material bifurcation as shown in 
 Table~\ref{tab:iso_shear_runtime}. To illustrate this point, the 
-landscapes of the objective function ${\rm det}\bA$ at bifurcation, 
+landscapes of the objective function ${\rm det}~A$ at bifurcation, 
 i.e., at $\bepsilon_{12}=0.0559$ are plotted in 
 Figure~\ref{fig:iso_shear_detA}. The corresponding plane views of the 
 determinant landscapes are shown in 
@@ -1175,7 +1158,7 @@ global minimum point(s). The projective parametrization requires three parameter
    \includegraphics[width=0.45\textwidth]
    {figs/iso_shear_tangent_detA.pdf}
  }
-   \caption{det$\bA$ landscapes at bifurcation
+   \caption{det$~A$ landscapes at bifurcation
    for simple shear test on small deformation isotropic damage model.}
    \label{fig:iso_shear_detA}
  \end{figure}
@@ -1194,7 +1177,7 @@ global minimum point(s). The projective parametrization requires three parameter
    \includegraphics[width=0.45\textwidth]
    {figs/iso_shear_tangent_detAXplane.pdf}
  }
-   \caption{Plane views det$\bA$ landscapes at bifurcation
+   \caption{Plane views det$~A$ landscapes at bifurcation
    for simple shear test on small deformation isotropic damage model. 
    The white stars indicate global minimum point in the landscape.}
    \label{fig:iso_shear_detAXplane}
@@ -1313,12 +1296,12 @@ and the microfibers. The free energy function is proposed to have the
 following form:
 
 \begin{equation}\label{eq:aniso_energy}
-  \Psi (\bC, \bM, \xi_m, \xi_i) 
-    = (1-\xi_m) f_m \Psi_m^0(\bC) 
-    + \sum_{i}^{n} (1-\xi_i) f_i \Psi_i^0(\bC, \bM)
+  \Psi (~C, ~M, \xi_m, \xi_i) 
+    = (1-\xi_m) f_m \Psi_m^0(~C) 
+    + \sum_{i}^{n} (1-\xi_i) f_i \Psi_i^0(~C, ~M)
 \end{equation}
 
-where $\bC$ is the Right Cauchy-Green tensor, $\bM$ is a
+where $~C$ is the Right Cauchy-Green tensor, $~M$ is a
 unit vector characterizing the preferred fiber direction, $f_m$ and 
 $f_i$ are the volume fraction of the matrix and $i$th fiber, $n$ is 
 the number of fiber terms, $\xi_m$ and $\xi_i$ are the damage factors 
@@ -1330,7 +1313,7 @@ We adopt a compressible Neo-Hookean type energy function for the
 effective (undamaged) matrix component
 
 \begin{equation}\label{eq:aniso_Psim0}
-  \Psi_m^0 (\bC) 
+  \Psi_m^0 (~C) 
     = \frac{1}{8}\lambda (\ln I_3)^2
     - \frac{1}{2}\mu \ln I_3 
     + \frac{1}{2}\mu( I_1 - 3)
@@ -1343,7 +1326,7 @@ For microfibers, we adopt one particular form of strain-energy
 function proposed in \cite{Holzapfel.etal:2010}
 
 \begin{equation}
-  \Psi_i^0(\bC, \bM) 
+  \Psi_i^0(~C, ~M) 
     = \frac{k_i}{q_i}
     \{ \exp[q_i(I_4 - 1)^2] \}
 \end{equation}
@@ -1352,15 +1335,15 @@ where $k_i$ and $q_i$ are elastic constants for the $i$th fiber.
 The strain invariants $I_1$, $I_3$ and $I_4$ are defined as
 
 \begin{equation}
-  I_1 = \tr \bC, 
+  I_1 = \tr ~C, 
 \end{equation}
 
 \begin{equation}
-  I_3 = \det \bC,
+  I_3 = \det ~C,
 \end{equation}
 
 \begin{equation}
-  I_4 = \bM \cdot (\bC \cdot \bM)
+  I_4 = ~M \cdot (~C \cdot ~M)
 \end{equation}
 
 For the damage parameter, the same evolution law as in 
@@ -1375,8 +1358,8 @@ function with respect to some strain measures, in particular
   \tilde{\mathbb{C}} 
    = (1-\xi_m) \tilde{\mathbb{C}}_m^0 
    + \sum_i^n (1-\xi_i) \tilde{\mathbb{C}}_i^0
-   -\beta_m \xi_m'  (\bS_m^0 \otimes \bS_m^0 )
-   - \sum_i^n \beta_i \xi_i' (\bS_i^0 \otimes \bS_i^0 )
+   -\beta_m \xi_m'  (~S_m^0 \otimes ~S_m^0 )
+   - \sum_i^n \beta_i \xi_i' (~S_i^0 \otimes ~S_i^0 )
 \end{equation}
 
 where $\beta_m = 1$ if damage of the matrix evolves within the 
@@ -1384,17 +1367,17 @@ time increment and $\beta_m=0$ otherwise. $\beta_i = 1$ if damage of
 the $i$th fiber evolves within the time increment and $\beta_i=0$ 
 otherwise. $\xi_m'$ and $\xi_i'$ are the derivative of the damage 
 parameters defined in \eref{eq:iso_xi} with respect to the maximum 
-thermodynamic force defined in \eref{eq:alpha}. $\bS_m^0$ and 
-$\bS_i^0$ are the effective (undamaged) second Piola-Kirchhoff stress for the matrix and the $i$th fibers, given by
+thermodynamic force defined in \eref{eq:alpha}. $~S_m^0$ and 
+$~S_i^0$ are the effective (undamaged) second Piola-Kirchhoff stress for the matrix and the $i$th fibers, given by
 
 \begin{equation}\label{eq:aniso_S0m}
-  \bS_m^0 = 
-    2 f_m \frac{\partial \Psi_m^0}{\partial\bC}
+  ~S_m^0 = 
+    2 f_m \frac{\partial \Psi_m^0}{\partial~C}
 \end{equation}
 
 \begin{equation}\label{eq:aniso_S0i}
-  \bS_i^0 = 
-    2 f_i \frac{\partial \Psi_i^0}{\partial\bC}
+  ~S_i^0 = 
+    2 f_i \frac{\partial \Psi_i^0}{\partial~C}
 \end{equation}
 
 where $f_m$ and $f_i$ are the volume fraction of the matrix and $i$th fiber, respectively.
@@ -1403,12 +1386,12 @@ The effective tangent modulus tensor can be calculated as
 
 \begin{equation}\label{eq:aniso_tangent1}
   \tilde{\mathbb{C}}_m^0 = 
-    2 \frac{\partial \bS_m^0}{\partial\bC}
+    2 \frac{\partial ~S_m^0}{\partial~C}
 \end{equation}
 
 \begin{equation}\label{eq:aniso_tangent2}
   \tilde{\mathbb{C}}_i^0 =  
-    2 \frac{\partial \bS_m^0}{\partial\bC}
+    2 \frac{\partial ~S_m^0}{\partial~C}
 \end{equation}
 
 It should be noted that the fourth-order tangent $\tilde{\mathbb{C}}$ 
@@ -1426,7 +1409,7 @@ the following relation (in indicial notation)
 
 where $S_{lj}$ is the second Piola-Kirchhoff stress (including 
 damage contribution) of the corresponding phase (e.g., matrix or fiber 
-component), and $\bdelta$ is the Kronecker delta and $\bF$ is the 
+component), and $\bdelta$ is the Kronecker delta and $~F$ is the 
 deformation gradient. Note that in \eref{eq:aniso_tangent3}, the 
 indices in the subscript refer to the individual component of a 
 tensor, not to confuse with the subscripts `$m$' and `$i$' used in 
@@ -1497,14 +1480,14 @@ the matrix and microfibers are listed in Table~
       &
       Direction vector
       &
-      $\bM_1 = \{ 0.8,~0.6,~0.0\}$
+      $~M_1 = \{ 0.8,~0.6,~0.0\}$
       \\
       &
 
       &
 	       
       &
-      $\bM_2 = \{ 0.8,-0.6,~0.0\}$
+      $~M_2 = \{ 0.8,-0.6,~0.0\}$
       \\
       \bottomrule
     \end{tabular}
@@ -1535,7 +1518,7 @@ axial component of the deformation gradient $F_{11} = 1.1798$.
   \caption{Uniaxial tension test on finite deformation 
   anisotropic damage model: 
   (a)stress strain behavior, with the cross indicating bifurcation, and
-  (b) degradation of det$\bA$ for different
+  (b) degradation of det$~A$ for different
   parametrizations.}
   \label{fig:aniso_stress_stretch}
 \end{figure}
@@ -1588,7 +1571,7 @@ same time, relatively insensitive to the sampling interval.
 \end{table}
 
 To gain insights into the influence of parametrizations on the 
-determinant function det$\bA$ as loading proceeds, we plot the 
+determinant function det$~A$ as loading proceeds, we plot the 
 landscapes at four different axial stretch levels for different 
 parametrizations, as shown in Figures~\ref{fig:aniso_spherical_detA} - 
 \ref{fig:aniso_cartesian_detA}.
@@ -1607,7 +1590,7 @@ parametrizations, as shown in Figures~\ref{fig:aniso_spherical_detA} -
    \includegraphics[width=0.45\textwidth]
    {figs/aniso_uniaxial_spherical_detA_F1p1798.pdf}
  }
-   \caption{Spherical parametrization: landscapes of det$\bA$ 
+   \caption{Spherical parametrization: landscapes of det$~A$ 
    for uniaxial tension test on finite deformation anisotropic model at
    different axial stretch levels.}
    \label{fig:aniso_spherical_detA}
@@ -1627,7 +1610,7 @@ parametrizations, as shown in Figures~\ref{fig:aniso_spherical_detA} -
    \includegraphics[width=0.45\textwidth]
    {figs/aniso_uniaxial_stereographic_detA_F1p1798.pdf}
  }
-   \caption{Stereographic parametrization: landscapes of det$\bA$ 
+   \caption{Stereographic parametrization: landscapes of det$~A$ 
    for uniaxial tension test on finite deformation anisotropic model at
    different axial stretch levels.}
    \label{fig:aniso_stereographic_detA}
@@ -1647,7 +1630,7 @@ parametrizations, as shown in Figures~\ref{fig:aniso_spherical_detA} -
    \includegraphics[width=0.45\textwidth]
    {figs/aniso_uniaxial_tangent_detA_F1p1798.pdf}
  }
-   \caption{Tangent parametrization: landscapes of det$\bA$ 
+   \caption{Tangent parametrization: landscapes of det$~A$ 
    for uniaxial tension test on finite deformation anisotropic model at
    different axial stretch levels.}
    \label{fig:aniso_tangent_detA}
@@ -1667,7 +1650,7 @@ parametrizations, as shown in Figures~\ref{fig:aniso_spherical_detA} -
    \includegraphics[width=0.45\textwidth]
    {figs/aniso_uniaxial_cartesian_detA_F1p1798.pdf}
  }
-   \caption{Cartesian parametrization: landscapes of det$\bA$ 
+   \caption{Cartesian parametrization: landscapes of det$~A$ 
    for uniaxial tension test on finite deformation anisotropic model at
    different axial stretch levels.}
    \label{fig:aniso_cartesian_detA}
