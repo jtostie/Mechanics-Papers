@@ -817,48 +817,50 @@ parametrizations just described consists of the following two steps:
 
 \begin{itemize}
 
-\item An initial sampling is performed over the
-parametric space for $~q$ for the normal vector $~n \in S^2$ or $~v
-\in {"R}^3 \setminus \{~0\}$ associated with the
-parametrization. This leads to a rough estimate of minimum of the
-determinant function \eqref{eq:minimization-determinant} and the
-associated bifurcation directions.
+\item An initial sampling is performed over the parametric space for
+  $~q$ for the normal vector $~n \in S^2$ or $~v \in {"R}^3 \setminus
+  \{~0\}$ associated with the parametrization. This leads to a rough
+  estimate of the minimum of the determinant function
+  \eqref{eq:minimization-determinant} and the associated bifurcation
+  directions.
 
 \item The coarse estimate can be used to initiate an iterative
-procedure to find a more accurate estimate of the onset of bifurcation
-and its associated directions by solving the optimization problem in \eqref{eq:minimization-derivative}.
+  procedure to find a more accurate estimate of the onset of
+  bifurcation and its associated directions by solving the
+  optimization problem \eqref{eq:minimization-derivative}.
 
 \end{itemize}
 
 In an actual finite element simulation, the above two-step procedure
 may not yield estimates of the bifurcation condition that are accurate
-enough due to finite time increment. One way to improve the solution
-is to introduce adaptive time increments. Define
-
+enough within a time increment, in particular if the size of the
+increment is relatively large. One way to improve the solution is to
+introduce adaptive time increments for the detection of the
+bifurcation condition.  Define
 \begin{equation} \label{eq:general-minimization-problem}
-  \mu_n := \min_{~q} f_n(~q) = \min_{~q} \det ~B_n(~q)
+  \mu_{n+1,k} := \min_{~q} f_{n+1,k}(~q) = \min_{~q} \det ~B_{n+1,k}(~q)
 \end{equation}
-
-where the tensor $~B_n(~q)$ may be either the one from
+where the tensor $~B_{n+1,k}(~q)$ may be either the one from
 \eref{eq:acoustic-tensor} or the one from
 \eref{eq:Cartesian-acoustic-tensor}, depending on the parametrization
-in use, and the index $n$ indicates that the evaluation occurs at time
-$t_n$.
+in use, and the index ${n+1,k}$ indicates that the evaluation occurs
+at time $t_{n+1,k} \in [t_n, t_{n+1}]$.
 
 Consider the original time increment from $t_n$ to $t_{n+1}$, where
 $\mu_n > 0$ and $\mu_{n+1} < 0$. This means that between time $t_n$
 and $t_{n+1}$, the strong ellipticity condition is violated and hence
-material bifurcates. Assume also that $\mu_n / \mu_0 > \epsilon$,
-where $\mu_0$ is the value of the determinant function evaluated at
-time $t_0$ and $\epsilon$ is a target tolerance. We wish to find a
-better estimate for the determinant function $\mu_n$, and hence the
-bifurcation time $t_n$, such that $\mu_n / \mu_0 \le \epsilon$. This
-is achieved by an adaptive time increment procedure by means of
-bisection, as shown in Algorithm~\ref{alg:adaptive-step}. This
-algorithm repeatedly cut the time increment to half until the
-convergence criteria $\mu_n / \mu_0 \le \epsilon$ is met.
+the material exhibits bifurcation. Assume also that $\mu_n / \mu_0 >
+\epsilon$, where $\mu_0$ is the value of the determinant function
+evaluated at time $t_0$ and $\epsilon$ is a target tolerance. We wish
+to find a better estimate for the determinant function $\mu_{n+1,k}$,
+and hence the bifurcation time $t_{n+1,k}$, such that $\mu_{n+1,k} /
+\mu_0 \le \epsilon$. This is achieved by an adaptive time increment
+procedure by means of bisection, as shown in
+Algorithm~\ref{alg:adaptive-step}. This algorithm repeatedly cuts the
+time increment in half until the convergence criterion $\mu_{n+1,k} /
+\mu_0 \le \epsilon$ is met.
 
-\begin{algorithm}
+\begin{algorithm}[htbp]
   \caption{$\text{AdaptiveStep}(\mu_0, \mu_{n+1}, t_{n+1}, \epsilon)$}
   \begin{algorithmic}
     \REQUIRE $\mu_{n+1} < 0$
@@ -893,20 +895,21 @@ convergence criteria $\mu_n / \mu_0 \le \epsilon$ is met.
 \end{algorithm}
 
 The adaptive time increment procedure allows the accurate (up to the
-tolerance $\epsilon$) detection of bifurcation time during a loading
-process. The procedure described in this section to numerically detect
+tolerance $\epsilon$) detection of the bifurcation time during a
+loading process. The procedure described in this section to detect
 material bifurcation can be applied to a very general class of
-materials and will be analyzed in the following section.
+materials and its numerical performance is demonstrated in the
+following section.
 
 \section{Numerical Examples}
 \label{sec:numerical-examples}
 
-The performance and applicability of the proposed Cartesian along with
-other existing common and uncommon parametrizations are examined by
-applying them to the bifurcation analysis of several material models
-under different loading conditions. The analysis is performed at the
-material point level. Of particular interest are the robustness and
-computational efficiency of different parametrizations.
+The performance and applicability of the proposed Cartesian and the
+other four parametrizations are examined by applying them to the
+bifurcation analysis of several material models under different
+loading conditions. The analysis is performed at the material point
+level. Of particular interest are the robustness and computational
+efficiency of the different parametrizations.
 
 \subsection{Small deformation isotropic elastic damage model}
 \label{subsec:isotropic}
