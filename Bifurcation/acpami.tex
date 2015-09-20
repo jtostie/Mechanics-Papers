@@ -32,6 +32,9 @@
 \usepackage[T1]{fontenc}
 \usepackage{ae,aecompl}
 
+\newcommand{\mtrx}{{\text{m}}}
+\newcommand{\fiber}{{\text{f}}}
+
 \newtheorem{proposition}{Proposition}
 
 \input{notation_defs.tex}
@@ -88,21 +91,20 @@
 \maketitle
 
 \begin{abstract}
-  We examine some common and uncommon parametrizations of the unit
-  sphere $S^2 \subset {"R}^3$ within the context of material stability
-  analysis by means of the singularity of the acoustic tensor. We then
-  propose a Cartesian parametrization for vectors $\{~v \in {"R}^3 \,
-  : \, ||~v||_{\infty} = 1\}$, \ie, the unit square. We use these
-  vectors in lieu of unit normals to test for the loss of the
-  ellipticity condition. This parametrization is used to construct a
-  tensor that is the acoustic tensor multiplied by a scalar factor. It
-  is shown that both tensors become singular at the same time and in
-  the same planes in the presence of a material instability. The
-  performance of the Cartesian parametrization is compared against the
-  other parametrizations, with the results of these comparisons
-  showing that in general the Cartesian parametrization is more robust
-  and more numerically efficient than the other tested
-  parametrizations.
+  We examine four parametrizations of the unit sphere $S^2 \subset
+  {"R}^3$ within the context of material stability analysis by means
+  of the singularity of the acoustic tensor. We then propose a
+  Cartesian parametrization for vectors $\{~v \in {"R}^3 \, : \,
+  ||~v||_{\infty} = 1\}$, \ie, the unit cube. We use these vectors in
+  lieu of unit normals to test for the loss of the ellipticity
+  condition. This parametrization is used to construct a tensor that
+  is the acoustic tensor multiplied by a scalar factor. It is shown
+  that both tensors become singular at the same time and in the same
+  planes in the presence of a material instability. The performance of
+  the Cartesian parametrization is compared against the other
+  parametrizations, with the results of these comparisons showing that
+  in general the Cartesian parametrization is more robust and more
+  numerically efficient than the others.
 \end{abstract}
 
 \section{Introduction}
@@ -419,7 +421,7 @@ computed in turn as
 \begin{equation} \label{eq:incremental-stress-moduli}
   ~P_{n+1} := \frac{\partial W}{\partial ~F} (~F_{n+1}),
   \quad
-  \bbC_{n+1} := \frac{\partial^2 W}{\partial ~F^2} (~F_{n+1}),
+  \bbA_{n+1} := \frac{\partial^2 W}{\partial ~F^2} (~F_{n+1}),
 \end{equation}
 respectively. Thus, by using variational constitutive updates, the
 stress and the tangent moduli can be derived from the
@@ -437,7 +439,7 @@ omit the time indices $n$ and $n+1$ with the understating that further
 developments take place at time $t_{n+1}$.  The ellipticity condition
 can be expressed as
 \begin{equation} \label{eq:strong-ellipticity}
-  (~m \otimes ~n) : \bbC : (~m \otimes ~n) \ge 0,
+  (~m \otimes ~n) : \bbA : (~m \otimes ~n) \ge 0,
   \quad
   \forall \, ~m, ~n \in {"R}^3.
 \end{equation}
@@ -448,7 +450,7 @@ customary to \emph{assume} that $~m$ and $~n$ are unit vectors, \ie
 $~m, ~n \in S^2$ where $S^2 := \{ ~t \in {"R}^3 \, | \, \| ~t \| =
 1\}$ is the unit sphere. Define the acoustic tensor as
 \begin{equation} \label{eq:acoustic-tensor}
-  ~A := ~n \cdot \bbC \cdot ~n
+  ~A := ~n \cdot \bbA \cdot ~n
   \quad \text{or} \quad
   A_{ik} \, ~e_i \otimes ~e_k := n_j C_{ijkl} n_l \, ~e_i \otimes ~e_k,
   \quad
@@ -664,7 +666,7 @@ that the normal vector be of unit length is relaxed.  To set the stage
 for the Cartesian parametrization, we revisit the strong ellipticity
 condition
 \begin{equation}
-  (~u \otimes ~v) : \bbC : (~u \otimes ~v) > 0,
+  (~u \otimes ~v) : \bbA : (~u \otimes ~v) > 0,
   \quad
   \forall \, ~u, ~v \in {"R}^3 \setminus \{~0\}
 \end{equation}
@@ -674,7 +676,7 @@ $ be non-zero. Thus, the condition that they belong to the unit sphere
 $S^2$ may be relaxed. In analogy to the classical acoustic tensor
 \eref{eq:acoustic-tensor}, define
 \begin{equation} \label{eq:Cartesian-acoustic-tensor}
-  ~B := ~v \cdot \bbC \cdot ~v
+  ~B := ~v \cdot \bbA \cdot ~v
   \quad \text{or} \quad
   B_{ik} \, ~e_i \otimes ~e_j := v_j C_{ijkl} v_l  \, ~e_i \otimes ~e_j,
   \quad
@@ -696,7 +698,10 @@ condition becomes
 \begin{proposition}
   The tensor $~B$ from \eref{eq:Cartesian-acoustic-tensor} leads to
   the same bifurcation condition than the acoustic tensor $~A$ from
-  \eref{eq:acoustic-tensor}.
+  \eref{eq:acoustic-tensor}, \ie, if the minimum for $\det ~A$ is
+  equal to zero for a vector $~a \in S^2$, then the minimum for $\det
+  ~B$ is also zero for a vector $~b \in {"R}^3 \setminus \{~0\}$ that
+  is parallel to $~a$.
 \end{proposition}
 
 \begin{proof}
@@ -879,7 +884,7 @@ time increment in half until the convergence criterion $\mu_{n+1,k} /
     \STATE compute $~F(t_{n+1,k})$ using the global solution scheme
     \STATE compute $\triangle ~Z(t_{n+1,k})$
     by solving \eref{eq:Biots-equation-discrete}
-    \STATE compute $\bbC(t_{n+1,k})$
+    \STATE compute $\bbA(t_{n+1,k})$
     using \eref{eq:incremental-stress-moduli}
     \STATE compute $\mu_{n+1,k}$
     by solving \eref{eq:general-minimization-problem}
@@ -927,7 +932,8 @@ damage model will be derived from a strain-energy function, which is
 assumed to have the form
 \begin{equation}\label{eq:iso_psi}
   A(\bepsilon ^e, \xi)
-  = \frac{1}{2} (1 - \xi)
+  :=
+  \frac{1}{2} (1 - \xi)
   \bepsilon ^e : \mathbb{C}^e : \bepsilon ^e
 \end{equation}
 where $\bepsilon^e$ is the infinitesimal elastic strain tensor,
@@ -936,7 +942,7 @@ damage parameter introduced to trigger material bifurcation. For
 isotropic linear elasticity, the elastic modulus $\bbC^e$ is
 given as
 \begin{equation}
-  \bbC^e = \lambda ~I \otimes ~I + 2\mu \bbI
+  \bbC^e := \lambda ~I \otimes ~I + 2\mu \bbI
 \end{equation}
 where $\lambda$ and $\mu$ are the Lam\'{e} constants, $~I$ is the
 second-order identity tensor and $(\bbI)_{ijkl} =
@@ -946,7 +952,7 @@ fourth-order symmetric identity tensor.
 We adopt the following evolution law for the scalar damage parameter $
 \xi$ \cite{Holzapfel:2000}
 \begin{equation}\label{eq:iso_xi}
-  \xi(\alpha) = \xi_{\infty} [ 1- {\rm exp}(-\alpha / \tau)]
+  \xi(\alpha) := \xi_{\infty} [ 1- {\rm exp}(-\alpha / \tau)]
 \end{equation}
 where $\xi_{\infty}$ describes the dimensionless maximum damage and
 $\tau$ is referred to as the damage saturation parameter. The
@@ -954,7 +960,7 @@ parameter $\alpha$ is the maximum thermodynamic force
 \cite{Holzapfel:2000} with the same dimensions as the effective strain
 energy. Within the closed time interval $[0,t]$, $\alpha$ is given as
 \begin{equation}\label{eq:alpha}
-  \alpha(t) = \max_{s\in [0,t]}A_0(s)
+  \alpha(t) := \max_{s\in [0,t]}A_0(s)
 \end{equation}
 where $A_0(s)$ is the undamaged strain energy at time $s$.
 
@@ -963,7 +969,7 @@ evolution \eref{eq:iso_xi}, the fourth-order tangent modulus can be
 obtained by differentiating the strain-energy function with respect to
 the strain measure $\bepsilon_e$ twice, which results in
 \begin{equation}
-  \bbC = (1-\xi)\bbC^e
+  \bbC := (1-\xi)\bbC^e
     - \beta \frac{\partial\xi}{\partial\alpha}
     (\bsigma_0\otimes\bsigma_0)
 \end{equation}
@@ -1230,147 +1236,135 @@ of the robustness results.
    \label{fig:iso_shear_robust}
 \end{figure}
 
-\subsection{Finite deformation anisotropic hyperelastic damage model}
+\subsection{Finite-Deformation Anisotropic Hyperelastic Damage Model}
 \label{subsec:anisotropic}
 
-The second material model tested is a finite deformation anisotropic
-hyperelastic damage model. By adding complexity to the material model,
-and hence the tangent modulus, we would like to study how will the
-performance of different parametrizations be affected. As in the
-previous example, we first present the key feature of the material
-model.
+The second material model tested is a finite-deformation anisotropic
+hyperelastic damage model. Our aim is to study the effect of adding
+complexity to the material model, and hence the tangent modulus, on
+the performance of the different parametrizations. As in the previous
+example, we first present the key features of the material model.
 
-\subsubsection{Model formulation}
+\subsubsection{Model Formulation}
 
 The free energy function of the finite-deformation anisotropic
-hyperelastic damage model consists of an isotropic term and direction-
-dependent terms. This type of energy formulation is motivated to
-capture behavior of materials with an isotropic matrix and some
-microfibers with preferred directions, such as the model proposed by
-\citet{Chen.etal:2014} to capture behavior of hydrided nuclear
-cladding materials. We assume that the damage affects both the matrix
-and the microfibers. The free energy function is proposed to have the
-following form:
-
+hyperelastic damage model consists of an isotropic term and
+direction-dependent terms. The motivation for this type of energy
+formulation is to capture the behavior of materials with an isotropic
+matrix and embedded microfibers with preferred directions, such as the
+model proposed by \citet{Chen.etal:2014} to describe the behavior of
+cladding for nuclear reactors subjected to damage by hydride
+compounds. We assume that the damage affects both the matrix and the
+microfibers. The free energy function is assumed to have the form
 \begin{equation}\label{eq:aniso_energy}
-  \Psi (~C, ~M, \xi_m, \xi_i)
-    = (1-\xi_m) f_m \Psi_m^0(~C)
-    + \sum_{i}^{n} (1-\xi_i) f_i \Psi_i^0(~C, ~M)
+  A(~C, ~M, \xi^\mtrx, \xi^\fiber_i)
+  :=
+  (1-\xi^\mtrx) f^\mtrx \Psi^\mtrx(~C)
+  + \sum_{i=1}^{N} (1-\xi^\fiber_i) f^\fiber_i \Psi^\fiber_i(~C, ~M)
 \end{equation}
-
-where $~C$ is the Right Cauchy-Green tensor, $~M$ is a
-unit vector characterizing the preferred fiber direction, $f_m$ and
-$f_i$ are the volume fraction of the matrix and $i$th fiber, $n$ is
-the number of fiber terms, $\xi_m$ and $\xi_i$ are the damage factors
-corresponding to the matrix and the $i$th fibers, respectively. In the
-following examples, we assume that there are two preferred fiber
-directions, i.e., $n=2$.
+where $~C$ is the Right Cauchy-Green tensor, $~M$ is a unit vector
+characterizing the preferred fiber direction, $f^\mtrx$ and
+$f^\fiber_i$ are the volume fraction of the matrix and $i$th fiber,
+$N$ is the number of fiber terms and $\xi^\mtrx$ and $\xi^\fiber_i$
+are the damage factors corresponding to the matrix and the $i$th
+fibers, respectively. In the following examples, we assume that there
+are two preferred fiber directions.
 
 We adopt a compressible Neo-Hookean type energy function for the
 effective (undamaged) matrix component
-
 \begin{equation}\label{eq:aniso_Psim0}
-  \Psi_m^0 (~C)
-    = \frac{1}{8}\lambda (\ln I_3)^2
-    - \frac{1}{2}\mu \ln I_3
+  \Psi^\mtrx (~C)
+    = \frac{1}{8}\lambda (\log I_3)^2
+    - \frac{1}{2}\mu \log I_3
     + \frac{1}{2}\mu( I_1 - 3)
 \end{equation}
-
-where $\lambda$ and $\mu$ are Lam\'{e}'s constant and shear modulus,
-respectively.
-
-For microfibers, we adopt one particular form of strain-energy
-function proposed in \cite{Holzapfel.etal:2010}
-
+where $\lambda$ and $\mu$ play the role of the Lam\'{e} constants of
+linear elasticity. For the microfibers we adopt the particular form of
+strain-energy function proposed in \cite{Holzapfel.etal:2010}
 \begin{equation}
-  \Psi_i^0(~C, ~M)
+  \Psi^\fiber_i(~C, ~M)
     = \frac{k_i}{q_i}
     \{ \exp[q_i(I_4 - 1)^2] \}
 \end{equation}
-
-where $k_i$ and $q_i$ are elastic constants for the $i$th fiber.
-The strain invariants $I_1$, $I_3$ and $I_4$ are defined as
-
-\begin{equation}
+where $k_i$ and $q_i$ are elastic constants for the $i$th fiber.  The
+strain invariants $I_1$, $I_3$ and $I_4$ are defined as
+\begin{gather}
   I_1 = \tr ~C,
-\end{equation}
-
-\begin{equation}
+  \quad
   I_3 = \det ~C,
-\end{equation}
-
-\begin{equation}
-  I_4 = ~M \cdot (~C \cdot ~M)
-\end{equation}
-
+  \quad
+  I_4 = ~M \cdot (~C \cdot ~M).
+\end{gather}
 For the damage parameter, the same evolution law as in
 \eref{eq:iso_xi} will be used, except that for each phase of the
-material, there will be a different set of parameters \cite{Chen.etal:2014}.
+material, there will be a different set of parameters
+\cite{Chen.etal:2014}.
 
 Given the energy function \eref{eq:aniso_energy}, the fourth-order
-tangent modulus can be derived by taking derivative of the energy
-function with respect to some strain measures, in particular
-
+tangent modulus can be derived as
 \begin{equation}\label{eq:aniso_tangent}
-  \tilde{\bbC}
-   = (1-\xi_m) \tilde{\bbC}_m^0
-   + \sum_i^n (1-\xi_i) \tilde{\bbC}_i^0
-   -\beta_m \xi_m'  (~S_m^0 \otimes ~S_m^0 )
-   - \sum_i^n \beta_i \xi_i' (~S_i^0 \otimes ~S_i^0 )
+  \bbC
+  : =
+  (1-\xi^\mtrx) \bbC^\mtrx
+  +
+  \sum_{i=1}^N (1-\xi^\fiber_i) \bbC^\fiber_i
+  -
+  \beta^\mtrx {\xi^\mtrx}'  (~S^\mtrx \otimes ~S^\mtrx )
+  -
+  \sum_i^n \beta^\fiber_i {\xi^\fiber_i}' (~S^\fiber_i \otimes ~S^\fiber_i)
 \end{equation}
-
-where $\beta_m = 1$ if damage of the matrix evolves within the
-time increment and $\beta_m=0$ otherwise. $\beta_i = 1$ if damage of
-the $i$th fiber evolves within the time increment and $\beta_i=0$
-otherwise. $\xi_m'$ and $\xi_i'$ are the derivative of the damage
-parameters defined in \eref{eq:iso_xi} with respect to the maximum
-thermodynamic force defined in \eref{eq:alpha}. $~S_m^0$ and
-$~S_i^0$ are the effective (undamaged) second Piola-Kirchhoff stress for the matrix and the $i$th fibers, given by
-
+where $\beta^\mtrx = 1$ if the damage of the matrix evolves within the
+time increment or $\beta^\mtrx=0$ otherwise; $\beta^\fiber_i = 1$ if
+the damage of the $i$th fiber evolves within the time increment or
+$\beta^\fiber_i=0$ otherwise; ${\xi^\mtrx}'$ and ${\xi^\fiber_i}'$ are
+the derivatives of the damage parameters defined in \eref{eq:iso_xi}
+with respect to the maximum thermodynamic force defined in
+\eref{eq:alpha}; and $~S^\mtrx$ and $~S^\fiber_i$ are the effective
+(undamaged) second Piola-Kirchhoff stresses for the matrix and the
+$i$th fibers given by
 \begin{equation}\label{eq:aniso_S0m}
-  ~S_m^0 =
-    2 f_m \frac{\partial \Psi_m^0}{\partial~C}
+  ~S^\mtrx
+  :=
+  2 f^\mtrx \frac{\partial \Psi^\mtrx}{\partial~C}
 \end{equation}
-
+and
 \begin{equation}\label{eq:aniso_S0i}
-  ~S_i^0 =
-    2 f_i \frac{\partial \Psi_i^0}{\partial~C}
+  ~S^\fiber_i
+  :=
+  2 f^\fiber_i \frac{\partial \Psi^\fiber_i}{\partial~C}
 \end{equation}
+where $f^\mtrx$ and $f^\fiber_i$ are the volume fraction of the matrix
+and $i$th fiber, respectively.
 
-where $f_m$ and $f_i$ are the volume fraction of the matrix and $i$th fiber, respectively.
-
-The effective tangent modulus tensor can be calculated as
-
+The effective tangent moduli tensors can be calculated as
 \begin{equation}\label{eq:aniso_tangent1}
-  \tilde{\bbC}_m^0 =
-    2 \frac{\partial ~S_m^0}{\partial~C}
+  \bbC^\mtrx
+  :=
+  2 \frac{\partial ~S^\mtrx}{\partial~C}
 \end{equation}
-
+and
 \begin{equation}\label{eq:aniso_tangent2}
-  \tilde{\bbC}_i^0 =
-    2 \frac{\partial ~S_m^0}{\partial~C}
+  \bbC^\fiber_i
+  :=
+  2 \frac{\partial ~S^\mtrx}{\partial~C}.
 \end{equation}
 
-It should be noted that the fourth-order tangent $\tilde{\bbC}$
-from \eref{eq:aniso_tangent} is computed as the derivative of strain
-energy with respect to the right Cauchy-Green tensor. The strong
-ellipticity condition \eref{eq:strong-ellipticity} requires the
-tangent $\bbC$ to be computed as a derivative with respect to
-the deformation gradient. These two tangents can be converted using
-the following relation (in indicial notation)
-
+It should be noted that the fourth-order tangent $\bbC$ from
+\eref{eq:aniso_tangent} is computed as the second derivative of the
+strain energy with respect to the right Cauchy-Green deformation
+tensor $~C$. The strong ellipticity condition
+\eref{eq:strong-ellipticity} requires the tangent $\bbA$ that is
+obtained as the second derivative of the strain energy with respect to
+the deformation gradient $~F$. One tangent can be converted to the
+other using the following relation (in indicial notation)
 \begin{equation}\label{eq:aniso_tangent3}
-  \bbC_{ijkl} = S_{lj} \delta_{ik}
-    + F_{ip} \tilde{\bbC}_{pjlq} F_{kq}
+  \bbA_{ijkl} = S_{lj} \delta_{ik}
+    + F_{ip} \bbC_{pjlq} F_{kq}
 \end{equation}
-
-where $S_{lj}$ is the second Piola-Kirchhoff stress (including
-damage contribution) of the corresponding phase (e.g., matrix or fiber
-component), and $\bdelta$ is the Kronecker delta and $~F$ is the
-deformation gradient. Note that in \eref{eq:aniso_tangent3}, the
-indices in the subscript refer to the individual component of a
-tensor, not to confuse with the subscripts `$m$' and `$i$' used in
-\eref{eq:aniso_tangent} to represent different phases.
+where $S_{lj}$ are the components of the second Piola-Kirchhoff stress
+(including damage contribution) of the corresponding phase (e.g.,
+matrix or fiber component), $\delta_{ik}$ is the Kronecker delta and
+$F_{ij}$ are the components of the deformation gradient.
 
 \subsubsection{Uniaxial tension test}
 
@@ -1426,11 +1420,11 @@ the matrix and microfibers are listed in Table~
       \\
       Volume fraction
       &
-      $f_m = 0.2$
+      $f^\mtrx = 0.2$
       &
       Volume fraction
       &
-      $f_1 = f_2 = 0.4$
+      $f^\fiber_1 = f^\fiber_2 = 0.4$
       \\
       &
 
