@@ -452,7 +452,7 @@ $~m, ~n \in S^2$ where $S^2 := \{ ~t \in {"R}^3 \, | \, \| ~t \| =
 \begin{equation} \label{eq:acoustic-tensor}
   ~A := ~n \cdot \bbA \cdot ~n
   \quad \text{or} \quad
-  A_{ik} \, ~e_i \otimes ~e_k := n_j C_{ijkl} n_l \, ~e_i \otimes ~e_k,
+  A_{ik} \, ~e_i \otimes ~e_k := n_j A_{ijkl} n_l \, ~e_i \otimes ~e_k,
   \quad
   ~n \in S^2,
 \end{equation}
@@ -678,7 +678,7 @@ $S^2$ may be relaxed. In analogy to the classical acoustic tensor
 \begin{equation} \label{eq:Cartesian-acoustic-tensor}
   ~B := ~v \cdot \bbA \cdot ~v
   \quad \text{or} \quad
-  B_{ik} \, ~e_i \otimes ~e_j := v_j C_{ijkl} v_l  \, ~e_i \otimes ~e_j,
+  B_{ik} \, ~e_i \otimes ~e_j := v_j A_{ijkl} v_l  \, ~e_i \otimes ~e_j,
   \quad
   ~v \in {"R}^3 \setminus \{~0\},
 \end{equation}
@@ -808,7 +808,8 @@ bifurcation condition.
       \includegraphics[width=67mm]{figs/cartesian.pdf}
       \label{fig:Cartesian}
     }
-    \caption{Parametrizations.}
+    \caption{The five parametrizations used for the detection of loss
+      of ellipticity.}
     \label{fig:parametrizations}
   \end{center}
 \end{figure}
@@ -937,10 +938,9 @@ assumed to have the form
   \bepsilon ^e : \mathbb{C}^e : \bepsilon ^e
 \end{equation}
 where $\bepsilon^e$ is the infinitesimal elastic strain tensor,
-$\bbC^e$ is the fourth-order elastic modulus, and $\xi$ is a
+$\bbC^e$ is the fourth-order elastic moduli tensor, and $\xi$ is a
 damage parameter introduced to trigger material bifurcation. For
-isotropic linear elasticity, the elastic modulus $\bbC^e$ is
-given as
+isotropic linear elasticity, the elastic moduli $\bbC^e$ are given as
 \begin{equation}
   \bbC^e := \lambda ~I \otimes ~I + 2\mu \bbI
 \end{equation}
@@ -965,19 +965,19 @@ energy. Within the closed time interval $[0,t]$, $\alpha$ is given as
 where $A_0(s)$ is the undamaged strain energy at time $s$.
 
 Given the strain-energy function \eref{eq:iso_psi} and the damage
-evolution \eref{eq:iso_xi}, the fourth-order tangent modulus can be
-obtained by differentiating the strain-energy function with respect to
-the strain measure $\bepsilon_e$ twice, which results in
+evolution \eref{eq:iso_xi}, the fourth-order tangent moduli tensor can
+be obtained by differentiating the strain-energy function with respect
+to the strain measure $\bepsilon_e$ twice, which results in
 \begin{equation}
   \bbC := (1-\xi)\bbC^e
     - \beta \frac{\partial\xi}{\partial\alpha}
     (\bsigma_0\otimes\bsigma_0)
 \end{equation}
 where $\bsigma_0$ is the effective (undamaged) Cauchy stress and
-$\beta = 1 \iff \dot{\alpha} > 0$, $\beta=0$ otherwise. This tangent
-modulus is used to compute the acoustic tensor
-\eref{eq:acoustic-tensor}, which can then be checked for material
-bifurcation.
+$\beta = 1 \iff \dot{\alpha} > 0$, $\beta=0$ otherwise. In a small
+deformation setting, this tangent can be used to compute the acoustic
+tensor \eref{eq:acoustic-tensor}, which can then be checked for
+material bifurcation.
 
 \subsubsection{Simple Shear Test}
 
@@ -1241,7 +1241,7 @@ of the robustness results.
 
 The second material model tested is a finite-deformation anisotropic
 hyperelastic damage model. Our aim is to study the effect of adding
-complexity to the material model, and hence the tangent modulus, on
+complexity to the material model, and hence the tangent moduli, on
 the performance of the different parametrizations. As in the previous
 example, we first present the key features of the material model.
 
@@ -1301,7 +1301,7 @@ material, there will be a different set of parameters
 \cite{Chen.etal:2014}.
 
 Given the energy function \eref{eq:aniso_energy}, the fourth-order
-tangent modulus can be derived as
+tangent moduli tensor can be derived as
 \begin{equation}\label{eq:aniso_tangent}
   \bbC
   : =
