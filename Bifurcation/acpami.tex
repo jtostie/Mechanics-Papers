@@ -1010,7 +1010,7 @@ bifurcation, up to the specified tolerance, can be detected.
                     {figs/iso_shear_mindetA_strain.pdf}
   }
   \caption{Simple shear test on small deformation isotropic damage
-    model: (a) stress strain behavior, with the cross indicating
+    model: (a) stress strain behavior, with the X indicating
     bifurcation, and (b) degradation of $\det~A$ for different
     parametrizations upto the point material bifurcation
     ($\epsilon_{12}=0.0559$).}
@@ -1366,27 +1366,28 @@ where $S_{lj}$ are the components of the second Piola-Kirchhoff stress
 matrix or fiber component), $\delta_{ik}$ is the Kronecker delta and
 $F_{ij}$ are the components of the deformation gradient.
 
-\subsubsection{Uniaxial tension test}
+\subsubsection{Uniaxial Tension Test}
 
 The finite deformation anisotropic model is tested under monotonically
-increased uniaxial tension loading. The material properties for both
+increasing uniaxial tension loading. The material properties for both
 the matrix and microfibers are listed in Table~
 \ref{tab:aniso_material}.
 
-\begin{table}[H]
+\begin{table}[htbp]
   \begin{center}
     \begin{tabular}{ l l l l }
       \toprule
-      \it{Matrix}:
+      Matrix
       &
 
       &
 
-      \it{Fibers}:
+      Fibers
 
       &
       \\
-      Lam\'{e}'s constant
+      \midrule
+      Lam\'{e} constant
       &
       $\lambda=80$
       &
@@ -1394,7 +1395,7 @@ the matrix and microfibers are listed in Table~
       &
       $k_1 = k_2 = 100$
       \\
-      Shear modulus
+      Lam\'{e} constant
       &
       $\mu = 80$
       &
@@ -1404,19 +1405,19 @@ the matrix and microfibers are listed in Table~
       \\
       Damage variable
       &
-      $\xi_{\infty(m)} = 1.0$
+      $\xi^\mtrx_\infty = 1.0$
       &
       Damage variable
       &
-      $\xi_{\infty(1)} = \xi_{\infty(2)} = 1.0$
+      $\xi^\fiber_{\infty;1} = \xi^\fiber_{\infty;2} = 1.0$
       \\
       Damage variable
       &
-      $\tau_m = 4.0$
+      $\tau^\mtrx = 4.0$
       &
       Damage variable
       &
-      $\tau_1 = \tau_2 = 4.0$
+      $\tau^\fiber_1 = \tau^\fiber_2 = 4.0$
       \\
       Volume fraction
       &
@@ -1447,18 +1448,18 @@ the matrix and microfibers are listed in Table~
   \end{center}
 \end{table}
 
-The axial stress vs. stretch behavior in the uniaxial tension test is
-shown in Figure~\ref{fig:aniso_stress_stretch}(a). The material
-bifurcation is marked on the stress vs. stretch plot. We use the two-
-step procedure along with the adaptive time increment to detect
-bifurcation, as detailed in Section~\ref{sec:detection}. Figure~
-\ref{fig:aniso_stress_stretch}(b) shows the degradation of the
-determinant function for all five parametrizations upto the point
-material bifurcation is detected. In this loading test, all five
-parametrizations detect bifurcation at the same time, i.e., when the
-axial component of the deformation gradient $F_{11} = 1.1798$.
+The axial stress \vs stretch behavior in the uniaxial tension test is
+shown in \fref{fig:aniso_stress_stretch}(a), where the X denotes the
+onset of material bifurcation. We use the two-step procedure together
+with the adaptive time increment discussed in \sref{sec:detection} for
+the detection of bifurcation. \fref{fig:aniso_stress_stretch}(b) shows
+the degradation of the determinant function for all five
+parametrizations until material bifurcation is detected. In this
+loading test, all five parametrizations detect bifurcation at the same
+time, \ie, when the axial component of the deformation gradient
+$F_{11} = 1.1798$.
 
-\begin{figure}[H]
+\begin{figure}[htbp]
   \centering \subfigure[]{
     \includegraphics[width=0.45\textwidth]
     {figs/aniso_uniaxial_stress_stretch.pdf}
@@ -1466,68 +1467,68 @@ axial component of the deformation gradient $F_{11} = 1.1798$.
     \includegraphics[width=0.45\textwidth]
     {figs/aniso_uniaxial_mindetA_stretch.pdf}
   }
-  \caption{Uniaxial tension test on finite deformation
-  anisotropic damage model:
-  (a)stress strain behavior, with the cross indicating bifurcation, and
-  (b) degradation of det$~A$ for different
-  parametrizations.}
+  \caption{Uniaxial tension test on finite deformation anisotropic
+    damage model: (a)stress strain behavior, with the X indicating
+    bifurcation, and (b) degradation of $\det~A$ for different
+    parametrizations.}
   \label{fig:aniso_stress_stretch}
 \end{figure}
 
 As in the previous example, the computational cost of different
-parametrizations at the loading increment leading to bifurcation is
-recorded and shown in Table~\ref{tab:aniso_uniaxial_runtime}. Again,
-the density of the initial sampling is represented by the sampling
-interval and the number of sampling points. In general, as the number
-of sampling points decreases, so does the computational cost. However,
-the fewer sampling points may lead to a poor initial guess for the
-Newton iterative scheme, which may cost more time to arrive at a
-converged solution. Because of the added complexity of the material
-model, different parametrizations are more sensitive to the density of
-the initial sampling grids. The spherical parametrization fails to
-correctly detect the bifurcation when the sampling interval is greater
-than 0.4. The stereographic, projective and tangent parametrizations,
-though more robust in this case, are computationally more expensive.
-The Cartesian parametrization is computationally efficient and at the
-same time, relatively insensitive to the sampling interval.
+parametrizations within the loading increment leading to bifurcation
+is recorded and shown in
+Table~\ref{tab:aniso_uniaxial_runtime}. Again, the density of the
+initial sampling is represented by the sampling interval and the
+number of sampling points. In general, as the number of sampling
+points decreases, so does the computational cost.  Fewer sampling
+points, however, may lead to a poor initial guess for the Newton
+iterative scheme, which may result in a greater overall computation
+time to arrive at a converged solution. Due to the added complexity of
+the material model, different parametrizations are more sensitive to
+the density of the initial sampling grids. The spherical
+parametrization fails to correctly detect the bifurcation when the
+sampling interval is greater than 0.6. The stereographic, projective
+and tangent parametrizations, though more robust in this case, are
+computationally more expensive.  The Cartesian parametrization is
+computationally efficient and at the same time, relatively insensitive
+to the sampling interval.
 
-\begin{table}[H]
+\begin{table}[htbp]
   \begin{center}
-    %\begin{tabular}{ p{1.5cm} | p{1.7cm} p{1.7cm} p{1.7cm} p{1.7cm} p{1.7cm} }
     \begin{tabular}{c c | r r r r r}
       \toprule
-      Sampling   & Sampling &   \multicolumn{5}{c}{Run time ($\mu$s)}	\\
-      interval     & points     &  Spherical    &   Stereographic  &   Projective  &   Tangent   & Cartesian  \\
+      Sampling & Sampling & \multicolumn{5}{c}{Run time ($\mu\text{s}$)} \\
+      interval  & points  & Spherical & Stereographic & Projective &
+      Tangent & Cartesian \\
       \midrule
-      0.05      &      41     &      396     &    254       &       5828       &       330        &      412           \\
-      0.1        &      21     &      242     &    207       &       926         &       212        &      214           \\
-      0.2        &      11     &      188     &    181       &       296         &       187        &      122           \\
-      0.3        &      7       &      207     &    210       &       250         &       187        &      132           \\
-      0.4        &      5       &      169     &    208       &       268         &       189        &      111           \\
-      0.5        &      5       &	  167     &    n/a        &       239         &       n/a         &      123           \\
-      0.6        &      3       &	  201     &    173       &       228         &       215        &      281           \\
-      0.7        &      3       &	  n/a      &    175 	     &       193         &       157        &      141           \\
-      0.8        &      3       &      n/a      &    213       &       187         &       183        &       101          \\
-      0.9        &      3       &	  n/a      &    214       &       225         &       204        &       99            \\
-      1.0        &      3       &      n/a      &    n/a	     &       225         &       n/a         &       118          \\
-      1.5        &      1       &	  n/a      &    n/a	     &       n/a          &       n/a         &       n/a           \\
+      0.05  &  41  &  396  & 254  &  5828  &  330  &  412   \\
+      0.1  &  21  &  242  & 207  &  926   &  212  &  214   \\
+      0.2  &  11  &  188  & 181  &  296   &  187  &  122   \\
+      0.3  &  7  &  207  & 210  &  250   &  187  &  132   \\
+      0.4  &  5  &  169  & 208  &  268   &  189  &  111   \\
+      0.5  &  5  &	 167  & n/a  &  239   &  n/a   &  123   \\
+      0.6  &  3  &	 201  & 173  &  228   &  215  &  281   \\
+      0.7  &  3  &	 n/a  & 175 	  &  193   &  157  &  141   \\
+      0.8  &  3  &  n/a  & 213  &  187   &  183  &  101   \\
+      0.9  &  3  &	 n/a  & 214  &  225   &  204  &  99   \\
+      1.0  &  3  &  n/a  & n/a	  &  225   &  n/a   &  118   \\
+      1.5  &  1  &	 n/a  & n/a	  &  n/a   &  n/a   &  n/a   \\
       \bottomrule
     \end{tabular}
-    \caption{Computational cost of different parametrizations in
-    uniaxial tension test at loading increment leading to bifurcation.
-    `n/a' means the parametrization fails to detect bifurcation in
-    this loading increment.}
+    \caption{Computation time for different parametrizations in the
+      uniaxial tension test within the loading increment leading to
+      bifurcation.  ``n/a'' indicates that the parametrization fails
+      to detect bifurcation in this loading increment.}
     \label{tab:aniso_uniaxial_runtime}
   \end{center}
 \end{table}
 
-To gain insights into the influence of parametrizations on the
-determinant function det$~A$ as loading proceeds, we plot the
-landscapes at four different axial stretch levels for different
-parametrizations, as shown in Figures~\ref{fig:aniso_spherical_detA} -
-\ref{fig:aniso_cartesian_detA}.
+To gain insight into the influence of the parametrizations on the
+determinant function $\det~A$ as loading proceeds, we plot the
+landscapes at four different axial stretch levels, as shown in
+\fref{fig:aniso_spherical_detA} to \fref{fig:aniso_cartesian_detA}.
 
-\begin{figure}[H]
+\begin{figure}[htbp]
    \centering \subfigure[$F_{11}=1.0074$]{
    \includegraphics[width=0.45\textwidth]
    {figs/aniso_uniaxial_spherical_detA_F1p0074.pdf}
@@ -1541,13 +1542,13 @@ parametrizations, as shown in Figures~\ref{fig:aniso_spherical_detA} -
    \includegraphics[width=0.45\textwidth]
    {figs/aniso_uniaxial_spherical_detA_F1p1798.pdf}
  }
-   \caption{Spherical parametrization: landscapes of det$~A$
-   for uniaxial tension test on finite deformation anisotropic model at
-   different axial stretch levels.}
+   \caption{Spherical parametrization: landscapes of $\det~A$ for the
+     uniaxial tension test of the finite deformation anisotropic model
+     at different axial stretch levels.}
    \label{fig:aniso_spherical_detA}
  \end{figure}
 
-\begin{figure}[H]
+\begin{figure}[htbp]
    \centering \subfigure[$F_{11}=1.0074$]{
    \includegraphics[width=0.45\textwidth]
    {figs/aniso_uniaxial_stereographic_detA_F1p0074.pdf}
@@ -1561,13 +1562,13 @@ parametrizations, as shown in Figures~\ref{fig:aniso_spherical_detA} -
    \includegraphics[width=0.45\textwidth]
    {figs/aniso_uniaxial_stereographic_detA_F1p1798.pdf}
  }
-   \caption{Stereographic parametrization: landscapes of det$~A$
-   for uniaxial tension test on finite deformation anisotropic model at
-   different axial stretch levels.}
+   \caption{Stereographic parametrization: landscapes of $\det~A$ for
+     the uniaxial tension test of the finite deformation anisotropic
+     model at different axial stretch levels.}
    \label{fig:aniso_stereographic_detA}
  \end{figure}
 
-\begin{figure}[H]
+\begin{figure}[htbp]
    \centering \subfigure[$F_{11}=1.0074$]{
    \includegraphics[width=0.45\textwidth]
    {figs/aniso_uniaxial_tangent_detA_F1p0074.pdf}
@@ -1581,13 +1582,13 @@ parametrizations, as shown in Figures~\ref{fig:aniso_spherical_detA} -
    \includegraphics[width=0.45\textwidth]
    {figs/aniso_uniaxial_tangent_detA_F1p1798.pdf}
  }
-   \caption{Tangent parametrization: landscapes of det$~A$
-   for uniaxial tension test on finite deformation anisotropic model at
-   different axial stretch levels.}
+   \caption{Tangent parametrization: landscapes of $\det~A$ for the
+     uniaxial tension test of the finite deformation anisotropic
+     model at different axial stretch levels.}
    \label{fig:aniso_tangent_detA}
  \end{figure}
 
-\begin{figure}[H]
+\begin{figure}[htbp]
    \centering \subfigure[$F_{11}=1.0074$]{
    \includegraphics[width=0.45\textwidth]
    {figs/aniso_uniaxial_cartesian_detA_F1p0074.pdf}
@@ -1601,9 +1602,9 @@ parametrizations, as shown in Figures~\ref{fig:aniso_spherical_detA} -
    \includegraphics[width=0.45\textwidth]
    {figs/aniso_uniaxial_cartesian_detA_F1p1798.pdf}
  }
-   \caption{Cartesian parametrization: landscapes of det$~A$
-   for uniaxial tension test on finite deformation anisotropic model at
-   different axial stretch levels.}
+   \caption{Cartesian parametrization: landscapes of $\det~A$ for the
+     uniaxial tension test of the finite deformation anisotropic
+     model at different axial stretch levels.}
    \label{fig:aniso_cartesian_detA}
  \end{figure}
 
