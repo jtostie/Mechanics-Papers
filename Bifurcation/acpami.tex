@@ -911,7 +911,7 @@ loading conditions. The analysis is performed at the material point
 level. Of particular interest are the robustness and computational
 efficiency of the different parametrizations.
 
-\subsection{Small deformation isotropic elastic damage model}
+\subsection{Small Deformation Isotropic Elastic Damage Model}
 \label{subsec:isotropic}
 
 We start the bifurcation analysis on a simple small deformation
@@ -920,196 +920,181 @@ first. Then, a simple shear test will be performed to study the
 performance of different parametrizations on the detection of material
 bifurcation.
 
-\subsubsection{Model formulation}
+\subsubsection{Model Formulation}
 
 The stress and constitutive tangent of the small deformation isotropic
 damage model will be derived from a strain-energy function, which is
-assumed to have the following form:
-
+assumed to have the form
 \begin{equation}\label{eq:iso_psi}
- \Psi(\bepsilon ^e, \xi)
-   = \frac{1}{2} (1 - \xi)
-     \bepsilon ^e : \mathbb{C}^e : \bepsilon ^e
+  A(\bepsilon ^e, \xi)
+  = \frac{1}{2} (1 - \xi)
+  \bepsilon ^e : \mathbb{C}^e : \bepsilon ^e
 \end{equation}
-
 where $\bepsilon^e$ is the infinitesimal elastic strain tensor,
-$\mathbb{C}^e$ is the fourth-order elastic modulus, and $\xi$
-is a damage parameter introduced to trigger material bifurcation. For
-isotropic linear elasticity, the elastic modulus $\mathbb{C}^e$ is
+$\bbC^e$ is the fourth-order elastic modulus, and $\xi$ is a
+damage parameter introduced to trigger material bifurcation. For
+isotropic linear elasticity, the elastic modulus $\bbC^e$ is
 given as
-
 \begin{equation}
-  \mathbb{C}^e = \lambda \bdelta\otimes\delta + 2\mu~I
+  \bbC^e = \lambda ~I \otimes ~I + 2\mu \bbI
 \end{equation}
-
-where $\lambda$ and $\mu$ are Lam\'{e} constant and shear modulus,
-respectively. $\bdelta$ is the second-order identity tensor,
-$(~I)_{ijkl} = 1/2(\delta_{ik}\delta_{jl} +
-\delta_{il}\delta_{jk})$ is the fourth-order symmetric identity
-tensor.
+where $\lambda$ and $\mu$ are the Lam\'{e} constants, $~I$ is the
+second-order identity tensor and $(\bbI)_{ijkl} =
+\frac{1}{2}(\delta_{ik}\delta_{jl} + \delta_{il}\delta_{jk})$ is the
+fourth-order symmetric identity tensor.
 
 We adopt the following evolution law for the scalar damage parameter $
 \xi$ \cite{Holzapfel:2000}
-
 \begin{equation}\label{eq:iso_xi}
   \xi(\alpha) = \xi_{\infty} [ 1- {\rm exp}(-\alpha / \tau)]
 \end{equation}
-
 where $\xi_{\infty}$ describes the dimensionless maximum damage and
 $\tau$ is referred to as the damage saturation parameter. The
 parameter $\alpha$ is the maximum thermodynamic force
-\cite{Holzapfel:2000} with the same dimension as the effective strain
+\cite{Holzapfel:2000} with the same dimensions as the effective strain
 energy. Within the closed time interval $[0,t]$, $\alpha$ is given as
-
 \begin{equation}\label{eq:alpha}
-  \alpha(t) = \max_{s\in [0,t]}\Psi_0(s)
+  \alpha(t) = \max_{s\in [0,t]}A_0(s)
 \end{equation}
-
-where $\Psi_0(s)$ is the undamaged strain energy at time $s$.
-$s \in [0,t]$ denotes the history variable.
+where $A_0(s)$ is the undamaged strain energy at time $s$.
 
 Given the strain-energy function \eref{eq:iso_psi} and the damage
 evolution \eref{eq:iso_xi}, the fourth-order tangent modulus can be
-derived by taking 2nd derivative of the strain-energy function with
-respect to the strain measure $\bepsilon_e$, which results in
-
+obtained by differentiating the strain-energy function with respect to
+the strain measure $\bepsilon_e$ twice, which results in
 \begin{equation}
-  \mathbb{C} = (1-\xi)\mathbb{C}^e
+  \bbC = (1-\xi)\bbC^e
     - \beta \frac{\partial\xi}{\partial\alpha}
     (\bsigma_0\otimes\bsigma_0)
 \end{equation}
+where $\bsigma_0$ is the effective (undamaged) Cauchy stress and
+$\beta = 1 \iff \dot{\alpha} > 0$, $\beta=0$ otherwise. This tangent
+modulus is used to compute the acoustic tensor
+\eref{eq:acoustic-tensor}, which can then be checked for material
+bifurcation.
 
-where $\bsigma_0$ is the effective (undamaged) Cauchy stress.
-$\beta = 1$ if damage evolves within the time increment and $\beta=0$
-otherwise. This tangent modulus will be used to compute the acoustic
-tensor \eref{eq:acoustic-tensor}, which will then be checked for
-material bifurcation.
+\subsubsection{Simple Shear Test}
 
-\subsubsection{Simple shear test}
-
-In this section, a simple shear test is simulated, where the following
-material properties are used: $\lambda = 80$, $\mu = 80$,
-$\xi_{\infty} = 1.0$ and $\tau = 1.0$. The resulting shear stress vs.
-shear strain is plotted in Figure~\ref{fig:iso_stress_strain}(a). The
-softening response is due to the evolution of the introduced damage
-parameter $\xi$.
+In this section, a simple shear test is simulated with the following
+material properties: $\lambda = 80$, $\mu = 80$, $\xi_{\infty} = 1.0$
+and $\tau = 1.0$. The resulting shear stress and shear strain are
+plotted in \fref{fig:iso_stress_strain}(a). The softening response is
+due to the evolution of the introduced damage parameter $\xi$.
 
 For the numerical detection of material bifurcation, the two-step
-procedure described in Section \ref{sec:detection} is adopted, i.e.,
-(1) an initial sampling performed over the parametric space, and (2) a
-Newton iterative procedure for better estimate of the onset of
-bifurcation and its associated directions. Figure~
-\ref{fig:iso_stress_strain}(b) shows the degradation of the
-determinant function (det$~A$) for all five parametrizations upto the
-point material bifurcation is detected. When det$~A = 0$, the
-material bifurcates. In this example, all five parametrizations detect
-bifurcation at the same time, i.e., when the shear strain
-$\epsilon_{12}=0.0559$ as marked in Figure~
-\ref{fig:iso_stress_strain} (a). With the adaptive time step
-algorithm, the precise time (upto the set tolerance) of bifurcation
-can be detected.
+procedure described in \sref{sec:detection} is adopted, \ie, (1) an
+initial sampling performed over the parametric space, and (2) a Newton
+iterative procedure to obtain a better estimate of the onset of
+bifurcation and its associated directions.
+\fref{fig:iso_stress_strain}(b) shows the degradation of the
+determinant $\det~A$ for all five parametrizations up to the point of
+material bifurcation is detected. When det$~A = 0$, the material model
+bifurcates. In this example, all five parametrizations detect
+bifurcation at the same time, \ie., when the shear strain
+$\epsilon_{12}=0.0559$ as marked in \fref{fig:iso_stress_strain}
+(a). With the adaptive time step algorithm the precise time of
+bifurcation, up to the specified tolerance, can be detected.
 
-\begin{figure}[H]
+\begin{figure}[htbp]
   \centering \subfigure[]{
     \includegraphics[width=0.45\textwidth]
-    {figs/iso_shear_stress_strain.pdf}
+                    {figs/iso_shear_stress_strain.pdf}
   } \subfigure[]{
     \includegraphics[width=0.45\textwidth]
-    {figs/iso_shear_mindetA_strain.pdf}
+                    {figs/iso_shear_mindetA_strain.pdf}
   }
-  \caption{Simple shear test on small deformation
-  isotropic damage model:
-  (a)stress strain behavior, with the cross indicating bifurcation, and
-  (b) degradation of det$~A$ for different
-  parametrizations upto the point material bifurcation is detected ($\epsilon_{12}=0.0559$).}
+  \caption{Simple shear test on small deformation isotropic damage
+    model: (a) stress strain behavior, with the cross indicating
+    bifurcation, and (b) degradation of $\det~A$ for different
+    parametrizations upto the point material bifurcation
+    ($\epsilon_{12}=0.0559$).}
   \label{fig:iso_stress_strain}
 \end{figure}
 
 While all five parametrizations detect bifurcation at the same time,
-Figure~\ref{fig:iso_stress_strain}(b) provides little information on
-their computational efficiency and robustness, which are the focus of
-this work. The computational cost of bifurcation detection mainly
-consists of two parts: (1) the time for the initial sampling over the
-parametric space, and (2) the time for the Newton iterative solve.
+\fref{fig:iso_stress_strain}(b) provides little information on their
+computational efficiency and robustness, which are the focus of this
+work. The computational cost of bifurcation detection mainly consists
+of two parts: (1) the computation time of the initial sampling over
+the parametric space, and (2) the computation time of the Newton
+iterative scheme.
 
-The time for the initial sampling depends on the number of sampling
-points, or equivalently, the density of the initial sampling grid. The
-denser the initial sampling grid is, the more expensive it is
-computationally to perform the sweep. The time for the Newton
-iterative solve, on the other hand, depends mainly on the complexity
-of the objective function, i.e., det$~A$, as well as the quality of
-the initial guess.
+The computation time of the initial sampling depends on the number of
+sampling points, or equivalently, the density of the initial sampling
+grid. The denser the initial sampling grid, the more expensive it is
+computationally to perform the sweep. The computation time for the
+Newton iterative scheme, on the other hand, depends mainly on the
+complexity of the objective function, \ie, $\det~A$, as well as the
+quality of the initial guess.
 
 To compare computational costs of different parametrizations, we
-record the time spent on bifurcation check at a particular loading
-increment, e.g., at the increment leading to bifurcation. We also vary
+record the time spent on the bifurcation check at a particular loading
+increment, \eg, at the increment leading to bifurcation. We also vary
 the density of the initial sampling grid to study its effect on
 different parametrizations. A robust parametrization should be
-insensitive to the initial sampling grids.
+insensitive to the initial sampling grid.
 
 The results on computational cost are summarized in Table~
 \ref{tab:iso_shear_runtime}. The density of the initial sampling grid
 is represented by the sampling interval and the number of sampling
 points. The table only shows the number of sampling points, $N$, along
-one dimension of the parametric space. The total number of sampling
-points should be $N^{dim}$, where $dim$ is the total dimension of
-the parametric space. For instance, for spherical parametrization,
-there are two independent parameters, $\varphi$ and $\theta$.
-Therefore, $dim=2$ for spherical parametrization.
+one dimension of the parametric space. Assuming the same number of
+intervals for each parameter, the total number of sampling points is
+$N^{D}$ where $D$ is the total dimension of the parametric space,
 
-It can be seen from Table~\ref{tab:iso_shear_runtime}, as the number
-of sampling points $N$ per dimension decreases, so does the
-computational cost. The spherical and the Cartesian parametrizations
-are the most efficient. The stereographic, projective and tangent are
-more computationally expensive. In the extreme case with $N=1$,
-meaning there is only one initial sampling point per dimension, the
-stereographic, projective and tangent fail to correctly detect
-bifurcation, shown as `n/a' in the table.
+As expected, it can be seen from Table~\ref{tab:iso_shear_runtime}
+that as the number of sampling points $N$ per dimension decreases, so
+does the computational cost. The spherical and the Cartesian
+parametrizations are the most efficient. The stereographic, projective
+and tangent parametrizations are more computationally expensive. In
+the extreme case with $N=1$ \ie only one initial sampling point per
+dimension, the stereographic, projective and tangent parametrizations
+fail to correctly detect bifurcation, shown as ``n/a'' in the table.
 
-\begin{table}[H]
+\begin{table}[htbp]
   \begin{center}
-    %\begin{tabular}{ p{1.5cm} | p{1.7cm} p{1.7cm} p{1.7cm} p{1.7cm} p{1.7cm} }
     \begin{tabular}{c c | r r r r r}
       \toprule
-      Sampling   & Sampling &   \multicolumn{5}{c}{Run time ($\mu$s)}	\\
-      interval     & points ($N$)     &  Spherical    &   Stereographic  &   Projective  &   Tangent   & Cartesian  \\
+      Sampling & Sampling & \multicolumn{5}{c}{Run time ($\mu$s)} \\
+      interval & points ($N$) & Spherical & Stereographic & Projective &
+      Tangent & Cartesian \\
       \midrule
-      0.05      &      41     &    305        &       155       &       5636      &      226       &       347         \\
-      0.1        &      21     &    125        &       89         &       884        &      107       &       115         \\
-      0.2        &      11     &    85          &       60         &       183        &      64         &       81         \\
-      0.3        &      7       &    60          &       184       &       178        &      157       &       39          \\
-      0.4        &      5       &    74          &       181       &       197        &      145       &       27          \\
-      0.5        &	    5       &    74          &       37         &       88          &      53         &       27          \\
-      0.6        &	    3       &    72          &       174       &       200        &      215       &       23          \\
-      0.7        &	    3       &    71	      &       180       &       188        &      188       &       23          \\
-      0.8        &      3       &    54          &       170       &       188        &      144       &       24          \\
-      0.9        &	    3       &    53          &       177       &       156        &      159       &       23          \\
-      1.0        &      3	     &    43	      &       37         &       79          &      51         &       23          \\
-      1.5        &	    1       &    52	      &       n/a        &       n/a         &      n/a        &       21          \\
+      0.05 & 41 & 305 & 155 & 5636 & 226 & 347  \\
+      0.1 & 21 & 125 & 89  & 884 & 107 & 115  \\
+      0.2 & 11 & 85 & 60  & 183 & 64  & 81  \\
+      0.3 & 7 & 60 & 184 & 178 & 157 & 39  \\
+      0.4 & 5 & 74 & 181 & 197 & 145 & 27  \\
+      0.5 & 5 & 74 & 37  & 88  & 53  & 27  \\
+      0.6 & 3 & 72 & 174 & 200 & 215 & 23  \\
+      0.7 & 3 & 71 & 180 & 188 & 188 & 23  \\
+      0.8 & 3 & 54 & 170 & 188 & 144 & 24  \\
+      0.9 & 3 & 53 & 177 & 156 & 159 & 23  \\
+      1.0 & 3 & 43 & 37  & 79  & 51  & 23  \\
+      1.5 & 1 & 52 & n/a & n/a  & n/a & 21  \\
       \bottomrule
     \end{tabular}
     \caption{Computational cost of different parametrizations in
-    simple shear test at loading increment leading to bifurcation.
-    `n/a' means the parametrization fails to detect bifurcation in
-    this loading increment.}
+      simple shear test at loading increment leading to bifurcation.
+      ``n/a'' means the parametrization fails to detect bifurcation in
+      this loading increment.}
     \label{tab:iso_shear_runtime}
   \end{center}
 \end{table}
 
-As aforementioned, the choice of parametrization directly affects the
-complexity of the objective function ${\rm det}~A$ in
-\eref{eq:minimization-derivative}, which in turn affects the
-computational efficiency and robustness of different parametrizations
-on detection of material bifurcation as shown in
-Table~\ref{tab:iso_shear_runtime}. To illustrate this point, the
-landscapes of the objective function ${\rm det}~A$ at bifurcation,
-i.e., at $\bepsilon_{12}=0.0559$ are plotted in
-Figure~\ref{fig:iso_shear_detA}. The corresponding plane views of the
-determinant landscapes are shown in
-Figure~\ref{fig:iso_shear_detAXplane}, where the white stars indicate
-global minimum point(s). The projective parametrization requires three parameters and is not visualized in this work.
+As mentioned before, the choice of parametrization directly affects
+the complexity of the objective function $\det~A$ in
+\eref{eq:minimization-derivative}. This in turn affects the
+computational efficiency and robustness of the different
+parametrizations for the detection of material bifurcation, as shown
+in Table~\ref{tab:iso_shear_runtime}. To illustrate this point, the
+landscapes of the objective function $\det~A$ at bifurcation, \ie, at
+$\bepsilon_{12}=0.0559$ are shown in \fref{fig:iso_shear_detA}. The
+corresponding plane views of the determinant landscapes are shown in
+\fref{fig:iso_shear_detAXplane}, where the white stars indicate global
+minima. The projective parametrization requires three parameters and
+therefore it is not shown.
 
-\begin{figure}[H]
+\begin{figure}[htbp]
    \centering \subfigure[Spherical]{
    \includegraphics[width=0.45\textwidth]
    {figs/iso_shear_spherical_detA.pdf}
@@ -1123,12 +1108,12 @@ global minimum point(s). The projective parametrization requires three parameter
    \includegraphics[width=0.45\textwidth]
    {figs/iso_shear_tangent_detA.pdf}
  }
-   \caption{det$~A$ landscapes at bifurcation
-   for simple shear test on small deformation isotropic damage model.}
+   \caption{$\det~A$ landscapes at bifurcation for simple shear
+     for the small deformation isotropic damage model.}
    \label{fig:iso_shear_detA}
  \end{figure}
 
-\begin{figure}[H]
+\begin{figure}[htbp]
    \centering \subfigure[Spherical]{
    \includegraphics[width=0.45\textwidth]
    {figs/iso_shear_spherical_detAXplane.pdf}
@@ -1142,79 +1127,86 @@ global minimum point(s). The projective parametrization requires three parameter
    \includegraphics[width=0.45\textwidth]
    {figs/iso_shear_tangent_detAXplane.pdf}
  }
-   \caption{Plane views det$~A$ landscapes at bifurcation
-   for simple shear test on small deformation isotropic damage model.
-   The white stars indicate global minimum point in the landscape.}
+   \caption{Plane views of $\det~A$ landscapes at bifurcation for
+     simple shear for the small deformation isotropic damage model.
+     The white stars indicate global minima.}
    \label{fig:iso_shear_detAXplane}
  \end{figure}
 
-From the landscape plots, it is clear that the complexity of the
-determinant function depends greatly on the choices of
-parametrization. Even for a very simple small deformation isotropic
+It is clear from these landscape plots that the shape
+complexity of the determinant function depends greatly on the choice
+of parametrization. Even for the very simple small deformation isotropic
 model adopted in this example, the landscape of the determinant
 function can be quite complex as in the cases of spherical,
 stereographic and tangent parametrizations.
 
-The Cartesian parametrization results in a simple `bowl-shaped'
-objective function, which makes the Newton-type iterative solve
-particularly robust and insensitive to the initial guess. This has
-been shown in Table~\ref{tab:iso_shear_runtime} and will be
-elaborated further when the initial sweep is eliminated.
+The Cartesian parametrization results in a simple bowl-shaped
+objective function, which makes the Newton iterative scheme
+particularly robust and insensitive to the initial guess.  By relaxing
+the requirement that the normal vector be of unit length and confining
+it to a cube, a paraboloid of revolution is superimposed on the
+landscape corresponding to a normal unit vector. This greatly
+facilitates the work of the Newton iterative scheme, which should
+converge in a single iteration for a paraboloid of revolution.
+Evidence for this can be seen in Table~\ref{tab:iso_shear_runtime} as
+the Cartiesian and spherical parametrizations are the only ones able
+to detect bifurcation when the sampling grid is reduced to a single
+point.
 
-To further analyze the robustness of different parametrizations, we
-compare their performance when there is no sweep algorithm. To provide
-an initial guess for the Newton iterative solve without a sweep
-algorithm, an initial point is randomly generated within the
-parametric space for each parametrization. The tangent modulus at the
-bifurcation step, i.e., when $\epsilon_{12}=0.0559$, is used. If the
-parametrization is able to correctly detect the onset of bifurcation
-and its associated directions, the parametrization is said to succeed
-for this one set of randomly generated parameters. This process is
-repeated for 1000 times, i.e., 1000 sets of random initial guess for
-each parametrization are generated.
+We now elaborate further on the robustness of the parametrizations by
+considering the situation in which the initial sweep is eliminated
+altogether. In the absence of the initial sampling, a random point
+within the corresponding parametric space is provided as initial guess
+for the Newton iterative scheme when $\epsilon_{12}=0.0559$, \ie, at
+the onset of bifurcation. If the detection
+Algorithm~\ref{alg:adaptive-step} is able to correctly detect the
+onset of bifurcation and its associated directions, the
+parametrization is said to succeed for this one set of randomly
+generated parameters. This process is repeated 1000 times for each
+parametrization.
 
-Table~\ref{tab:iso_shear_random_para} shows the percentage of
-successful bifurcation detection computed from 1000 runs for all five
-parametrizations. The averaged number of iteration and the
-computational cost of those successful runs are also recorded and
-shown in the table. It can be seen that the proposed Cartesian
-parametrization is much more robust than commonly used spherical
-parametrization, i.e., $100\%$ vs. $42.5\%$ success rate. Cartesian
-also outperforms other uncommon parametrizations. In term of
-computational cost, the Cartesian is also efficient with an averaged
-run time of $170\mu s$.
+Table~\ref{tab:iso_shear_random_para} shows the rate of successful
+bifurcation detection for all five parametrizations. The average
+number of iterations and the computation time of those successful
+detections are also recorded and shown in the table. It can be seen
+that the proposed Cartesian parametrization is much more robust than
+the commonly used spherical parametrization, \cf $100\%$ \vs $42.5\%$
+success rate. Furthermore, the Cartesian parametrization also
+outperforms the remaining three parametrizations. In term of
+computational cost, the Cartesian paramtrization is also efficient
+with an average run time of $207\mu\text{s}$.
 
-\begin{table}[H]
+\begin{table}[htbp]
   \begin{center}
-    %\begin{tabular}{ lp{1.5cm} lp{1.5cm} lp{1.5cm} lp{1.5cm} lp{1.5cm} lp{1.5cm}}
-    %  \begin{tabular*}{1.0\textwidth}{l | c c c c c}
     \begin{tabular}{l | c c c c c}
       \toprule
-       &  Spherical    &   Stereographic   & Projective   &   Tangent   &   Cartesian                 \\
+      & Spherical & Stereographic & Projective & Tangent & Cartesian \\
       \midrule
-      Success rate ($\%$)                      &    42.7    &    22.7    &    59.9     &    20.6     &   100          \\
-      Averaged iteration count               &    12.2    &    4.70    &    8.86     &    5.12     &   5.35          \\
-      Averaged run time (${\mu}s$)     &    549     &    242     &    495      &    264      &   207         \\
+      Success rate ($\%$)      & 42.7 & 22.7 & 59.9  & 20.6  & 100   \\
+      Averaged iteration count    & 12.2 & 4.70 & 8.86  & 5.12  & 5.35   \\
+      Averaged run time (${\mu\text{s}}$) & 549  & 242  & 495  & 264  & 207 \\
       \bottomrule
     \end{tabular}
-    \caption{Isotropic small deformation model: success rate and computational cost of Newton iterative solve with a single random initial point. A total of 1000 random trials are performed for each parametrization.}
+    \caption{Isotropic small deformation model: success rate and
+      computational cost of Newton iterative scheme with a single
+      random initial point. A total of 1000 random trials are
+      performed for each parametrization.}
     \label{tab:iso_shear_random_para}
   \end{center}
 \end{table}
 
-As aforementioned, the superior performance of the proposed Cartesian
-in term of computational efficiency and robustness can be attributed
-to its relatively simple determinate function landscape, which makes
-the Newton iterative solve easier to converge. Figure~
-\ref{fig:iso_shear_robust} shows the contour of the determinant
-function used in the above robustness  study. 1000 random initial
-points are also plotted. If the initial guess leads to a success
-detection of bifurcation and its directions, the point will be marked
-as a solid circle ($\bullet$). Otherwise, it will be marked as a cross
-($\times$). This figure provides a very direct visualization of the
-robustness study results.
+The better performance of the proposed Cartesian parametrization in
+terms of computational efficiency and robustness can be attributed to
+its relatively simple determinant function landscape.
+\fref{fig:iso_shear_robust} shows the contour of the determinant
+function used in the above robustness study. One thousand random
+initial points are also plotted. If the initial guess leads to a
+success detection of bifurcation and its directions, the point will be
+marked as a solid circle ($\bullet$). Otherwise, it will be marked as
+a cross ($\times$). This figure provides a very direct visualization
+of the robustness results.
 
-\begin{figure}[H]
+\begin{figure}[htbp]
    \centering \subfigure[Spherical]{
    \includegraphics[width=0.45\textwidth]
    {figs/iso_shear_spherical_random.pdf}
@@ -1228,13 +1220,13 @@ robustness study results.
    \includegraphics[width=0.45\textwidth]
    {figs/iso_shear_tangent_random.pdf}
  }
-   \caption{Isotropic small deformation model: results of Newton
-   iterative solve with a single random initial point plotted on the
-   contour of determinant function at bifurcation. A solid circle
-   ($\bullet$) means the initial point leads to a success detection of
-   bifurcation and its directions. A cross ($\times$) means the Newton
-   iterative solve fails. A total of 1000 random trials are performed
-   for each parametrization.}
+   \caption{Isotropic small deformation model: results of the Newton
+     iterative scheme with a single random initial point plotted on
+     contours of the determinant function at bifurcation. A solid
+     circle ($\bullet$) indicates that the initial point leads to a
+     successful detection of bifurcation and its directions. A cross
+     ($\times$) indicates failure. A total of 1000 random trials are
+     performed for each parametrization.}
    \label{fig:iso_shear_robust}
 \end{figure}
 
@@ -1320,9 +1312,9 @@ tangent modulus can be derived by taking derivative of the energy
 function with respect to some strain measures, in particular
 
 \begin{equation}\label{eq:aniso_tangent}
-  \tilde{\mathbb{C}}
-   = (1-\xi_m) \tilde{\mathbb{C}}_m^0
-   + \sum_i^n (1-\xi_i) \tilde{\mathbb{C}}_i^0
+  \tilde{\bbC}
+   = (1-\xi_m) \tilde{\bbC}_m^0
+   + \sum_i^n (1-\xi_i) \tilde{\bbC}_i^0
    -\beta_m \xi_m'  (~S_m^0 \otimes ~S_m^0 )
    - \sum_i^n \beta_i \xi_i' (~S_i^0 \otimes ~S_i^0 )
 \end{equation}
@@ -1350,26 +1342,26 @@ where $f_m$ and $f_i$ are the volume fraction of the matrix and $i$th fiber, res
 The effective tangent modulus tensor can be calculated as
 
 \begin{equation}\label{eq:aniso_tangent1}
-  \tilde{\mathbb{C}}_m^0 =
+  \tilde{\bbC}_m^0 =
     2 \frac{\partial ~S_m^0}{\partial~C}
 \end{equation}
 
 \begin{equation}\label{eq:aniso_tangent2}
-  \tilde{\mathbb{C}}_i^0 =
+  \tilde{\bbC}_i^0 =
     2 \frac{\partial ~S_m^0}{\partial~C}
 \end{equation}
 
-It should be noted that the fourth-order tangent $\tilde{\mathbb{C}}$
+It should be noted that the fourth-order tangent $\tilde{\bbC}$
 from \eref{eq:aniso_tangent} is computed as the derivative of strain
 energy with respect to the right Cauchy-Green tensor. The strong
 ellipticity condition \eref{eq:strong-ellipticity} requires the
-tangent $\mathbb{C}$ to be computed as a derivative with respect to
+tangent $\bbC$ to be computed as a derivative with respect to
 the deformation gradient. These two tangents can be converted using
 the following relation (in indicial notation)
 
 \begin{equation}\label{eq:aniso_tangent3}
-  \mathbb{C}_{ijkl} = S_{lj} \delta_{ik}
-    + F_{ip} \tilde{\mathbb{C}}_{pjlq} F_{kq}
+  \bbC_{ijkl} = S_{lj} \delta_{ik}
+    + F_{ip} \tilde{\bbC}_{pjlq} F_{kq}
 \end{equation}
 
 where $S_{lj}$ is the second Piola-Kirchhoff stress (including
@@ -1495,7 +1487,7 @@ the density of the initial sampling is represented by the sampling
 interval and the number of sampling points. In general, as the number
 of sampling points decreases, so does the computational cost. However,
 the fewer sampling points may lead to a poor initial guess for the
-Newton iterative solve, which may cost more time to arrive at a
+Newton iterative scheme, which may cost more time to arrive at a
 converged solution. Because of the added complexity of the material
 model, different parametrizations are more sensitive to the density of
 the initial sampling grids. The spherical parametrization fails to
@@ -1634,7 +1626,7 @@ As in the case of the small deformation model example in
 Section \ref{subsec:isotropic}, the robustness of different
 parametrizations on the detection of material bifurcation is analyzed
 by randomly generating a single initial point for the Newton iterative
-solve, i.e., no sweep algorithm is used. A total of 1000 sets of
+scheme, \ie, no sweep algorithm is used. A total of 1000 sets of
 random initial guess is generated for each parametrization. The
 success rate and computational cost are recorded and summarized in
 Table~\ref{tab:aniso_axial_random_para}. The results are consistent
@@ -1654,7 +1646,7 @@ parametrization is most robust and at the same time, computationally efficient.
       Averaged run time (${\mu}s$)     &    256     &    274     &    483      &    245      &    267         \\
       \bottomrule
     \end{tabular}
-    \caption{Anisotropic finite deformation model: success rate and computational cost of Newton iterative solve with a single random initial point. A total of 1000 random trials are performed for each parametrization.}
+    \caption{Anisotropic finite deformation model: success rate and computational cost of Newton iterative scheme with a single random initial point. A total of 1000 random trials are performed for each parametrization.}
     \label{tab:aniso_axial_random_para}
   \end{center}
 \end{table}
@@ -1680,18 +1672,18 @@ marked as a cross ($\times$).
    {figs/aniso_uniaxial_tangent_random.pdf}
  }
    \caption{Anisotropic finite deformation model: results of Newton
-   iterative solve with a single random initial point plotted on the
+   iterative scheme with a single random initial point plotted on the
    contour of determinant function at bifurcation. A solid circle
    ($\bullet$) means the initial point leads to a success detection of
    bifurcation and its directions. A cross ($\times$) means the Newton
-   iterative solve fails. A total of 1000 random trials are performed
+   iterative scheme fails. A total of 1000 random trials are performed
    for each parametrization.}
    \label{fig:aniso_uniaxial_robust}
  \end{figure}
 
 Similar as in the case of the small deformation model example in
 Section \ref{subsec:isotropic}, the gradient-based optimization
-technique using Newton iterative solve is more likely to achieve
+technique using Newton iterative scheme is more likely to achieve
 convergence, even when the initial sweep is performed over a
 relatively coarse grid or without any initial sweep at all. The
 Cartesian parametrization is `optimal' in term of trade-off between
