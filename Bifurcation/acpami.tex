@@ -680,7 +680,7 @@ $S^2$ may be relaxed. In analogy to the classical acoustic tensor
 \begin{equation} \label{eq:Cartesian-acoustic-tensor}
   ~B := ~v \cdot \bbA \cdot ~v
   \quad \text{or} \quad
-  B_{ik} \, ~e_i \otimes ~e_j := v_j A_{ijkl} v_l  \, ~e_i \otimes ~e_j,
+  B_{ik} \, ~e_i \otimes ~e_k := v_j A_{ijkl} v_l  \, ~e_i \otimes ~e_k,
   \quad
   ~v \in {"R}^3 \setminus \{~0\},
 \end{equation}
@@ -699,7 +699,7 @@ condition becomes
 
 \begin{proposition}
   The tensor $~B$ from \eref{eq:Cartesian-acoustic-tensor} leads to
-  the same bifurcation condition than the acoustic tensor $~A$ from
+  the same bifurcation condition as the acoustic tensor $~A$ from
   \eref{eq:acoustic-tensor}, \ie, if the minimum for $\det ~A$ is
   equal to zero for a vector $~a \in S^2$, then the minimum for $\det
   ~B$ is also zero for a vector $~b \in {"R}^3 \setminus \{~0\}$ that
@@ -942,14 +942,16 @@ form
 where $\bepsilon^e$ is the infinitesimal elastic strain tensor,
 $\bbC^e$ is the fourth-order elastic moduli tensor, and $\xi$ is a
 damage parameter introduced to trigger material bifurcation. For
-isotropic linear elasticity, the elastic moduli $\bbC^e$ are given as
+isotropic linear elasticity, the elastic moduli tensor $\bbC^e$ is
+given as
 \begin{equation}
   \bbC^e := \lambda ~I \otimes ~I + 2\mu \bbI
 \end{equation}
 where $\lambda$ and $\mu$ are the Lam\'{e} constants, $~I$ is the
 second-order identity tensor and $(\bbI)_{ijkl} =
 \frac{1}{2}(\delta_{ik}\delta_{jl} + \delta_{il}\delta_{jk})$ is the
-fourth-order symmetric identity tensor.
+fourth-order symmetric identity tensor with $\delta_{ik}$ being the
+Kronecker delta.
 
 We adopt the following evolution law for the scalar damage parameter $
 \xi$ \cite{Holzapfel:2000}
@@ -998,7 +1000,7 @@ bifurcation and its associated directions.
 determinant $\det~A$ for all five parametrizations up to the point
 when material bifurcation is detected. When det$~A = 0$, the material
 model bifurcates. In this example, all five parametrizations detect
-bifurcation at the same time, \ie., when the shear strain
+bifurcation at the same time, \ie, when the shear strain
 $\epsilon_{12}=0.0559$ as marked in \fref{fig:iso-stress_strain}
 (a). With the adaptive time step algorithm the precise time of
 bifurcation, up to the specified tolerance, can be detected.
@@ -1048,7 +1050,7 @@ is represented by the sampling interval and the number of sampling
 points. The table only shows the number of sampling points, $N$, along
 one dimension of the parametric space. Assuming the same number of
 intervals for each parameter, the total number of sampling points is
-$N^{D}$ where $D$ is the total dimension of the parametric space,
+$N^{D}$ where $D$ is the total dimension of the parametric space.
 
 As expected, it can be seen from Table~\ref{tab:iso-shear-runtime}
 that as the number of sampling points $N$ per dimension decreases, so
@@ -1234,10 +1236,10 @@ visualization of the robustness results.
    \label{fig:iso-shear-robust}
 \end{figure}
 
-\subsection{Finite-Deformation Anisotropic Hyperelastic Damage Model}
+\subsection{Finite Deformation Anisotropic Hyperelastic Damage Model}
 \label{subsec:anisotropic}
 
-The second material model tested is a finite-deformation anisotropic
+The second material model tested is a finite deformation anisotropic
 hyperelastic damage model. Our aim is to study the effect of adding
 complexity to the material model, and hence the tangent moduli, on
 the performance of the different parametrizations. As in the previous
@@ -1245,7 +1247,7 @@ example, we first present the key features of the material model.
 
 \subsubsection{Model Formulation}
 
-The free energy function of the finite-deformation anisotropic
+The free energy function of the finite deformation anisotropic
 hyperelastic damage model consists of an isotropic term and
 direction-dependent terms. The motivation for this type of energy
 formulation is to capture the behavior of materials with an isotropic
@@ -1260,7 +1262,7 @@ microfibers. The free energy function is assumed to have the form
   (1-\xi^\mtrx) f^\mtrx \Psi^\mtrx(~C)
   + \sum_{i=1}^{N} (1-\xi^\fiber_i) f^\fiber_i \Psi^\fiber_i(~C, ~M)
 \end{equation}
-where $~C$ is the Right Cauchy-Green tensor, $~M$ is a unit vector
+where $~C$ is the right Cauchy-Green tensor, $~M$ is a unit vector
 characterizing the preferred fiber direction, $f^\mtrx$ and
 $f^\fiber_i$ are the volume fraction of the matrix and $i$th fiber,
 $N$ is the number of fiber terms and $\xi^\mtrx$ and $\xi^\fiber_i$
@@ -1521,10 +1523,11 @@ to the sampling interval.
   \end{center}
 \end{table}
 
-To gain insight into the influence of the parametrizations on the
+To gain insights into the influence of the parametrizations on the
 determinant function $\det~A$ as loading proceeds, we plot in
 \fref{fig:aniso-spherical-detA} to \fref{fig:aniso-cartesian-detA} the
-landscapes at four different axial stretch levels.
+landscapes at four different axial stretch levels for different
+parametrizations.
 
 \begin{figure}[!htbp]
    \centering \subfigure[$F_{11}=1.0074$]{
