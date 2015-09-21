@@ -787,27 +787,27 @@ centered at the origin as shown in \fref{fig:Cartesian}. Only three
 faces of the cube need to be considered due to the symmetry of the
 bifurcation condition.
 
-\begin{figure}[htbp]
+\begin{figure}[!htbp]
   \begin{center}
     \unitlength=1.0mm
     \subfigure[Spherical]{
-      \includegraphics[width=67mm]{figs/spherical.pdf}
+      \includegraphics[width=50mm]{figs/spherical.pdf}
       \label{fig:spherical}
     }
     \subfigure[Stereographic]{
-      \includegraphics[width=67mm]{figs/stereographic.pdf}
+      \includegraphics[width=50mm]{figs/stereographic.pdf}
       \label{fig:stereographic}
     }
     \subfigure[Projective]{
-      \includegraphics[width=67mm]{figs/projective.pdf}
+      \includegraphics[width=50mm]{figs/projective.pdf}
       \label{fig:projective}
     }
     \subfigure[Tangent]{
-      \includegraphics[width=67mm]{figs/tangent.pdf}
+      \includegraphics[width=50mm]{figs/tangent.pdf}
       \label{fig:tangent}
     }
     \subfigure[Cartesian]{
-      \includegraphics[width=67mm]{figs/cartesian.pdf}
+      \includegraphics[width=50mm]{figs/cartesian.pdf}
       \label{fig:Cartesian}
     }
     \caption{The five parametrizations used for the detection of loss
@@ -868,7 +868,7 @@ Algorithm~\ref{alg:adaptive-step}. This algorithm repeatedly cuts the
 time increment in half until the convergence criterion $\mu_{n+1,k} /
 \mu_0 \le \epsilon$ is met.
 
-\begin{algorithm}[htbp]
+\begin{algorithm}[!htbp]
   \caption{$\text{AdaptiveStep}(\mu_0, \mu_{n+1}, t_{n+1}, \epsilon)$}
   \begin{algorithmic}
     \REQUIRE $\mu_{n+1} < 0$
@@ -913,7 +913,7 @@ following section.
 \label{sec:numerical-examples}
 
 The performance and applicability of the proposed Cartesian and the
-other four parametrizations are examined by applying them to the
+other four parametrizations are examined by using them for the
 bifurcation analysis of two material models under different loading
 conditions. The analysis is performed at the material point level. Of
 particular interest are the robustness and computational efficiency of
@@ -924,7 +924,7 @@ the different parametrizations.
 
 We start the bifurcation analysis on a simple small deformation
 isotropic damage model. The model formulation is briefly presented
-first. Then, the material model is subjected to simple shear to
+first. The material model is then subjected to simple shear to
 determine the performance of the different parametrizations on the
 detection of material bifurcation.
 
@@ -1003,12 +1003,12 @@ $\epsilon_{12}=0.0559$ as marked in \fref{fig:iso-stress_strain}
 (a). With the adaptive time step algorithm the precise time of
 bifurcation, up to the specified tolerance, can be detected.
 
-\begin{figure}[htbp]
+\begin{figure}[!htbp]
   \centering \subfigure[]{
-    \includegraphics[width=0.45\textwidth]
+    \includegraphics[width=0.35\textwidth]
                     {figs/iso_shear_stress_strain.pdf}
   } \subfigure[]{
-    \includegraphics[width=0.45\textwidth]
+    \includegraphics[width=0.35\textwidth]
                     {figs/iso_shear_mindetA_strain.pdf}
   }
   \caption{Simple shear test on small deformation isotropic damage
@@ -1030,19 +1030,19 @@ iterative scheme.
 The computation time of the initial sampling depends on the number of
 sampling points, or equivalently, the density of the initial sampling
 grid. The denser the initial sampling grid, the more expensive it is
-computationally to perform the sweep. The computation time for the
-Newton iterative scheme, on the other hand, depends mainly on the
-complexity of the objective function, \ie, $\det~A$, as well as the
-quality of the initial guess.
+computationally to perform a complete pass of all the points in he
+grid. The computation time for the Newton iterative scheme, on the
+other hand, depends mainly on the complexity of the objective
+function, \ie, $\det~A$, as well as the quality of the initial guess.
 
 To compare computational costs of different parametrizations, we
-record the time spent on the bifurcation check at a particular loading
-increment, \eg, at the increment leading to bifurcation. We also vary
-the density of the initial sampling grid to study its effect on
-different parametrizations. A robust parametrization should be
-insensitive to the initial sampling grid.
+record the time spent on the bifurcation detection at a particular
+loading increment, \eg, at the increment leading to bifurcation. We
+also vary the density of the initial sampling grid to determine its
+effect on different parametrizations. A robust parametrization should
+be insensitive to the initial sampling grid.
 
-The results on computational cost are summarized in Table~
+The computation time results are summarized in Table~
 \ref{tab:iso-shear-runtime}. The density of the initial sampling grid
 is represented by the sampling interval and the number of sampling
 points. The table only shows the number of sampling points, $N$, along
@@ -1055,16 +1055,16 @@ that as the number of sampling points $N$ per dimension decreases, so
 does the computational cost. The spherical and the Cartesian
 parametrizations are the most efficient. The stereographic, projective
 and tangent parametrizations are more computationally expensive. In
-the extreme case with $N=1$ \ie only one initial sampling point per
-dimension, the stereographic, projective and tangent parametrizations
-fail to correctly detect bifurcation, shown as ``n/a'' in the table.
+the extreme case with $N=1$ \ie only one initial sampling point, the
+stereographic, projective and tangent parametrizations fail to
+correctly detect bifurcation, shown as a dash in the table.
 
-\begin{table}[htbp]
+\begin{table}[!htbp]
   \begin{center}
     \begin{tabular}{c c | r r r r r}
       \toprule
-      Sampling & Sampling & \multicolumn{5}{c}{Run time ($\mu$s)} \\
-      interval & points ($N$) & Spherical & Stereographic & Projective &
+      \multicolumn{2}{c}{Sampling} & \multicolumn{5}{c}{Run Time ($\mu$s)} \\
+      Interval & Points & Spherical & Stereographic & Projective &
       Tangent & Cartesian \\
       \midrule
       0.05 & 41 & 305 & 155 & 5636 & 226 & 347  \\
@@ -1078,13 +1078,13 @@ fail to correctly detect bifurcation, shown as ``n/a'' in the table.
       0.8 & 3 & 54 & 170 & 188 & 144 & 24  \\
       0.9 & 3 & 53 & 177 & 156 & 159 & 23  \\
       1.0 & 3 & 43 & 37  & 79  & 51  & 23  \\
-      1.5 & 1 & 52 & n/a & n/a  & n/a & 21  \\
+      1.5 & 1 & 52 & -- & --  & -- & 21  \\
       \bottomrule
     \end{tabular}
     \caption{Computational cost of different parametrizations in
       simple shear test at loading increment leading to bifurcation.
-      ``n/a'' means the parametrization fails to detect bifurcation in
-      this loading increment.}
+      The dash ``--'' indicates that the parametrization fails to
+      detect bifurcation in this loading increment.}
     \label{tab:iso-shear-runtime}
   \end{center}
 \end{table}
@@ -1102,76 +1102,72 @@ corresponding plane views of the determinant landscapes are shown in
 minima. The projective parametrization requires three parameters and
 therefore it is not shown.
 
-\begin{figure}[htbp]
+\begin{figure}[!htbp]
    \centering \subfigure[Spherical]{
-   \includegraphics[width=0.45\textwidth]
+   \includegraphics[width=0.35\textwidth]
    {figs/iso_shear_spherical_detA.pdf}
  } \subfigure[Cartesian]{
-   \includegraphics[width=0.45\textwidth]
+   \includegraphics[width=0.35\textwidth]
    {figs/iso_shear_cartesian_detA.pdf}
  } \subfigure[Stereographic]{
-   \includegraphics[width=0.45\textwidth]
+   \includegraphics[width=0.35\textwidth]
    {figs/iso_shear_stereographic_detA.pdf}
  } \subfigure[Tangent]{
-   \includegraphics[width=0.45\textwidth]
+   \includegraphics[width=0.35\textwidth]
    {figs/iso_shear_tangent_detA.pdf}
  }
-   \caption{$\det~A$ landscapes at bifurcation for simple shear
-     for the small deformation isotropic damage model.}
+   \caption{Landscapes of the determinant of the acoustic tensor at
+     bifurcation for simple shear for the small deformation isotropic
+     damage model.}
    \label{fig:iso-shear-detA}
  \end{figure}
 
-\begin{figure}[htbp]
+\begin{figure}[!htbp]
    \centering \subfigure[Spherical]{
-   \includegraphics[width=0.45\textwidth]
+   \includegraphics[width=0.35\textwidth]
    {figs/iso_shear_spherical_detAXplane.pdf}
  } \subfigure[Cartesian]{
-   \includegraphics[width=0.45\textwidth]
+   \includegraphics[width=0.35\textwidth]
    {figs/iso_shear_cartesian_detAXplane.pdf}
  } \subfigure[Stereographic]{
-   \includegraphics[width=0.45\textwidth]
+   \includegraphics[width=0.35\textwidth]
    {figs/iso_shear_stereographic_detAXplane.pdf}
  } \subfigure[Tangent]{
-   \includegraphics[width=0.45\textwidth]
+   \includegraphics[width=0.35\textwidth]
    {figs/iso_shear_tangent_detAXplane.pdf}
  }
-   \caption{Plane views of $\det~A$ landscapes at bifurcation for
-     simple shear for the small deformation isotropic damage model.
-     The white stars indicate global minima.}
+   \caption{Plane views of the landscapes of the determinant of the
+     acoustic tensor at bifurcation for simple shear for the small
+     deformation isotropic damage model. The white stars indicate
+     global minima.}
    \label{fig:iso-shear-detAXplane}
  \end{figure}
 
-It is clear from these landscape plots that the shape
-complexity of the determinant function depends greatly on the choice
-of parametrization. Even for the very simple small deformation isotropic
+It is clear from these landscape plots that the complexity of the
+shape of the determinant function depends greatly on the choice of
+parametrization. Even for the very simple small deformation isotropic
 model adopted in this example, the landscape of the determinant
-function can be quite complex as in the cases of spherical,
+function can be quite complex as in the cases of the spherical,
 stereographic and tangent parametrizations.
 
 The Cartesian parametrization results in a simple bowl-shaped
-objective function, which makes the Newton iterative scheme
-particularly robust and insensitive to the initial guess.  By relaxing
-the requirement that the normal vector be of unit length and confining
-it to a cube, a paraboloid of revolution is superimposed on the
-landscape corresponding to a normal unit vector. This greatly
-facilitates the work of the Newton iterative scheme, which should
-converge in a single iteration for a paraboloid of revolution.
-Evidence for this can be seen in Table~\ref{tab:iso-shear-runtime} as
-the Cartiesian and spherical parametrizations are the only ones able
-to detect bifurcation when the sampling grid is reduced to a single
+objective function, which renders the Newton iterative scheme to be
+particularly robust and insensitive to the initial guess. Evidence for
+this can be seen in Table~\ref{tab:iso-shear-runtime} as the
+Cartiesian and spherical parametrizations are the only ones able to
+detect bifurcation when the sampling grid is reduced to a single
 point.
 
 We now elaborate further on the robustness of the parametrizations by
-considering the situation in which the initial sweep is eliminated
+considering the situation in which the initial sampling is eliminated
 altogether. In the absence of the initial sampling, a random point
 within the corresponding parametric space is provided as initial guess
 for the Newton iterative scheme when $\epsilon_{12}=0.0559$, \ie, at
-the onset of bifurcation. If the detection
-Algorithm~\ref{alg:adaptive-step} is able to correctly detect the
-onset of bifurcation and its associated directions, the
-parametrization is said to succeed for this one set of randomly
-generated parameters. This process is repeated 1000 times for each
-parametrization.
+the onset of bifurcation. If Algorithm~\ref{alg:adaptive-step} is able
+to correctly detect the onset of bifurcation and its associated
+directions, the parametrization is said to succeed for this one set of
+randomly generated parameters. This process is repeated 1000 times for
+each parametrization.
 
 Table~\ref{tab:iso-shear-random-para} shows the rate of successful
 bifurcation detection for all five parametrizations. The average
@@ -1184,15 +1180,15 @@ outperforms the remaining three parametrizations. In term of
 computational cost, the Cartesian paramtrization is also efficient
 with an average run time of $207\mu\text{s}$.
 
-\begin{table}[htbp]
+\begin{table}[!htbp]
   \begin{center}
     \begin{tabular}{l | c c c c c}
       \toprule
       & Spherical & Stereographic & Projective & Tangent & Cartesian \\
       \midrule
       Success rate ($\%$)      & 42.7 & 22.7 & 59.9  & 20.6  & 100   \\
-      Averaged iteration count    & 12.2 & 4.70 & 8.86  & 5.12  & 5.35   \\
-      Averaged run time (${\mu\text{s}}$) & 549  & 242  & 495  & 264  & 207 \\
+      Average iteration count    & 12.2 & 4.70 & 8.86  & 5.12  & 5.35   \\
+      Average run time (${\mu\text{s}}$) & 549  & 242  & 495  & 264  & 207 \\
       \bottomrule
     \end{tabular}
     \caption{Isotropic small deformation model: success rate and
@@ -1206,26 +1202,26 @@ with an average run time of $207\mu\text{s}$.
 The better performance of the proposed Cartesian parametrization in
 terms of computational efficiency and robustness can be attributed to
 its relatively simple determinant function landscape.
-\fref{fig:iso-shear-robust} shows the contour of the determinant
-function used in the above robustness study. One thousand random
-initial points are also plotted. If the initial guess leads to a
-success detection of bifurcation and its directions, the point is
-marked as a solid circle ($\bullet$). Otherwise, it is marked as a
-cross ($\times$). This figure provides a very direct visualization of
-the robustness results.
+\fref{fig:iso-shear-robust} shows contours of the determinant
+functions corresponding to Table~\ref{tab:iso-shear-random-para}. One
+thousand random initial points are also plotted. If the initial guess
+leads to a successful detection of bifurcation and its directions, the
+point is marked as a solid circle ($\bullet$). Otherwise, it is marked
+as a cross ($\times$). This figure provides a very direct
+visualization of the robustness results.
 
-\begin{figure}[htbp]
+\begin{figure}[!htbp]
    \centering \subfigure[Spherical]{
-   \includegraphics[width=0.45\textwidth]
+   \includegraphics[width=0.35\textwidth]
    {figs/iso_shear_spherical_random.pdf}
  } \subfigure[Cartesian]{
-   \includegraphics[width=0.45\textwidth]
+   \includegraphics[width=0.35\textwidth]
    {figs/iso_shear_cartesian_random.pdf}
  } \subfigure[Stereographic]{
-   \includegraphics[width=0.45\textwidth]
+   \includegraphics[width=0.35\textwidth]
    {figs/iso_shear_stereographic_random.pdf}
  } \subfigure[Tangent]{
-   \includegraphics[width=0.45\textwidth]
+   \includegraphics[width=0.35\textwidth]
    {figs/iso_shear_tangent_random.pdf}
  }
    \caption{Isotropic small deformation model: results of the Newton
@@ -1297,7 +1293,7 @@ strain invariants $I_1$, $I_3$ and $I_4$ are defined as
   \quad
   I_4 = ~M \cdot (~C \cdot ~M).
 \end{gather}
-For the damage parameter, the same evolution law as in
+For the damage parameters, the same evolution law as in
 \eref{eq:iso-xi} is used, except that for each phase of the material,
 there is a different set of parameters as discussed in
 \citet{Chen.etal:2014}.
@@ -1375,7 +1371,7 @@ increasing uniaxial tension loading. The material properties for both
 the matrix and microfibers are listed in Table~
 \ref{tab:aniso-material}.
 
-\begin{table}[htbp]
+\begin{table}[!htbp]
   \begin{center}
     \begin{tabular}{ l l l l }
       \toprule
@@ -1450,7 +1446,7 @@ the matrix and microfibers are listed in Table~
   \end{center}
 \end{table}
 
-The axial stress \vs stretch behavior in the uniaxial tension test is
+The axial stress \vs stretch behavior of the uniaxial tension test is
 shown in \fref{fig:aniso-stress_stretch}(a), where the X denotes the
 onset of material bifurcation. We use the two-step procedure together
 with the adaptive time increment discussed in \sref{sec:detection} for
@@ -1461,12 +1457,12 @@ loading test, all five parametrizations detect bifurcation at the same
 time, \ie, when the axial component of the deformation gradient
 $F_{11} = 1.1798$.
 
-\begin{figure}[htbp]
+\begin{figure}[!htbp]
   \centering \subfigure[]{
-    \includegraphics[width=0.45\textwidth]
+    \includegraphics[width=0.35\textwidth]
     {figs/aniso_uniaxial_stress_stretch.pdf}
   } \subfigure[]{
-    \includegraphics[width=0.45\textwidth]
+    \includegraphics[width=0.35\textwidth]
     {figs/aniso_uniaxial_mindetA_stretch.pdf}
   }
   \caption{Uniaxial tension test on finite deformation anisotropic
@@ -1476,13 +1472,13 @@ $F_{11} = 1.1798$.
   \label{fig:aniso-stress_stretch}
 \end{figure}
 
-As in the previous example, the computational cost of different
+As in the previous example, the computation time of the different
 parametrizations within the loading increment leading to bifurcation
 is recorded and shown in
 Table~\ref{tab:aniso-uniaxial-runtime}. Again, the density of the
 initial sampling is represented by the sampling interval and the
 number of sampling points. In general, as the number of sampling
-points decreases, so does the computational cost.  Fewer sampling
+points decreases, so does the computation time.  Fewer sampling
 points, however, may lead to a poor initial guess for the Newton
 iterative scheme, which may result in a greater overall computation
 time to arrive at a converged solution. Due to the added complexity of
@@ -1495,12 +1491,12 @@ computationally more expensive.  The Cartesian parametrization is
 computationally efficient and at the same time, relatively insensitive
 to the sampling interval.
 
-\begin{table}[htbp]
+\begin{table}[!htbp]
   \begin{center}
     \begin{tabular}{c c | r r r r r}
       \toprule
-      Sampling & Sampling & \multicolumn{5}{c}{Run time ($\mu\text{s}$)} \\
-      interval  & points  & Spherical & Stereographic & Projective &
+      \multicolumn{2}{c}{Sampling} & \multicolumn{5}{c}{Run Time ($\mu$s)} \\
+      Interval  & Points  & Spherical & Stereographic & Projective &
       Tangent & Cartesian \\
       \midrule
       0.05  &  41  &  396  & 254  &  5828  &  330  &  412   \\
@@ -1508,40 +1504,40 @@ to the sampling interval.
       0.2  &  11  &  188  & 181  &  296   &  187  &  122   \\
       0.3  &  7  &  207  & 210  &  250   &  187  &  132   \\
       0.4  &  5  &  169  & 208  &  268   &  189  &  111   \\
-      0.5  &  5  &	 167  & n/a  &  239   &  n/a   &  123   \\
+      0.5  &  5  &	 167  & --  &  239   &  --   &  123   \\
       0.6  &  3  &	 201  & 173  &  228   &  215  &  281   \\
-      0.7  &  3  &	 n/a  & 175 	  &  193   &  157  &  141   \\
-      0.8  &  3  &  n/a  & 213  &  187   &  183  &  101   \\
-      0.9  &  3  &	 n/a  & 214  &  225   &  204  &  99   \\
-      1.0  &  3  &  n/a  & n/a	  &  225   &  n/a   &  118   \\
-      1.5  &  1  &	 n/a  & n/a	  &  n/a   &  n/a   &  n/a   \\
+      0.7  &  3  &	 --  & 175 	  &  193   &  157  &  141   \\
+      0.8  &  3  &  --  & 213  &  187   &  183  &  101   \\
+      0.9  &  3  &	 --  & 214  &  225   &  204  &  99   \\
+      1.0  &  3  &  --  & --	  &  225   &  --   &  118   \\
+      1.5  &  1  &	 --  & --	  &  --   &  --   &  --   \\
       \bottomrule
     \end{tabular}
     \caption{Computation time for different parametrizations in the
       uniaxial tension test within the loading increment leading to
-      bifurcation.  ``n/a'' indicates that the parametrization fails
-      to detect bifurcation in this loading increment.}
+      bifurcation.  The dash ``--'' indicates that the parametrization
+      fails to detect bifurcation in this loading increment.}
     \label{tab:aniso-uniaxial-runtime}
   \end{center}
 \end{table}
 
 To gain insight into the influence of the parametrizations on the
-determinant function $\det~A$ as loading proceeds, we plot the
-landscapes at four different axial stretch levels, as shown in
-\fref{fig:aniso-spherical-detA} to \fref{fig:aniso-cartesian-detA}.
+determinant function $\det~A$ as loading proceeds, we plot in
+\fref{fig:aniso-spherical-detA} to \fref{fig:aniso-cartesian-detA} the
+landscapes at four different axial stretch levels.
 
-\begin{figure}[htbp]
+\begin{figure}[!htbp]
    \centering \subfigure[$F_{11}=1.0074$]{
-   \includegraphics[width=0.45\textwidth]
+   \includegraphics[width=0.35\textwidth]
    {figs/aniso_uniaxial_spherical_detA_F1p0074.pdf}
  } \subfigure[$F_{11}=1.0762$]{
-   \includegraphics[width=0.45\textwidth]
+   \includegraphics[width=0.35\textwidth]
    {figs/aniso_uniaxial_spherical_detA_F1p0762.pdf}
  } \subfigure[$F_{11}=1.1583$]{
-   \includegraphics[width=0.45\textwidth]
+   \includegraphics[width=0.35\textwidth]
    {figs/aniso_uniaxial_spherical_detA_F1p1583.pdf}
  } \subfigure[$F_{11}=1.1798$ (bifurcation)]{
-   \includegraphics[width=0.45\textwidth]
+   \includegraphics[width=0.35\textwidth]
    {figs/aniso_uniaxial_spherical_detA_F1p1798.pdf}
  }
    \caption{Spherical parametrization: landscapes of $\det~A$ for the
@@ -1550,18 +1546,18 @@ landscapes at four different axial stretch levels, as shown in
    \label{fig:aniso-spherical-detA}
  \end{figure}
 
-\begin{figure}[htbp]
+\begin{figure}[!htbp]
    \centering \subfigure[$F_{11}=1.0074$]{
-   \includegraphics[width=0.45\textwidth]
+   \includegraphics[width=0.35\textwidth]
    {figs/aniso_uniaxial_stereographic_detA_F1p0074.pdf}
  } \subfigure[$F_{11}=1.0762$]{
-   \includegraphics[width=0.45\textwidth]
+   \includegraphics[width=0.35\textwidth]
    {figs/aniso_uniaxial_stereographic_detA_F1p0762.pdf}
  } \subfigure[$F_{11}=1.1583$]{
-   \includegraphics[width=0.45\textwidth]
+   \includegraphics[width=0.35\textwidth]
    {figs/aniso_uniaxial_stereographic_detA_F1p1583.pdf}
  } \subfigure[$F_{11}=1.1798$ (bifurcation)]{
-   \includegraphics[width=0.45\textwidth]
+   \includegraphics[width=0.35\textwidth]
    {figs/aniso_uniaxial_stereographic_detA_F1p1798.pdf}
  }
    \caption{Stereographic parametrization: landscapes of $\det~A$ for
@@ -1570,18 +1566,18 @@ landscapes at four different axial stretch levels, as shown in
    \label{fig:aniso-stereographic-detA}
  \end{figure}
 
-\begin{figure}[htbp]
+\begin{figure}[!htbp]
    \centering \subfigure[$F_{11}=1.0074$]{
-   \includegraphics[width=0.45\textwidth]
+   \includegraphics[width=0.35\textwidth]
    {figs/aniso_uniaxial_tangent_detA_F1p0074.pdf}
  } \subfigure[$F_{11}=1.0762$]{
-   \includegraphics[width=0.45\textwidth]
+   \includegraphics[width=0.35\textwidth]
    {figs/aniso_uniaxial_tangent_detA_F1p0762.pdf}
  } \subfigure[$F_{11}=1.1583$]{
-   \includegraphics[width=0.45\textwidth]
+   \includegraphics[width=0.35\textwidth]
    {figs/aniso_uniaxial_tangent_detA_F1p1583.pdf}
  } \subfigure[$F_{11}=1.1798$ (bifurcation)]{
-   \includegraphics[width=0.45\textwidth]
+   \includegraphics[width=0.35\textwidth]
    {figs/aniso_uniaxial_tangent_detA_F1p1798.pdf}
  }
    \caption{Tangent parametrization: landscapes of $\det~A$ for the
@@ -1590,18 +1586,18 @@ landscapes at four different axial stretch levels, as shown in
    \label{fig:aniso-tangent-detA}
  \end{figure}
 
-\begin{figure}[htbp]
+\begin{figure}[!htbp]
    \centering \subfigure[$F_{11}=1.0074$]{
-   \includegraphics[width=0.45\textwidth]
+   \includegraphics[width=0.35\textwidth]
    {figs/aniso_uniaxial_cartesian_detA_F1p0074.pdf}
  } \subfigure[$F_{11}=1.0762$]{
-   \includegraphics[width=0.45\textwidth]
+   \includegraphics[width=0.35\textwidth]
    {figs/aniso_uniaxial_cartesian_detA_F1p0762.pdf}
  } \subfigure[$F_{11}=1.1583$]{
-   \includegraphics[width=0.45\textwidth]
+   \includegraphics[width=0.35\textwidth]
    {figs/aniso_uniaxial_cartesian_detA_F1p1583.pdf}
  } \subfigure[$F_{11}=1.1798$ (bifurcation)]{
-   \includegraphics[width=0.45\textwidth]
+   \includegraphics[width=0.35\textwidth]
    {figs/aniso_uniaxial_cartesian_detA_F1p1798.pdf}
  }
    \caption{Cartesian parametrization: landscapes of $\det~A$ for the
@@ -1610,28 +1606,27 @@ landscapes at four different axial stretch levels, as shown in
    \label{fig:aniso-cartesian-detA}
  \end{figure}
 
-As can be seen from Figure~\ref{fig:aniso-cartesian-detA}, the
-Cartesian parametrization again results in a simple, bowl-shaped
-landscape of the determinant function consistently throughout the
-loading process, which is in contrast to other more complex landscapes
-using alternative parametrizations shown in
-\fref{fig:aniso-spherical-detA} for the spherical,
-\fref{fig:aniso-stereographic-detA} for the stereographic and
-\fref{fig:aniso-tangent-detA} for the tangent parametrizations.
+As can be seen from \fref{fig:aniso-cartesian-detA}, the Cartesian
+parametrization again results in a simple, bowl-shaped landscape of
+the determinant function consistently throughout the loading process,
+which is in contrast to the more complex landscapes of the spherical
+(\fref{fig:aniso-spherical-detA}), stereographic
+(\fref{fig:aniso-stereographic-detA}) and tangent
+(\fref{fig:aniso-tangent-detA}) parametrizations.
 
 As in the case of the small deformation model example in Section
 \ref{subsec:isotropic}, the robustness of the different
 parametrizations on the detection of material bifurcation is analyzed
 by randomly generating a single initial point for the Newton iterative
-scheme and eliminating the initial sampling. A total of one thousand
-random initial guesses are generated for each parametrization. The
-success rate and computation time are recorded and summarized in
+scheme and eliminating the initial sampling. A total of 1000 random
+initial guesses are generated for each parametrization. The success
+rate and computation time are recorded and summarized in
 Table~\ref{tab:aniso-axial-random-para}. The results are consistent
 with the small deformation model example, \ie, the Cartesian
 parametrization is most robust and computationally efficient of all
 the ones tested.
 
-\begin{table}[htbp]
+\begin{table}[!htbp]
  \begin{center}
   \begin{tabular}{l | c c c c c}
     \toprule
@@ -1657,18 +1652,18 @@ success detection of bifurcation and its directions, the point is
 marked as a solid circle ($\bullet$). Otherwise, it is marked as a
 cross ($\times$).
 
-\begin{figure}[htbp]
+\begin{figure}[!htbp]
    \centering \subfigure[Spherical]{
-   \includegraphics[width=0.45\textwidth]
+   \includegraphics[width=0.35\textwidth]
    {figs/aniso_uniaxial_spherical_random.pdf}
  } \subfigure[Cartesian]{
-   \includegraphics[width=0.45\textwidth]
+   \includegraphics[width=0.35\textwidth]
    {figs/aniso_uniaxial_cartesian_random.pdf}
  } \subfigure[Stereographic]{
-   \includegraphics[width=0.45\textwidth]
+   \includegraphics[width=0.35\textwidth]
    {figs/aniso_uniaxial_stereographic_random.pdf}
  } \subfigure[Tangent]{
-   \includegraphics[width=0.45\textwidth]
+   \includegraphics[width=0.35\textwidth]
    {figs/aniso_uniaxial_tangent_random.pdf}
  }
    \caption{Anisotropic finite deformation model: results of the
@@ -1696,13 +1691,13 @@ parametrizations for the detection of the loss of the ellipticity
 condition for the analysis of material instabilities. An algorithm
 based on an initial sampling on a parametric grid followed by an
 iterative Newton scheme is introduced as a robust and efficient method
-for the analysis of material instability. In addition, we introduce a
-new parametrization that we term Cartesian for the representation of
-the normal vector that defines the acoustic tensor in terms of the
-tangent moduli tensor. We demonstrate with numerical examples that the
-Cartesian parametrization offers the best performance in terms of
-computational efficiency and robustenss as compared with other four
-parametrizations. We find that:
+for the detection of the bifurcation condition. In addition, we
+introduce a new parametrization that we term Cartesian for the
+representation of the normal vector that defines the acoustic tensor
+in terms of the tangent moduli tensor. We demonstrate with numerical
+examples that the Cartesian parametrization offers the best
+performance in terms of computational efficiency and robustenss as
+compared with other four parametrizations. In summary, we find that:
 
 \begin{enumerate}
 \item
