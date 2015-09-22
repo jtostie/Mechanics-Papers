@@ -307,7 +307,7 @@ which in turn leads to Biot's equation for standard dissipative systems
   =
   ~0.
 \end{equation}
-This is equivalent to state that the internal variables should not
+This is equivalent to stating that the internal variables should not
 produce any net work, \ie
 \begin{equation} \label{eq:internal-no-work}
   \left[
@@ -508,7 +508,7 @@ a Newton-type iterative procedure.
 Efficient computation of the minimization problem
 \eref{eq:minimization-derivative} requires a careful choice of the
 parametrization for the normal vector $~n(~q) \in S^2$, which is
-equivalent to select a parametrization for the unit sphere. This
+equivalent to selecting a parametrization for the unit sphere. This
 choice has a significant effect on the complexity of the determinant
 function $f(~q)$ and its derivatives with respect to $~q$ needed to
 solve the optimization problem. Herein, five different options are
@@ -575,7 +575,7 @@ where the parameters $x \in [-1, 1]$ and $y \in [-1, 1]$.
 In the projective parametrization, the norm of the position vector of
 a point $P$ with respect to the center of the sphere is constrained to
 obtain a unit vector $~n$ \citep{Ortiz.etal:1987}. This is
-equivalent to project the point $P$ onto the unit sphere $S^2$, as
+equivalent to projecting the point $P$ onto the unit sphere $S^2$, as
 shown in \fref{fig:projective}. The normalization is effected
 by means of a constraint enforced by a Lagrange multiplier as
 \begin{equation}
@@ -892,9 +892,9 @@ time increment in half until the convergence criterion $\mu_{n+1,k} /
     \STATE compute $\mu_{n+1,k}$
     by solving \eref{eq:general-minimization-problem}
     \IF{$\mu_{n+1,k} > 0$}
-    \STATE $\alpha \leftarrow \alpha + 2^{-k}$
+    \STATE $\alpha \leftarrow \alpha + 2^{-k-1}$
     \ELSE
-    \STATE $\alpha \leftarrow \alpha - 2^{-k}$
+    \STATE $\alpha \leftarrow \alpha - 2^{-k-1}$
     \ENDIF
     \STATE $k \leftarrow k+1$
     \ENDWHILE
@@ -1016,7 +1016,7 @@ bifurcation, up to the specified tolerance, can be detected.
   \caption{Simple shear test on small deformation isotropic damage
     model: (a) stress strain behavior, with the X indicating
     bifurcation, and (b) degradation of $\det~A$ for different
-    parametrizations upto the point material bifurcation
+    parametrizations upto the point material bifurcates
     ($\epsilon_{12}=0.0559$).}
   \label{fig:iso-stress_strain}
 \end{figure}
@@ -1032,7 +1032,7 @@ iterative scheme.
 The computation time of the initial sampling depends on the number of
 sampling points, or equivalently, the density of the initial sampling
 grid. The denser the initial sampling grid, the more expensive it is
-computationally to perform a complete pass of all the points in he
+computationally to perform a complete pass of all the points in the
 grid. The computation time for the Newton iterative scheme, on the
 other hand, depends mainly on the complexity of the objective
 function, \ie, $\det~A$, as well as the quality of the initial guess.
@@ -1176,7 +1176,7 @@ bifurcation detection for all five parametrizations. The average
 number of iterations and the computation time of those successful
 detections are also recorded and shown in the table. It can be seen
 that the proposed Cartesian parametrization is much more robust than
-the commonly used spherical parametrization, \cf $100\%$ \vs $42.5\%$
+the commonly used spherical parametrization, \cf $100\%$ \vs $42.7\%$
 success rate. Furthermore, the Cartesian parametrization also
 outperforms the remaining three parametrizations. In term of
 computational cost, the Cartesian paramtrization is also efficient
@@ -1468,7 +1468,7 @@ $F_{11} = 1.1798$.
     {figs/aniso_uniaxial_mindetA_stretch.pdf}
   }
   \caption{Uniaxial tension test on finite deformation anisotropic
-    damage model: (a)stress strain behavior, with the X indicating
+    damage model: (a)stress vs. axial stretch, with the X indicating
     bifurcation, and (b) degradation of $\det~A$ for different
     parametrizations.}
   \label{fig:aniso-stress_stretch}
@@ -1523,10 +1523,10 @@ to the sampling interval.
   \end{center}
 \end{table}
 
-To gain insight into the influence of the parametrizations on the
+To gain insights into the influence of the parametrizations on the
 determinant function $\det~A$ as loading proceeds, we plot in
 \fref{fig:aniso-spherical-detA} to \fref{fig:aniso-cartesian-detA} the
-landscapes at four different axial stretch levels for the different
+landscapes at four different axial stretch levels for different
 parametrizations.
 
 \begin{figure}[!htbp]
@@ -1641,7 +1641,7 @@ the ones tested.
     \bottomrule
   \end{tabular}
   \caption{Anisotropic finite deformation model: success rate and
-    computatio time of the Newton iterative scheme with a single random
+    computation time of the Newton iterative scheme with a single random
     initial guess. A total of 1000 random trials are performed for
     each parametrization.}
     \label{tab:aniso-axial-random-para}
@@ -1722,7 +1722,7 @@ projective parametrization is much more expensive.
 \item
 The Cartesian parametrization is the most robust for the material
 models and loading conditions tested. It is also computationally
-efficient. The Cartesian parametrization represent an optimal
+efficient. The Cartesian parametrization represents an optimal
 trade-off between computational efficiency and robustness and provides
 a valuable tool for efficient and robust numerical analysis of
 material instability in large-scale finite element analysis.
