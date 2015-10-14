@@ -985,11 +985,19 @@ material bifurcation.
 
 \subsubsection{Simple Shear Test}
 
-In this section, a simple shear test is simulated with the following
+In this section, a simple shear test illustrated in Figure~\ref{fig:simple_shear} is simulated with the following
 material properties: $\lambda = 80$, $\mu = 80$, $\xi_{\infty} = 1.0$
 and $\tau = 1.0$. The resulting shear stress and shear strain are
 plotted in \fref{fig:iso-stress_strain}(a). The softening response is
 due to the evolution of the introduced damage parameter $\xi$.
+\begin{figure}[!htbp]
+  \begin{center}
+      \includegraphics[width=100mm]{figs/simple_shear_schematic.pdf}
+      \label{fig:simple_shear}
+     \caption{Schematic of the the applied loading for simple shear under for infinitesimal deformations. The solution bifurcates on planes with normals $\bn_{1}$ and $\bn_{2}$.}
+    \label{fig:parametrizations}
+  \end{center}
+\end{figure}
 
 For the numerical detection of material bifurcation, the two-step
 procedure described in \sref{sec:detection} is adopted, \ie, (1) an
@@ -1379,11 +1387,20 @@ $F_{ij}$ are the components of the deformation gradient.
 \subsubsection{Uniaxial Tension Test}
 
 The finite deformation anisotropic model is tested under monotonically
-increasing uniaxial tension loading. The material properties for both
+increasing uniaxial tension loading illustrated in Figure~\ref{fig:composite_tension}.
+\begin{figure}[!htbp]
+  \begin{center}
+      \includegraphics[width=120mm]{figs/composite_tension_schematic.pdf}
+      \label{fig:composite_tension}
+     \caption{Schematic illustrating the uniaxial tension of a reinforced-fiber composite under finite deformations. Fibers are oriented along $\bM_{1}$ and $\bM_{2}$.}
+    \label{fig:parametrizations}
+  \end{center}
+\end{figure}
+The material properties for both
 the matrix and microfibers are listed in Table~
 \ref{tab:aniso-material}.
 
-\begin{table}[!htbp]
+\begin{table}[htbp]
   \begin{center}
     \begin{tabular}{ l l l l }
       \toprule
