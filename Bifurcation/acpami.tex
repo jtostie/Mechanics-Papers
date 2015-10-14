@@ -1041,16 +1041,26 @@ To compare computational costs of different parametrizations, we
 record the time spent on the bifurcation detection at a particular
 loading increment, \eg, at the increment leading to bifurcation. We
 also vary the density of the initial sampling grid to determine its
-effect on different parametrizations. A robust parametrization should
-be insensitive to the initial sampling grid.
+effect on different parametrizations. The density of the initial sampling grid is represented by the sampling interval and the number of sampling points, as shown in \fref{fig:interval_scheme}.
 
-The computation time results are summarized in Table~
-\ref{tab:iso-shear-runtime}. The density of the initial sampling grid
-is represented by the sampling interval and the number of sampling
-points. The table only shows the number of sampling points, $N$, along
-one dimension of the parametric space. Assuming the same number of
-intervals for each parameter, the total number of sampling points is
-$N^{D}$ where $D$ is the total dimension of the parametric space.
+\begin{figure}[!htbp]
+  \centering 
+    \includegraphics[width=0.4\textwidth]
+                    {figs/interval_scheme.pdf}
+  \caption{Schematic drawing shows the interval along one dimension 
+  of the normalized parameter space $[-1, 1]$ for the cases 
+  of interval = 0.3 (top) and interval = 1.0 (bottom). Black solid 
+  circles indicate the locations of grid points}
+  \label{fig:interval_scheme}
+\end{figure}
+
+A robust parametrization should be insensitive to the initial 
+sampling grid.The computation time results are summarized in Table~
+\ref{tab:iso-shear-runtime}. The table only shows the number of 
+sampling points, $N$, along one dimension of the parametric space. 
+Assuming the same number of intervals for each parameter, the total 
+number of sampling points is $N^{D}$ where $D$ is the total dimension 
+of the parametric space.
 
 As expected, it can be seen from Table~\ref{tab:iso-shear-runtime}
 that as the number of sampling points $N$ per dimension decreases, so
