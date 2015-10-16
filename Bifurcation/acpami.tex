@@ -161,24 +161,25 @@ class of small deformation isotropic and anisotropic damage models. On
 the basis of the general Hadamard instability criterion,
 \citet{Xue.Belytschko:2010} derived a closed-form expression to
 determine the onset of instability and the bifurcation directions for
-a particular damage plasticity model. These analytical approaches are
-computationally very efficient, robust and avoid the pitfall of the
-inability to find true global minima \cite{Oliver.etal:2010}.
+a particular damage plasticity model. \citet{Schreyer.Neilsen:1996} 
+derived an analytical creteria for loss of ellipticity for a general 
+class of symmetric constitutive equations. These analytical approaches 
+are computationally very efficient, robust and avoid the pitfall of 
+the inability to find true global minima \cite{Oliver.etal:2010}.
 Closed-form solutions, however, are not available for more complicated
 material models under general loading conditions, which motivates the
 development and implementation of numerical approaches
 \cite{Mosler:2005}.
 
 Among the works that address the numerical resolution of material
-instability are those of Ortiz and coworkers \cite{Ortiz:1987,
-  Ortiz.etal:1987}.  \citet{Ortiz.etal:1987} formulated the detection
+instability are those of Ortiz and coworkers \cite{Ortiz:1987, Ortiz.etal:1987}. \citet{Ortiz.etal:1987} formulated the detection
 of instability as a constrained minimization problem. A two-step
 procedure is proposed, wherein a sampling is performed over the
 parametric space of possible bifurcation directions followed by an
 iterative solution scheme using a Lagrange multiplier to enforce the
 unit-vector constraint. The algorithm was applied to the bifurcation
 analysis of a small deformation, isotropic elastoplastic material
-model.  \citet{Mosler:2005} proposed a numerical algorithm based on
+model. \citet{Mosler:2005} proposed a numerical algorithm based on
 sampling the discrete parametric space and using the minimum of the
 sampling as initial guess for a Newton method to find a better
 approximation to the exact minimum of the determinant of the acoustic
@@ -193,7 +194,10 @@ to finite deformation material models, or non-associative plasticity
 material models. \citet{Boussaa-Aravas:2001} proposed an alternative
 approach where numerical and symbolic computations were combined to
 detect the loss of strong ellipticity and applied this approach to a
-Gurson-type porous material.
+Gurson-type porous material. \citet{Khen.etal:1998} formulated the 
+localization criterion for finite deformation plasticity in a Lagrangian
+formulation and searched the bifurcation direction using two characteristic
+angles in a spherical coordinate system.
 
 Compared to analytical approaches, numerical algorithms are more
 general in the sense that they can be applied to different material
@@ -523,7 +527,8 @@ reference originates from the center of each one.
 \label{subsec:spherical}
 
 This parametrization is the most commonly used in numerical
-bifurcation analysis, \eg \cite{Mosler:2005, Regueiro.Foster:2011}.
+bifurcation analysis, 
+\eg \cite{Mosler:2005, Regueiro.Foster:2011, Andrade.Borja:2006, Springmann.etal:2009}.
 In the spherical parametrization, elements $~n$ of the unit sphere
 $S^2$ are simply parametrized by their spherical coordinates with
 polar angle $\varphi \in [0, \pi]$, azimuthal angle $\theta \in [0,
