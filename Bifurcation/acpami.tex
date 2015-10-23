@@ -166,24 +166,27 @@ generally fall into two categories: analytical and numerical.
 
 For certain material models under specific loading conditions,
 analytical solutions of the instability problem can be derived. For
-instance, \citet{Oliver.Huespe:2004} provided closed-form solutions
+instance, \citet{Schreyer.Neilsen:1996} derived an analytical criteria
+for the loss of ellipticity for a general class of symmetric
+constitutive equations. \citet{Becker:2002} used the Gurson
+constitutive model in combination with failure criteria based on
+material stability and bifurcation in a finite element model to
+predict fracture and fragmentation in a dynamic expanding ring
+experiment. \citet{Oliver.Huespe:2004} provided closed-form solutions
 for the detection of the singularity of the acoustic tensor for a wide
 class of small deformation isotropic and anisotropic damage models. On
 the basis of the general Hadamard instability criterion,
 \citet{Xue.Belytschko:2010} derived a closed-form expression to
 determine the onset of instability and the bifurcation directions for
-a particular damage plasticity model. \citet{Schreyer.Neilsen:1996}
-derived an analytical creteria for loss of ellipticity for a general
-class of symmetric constitutive equations. These analytical approaches
-are computationally very efficient, robust and avoid the pitfall of
-the inability to find global minima \cite{Oliver.etal:2010}.
+a particular damage plasticity model. These analytical approaches are
+computationally very efficient, robust and avoid the pitfall of the
+inability to find global minima \citep{Oliver.etal:2010}.
+
 Closed-form solutions, however, are not available for more complicated
 material models under general loading conditions, which motivates the
-development and implementation of numerical approaches
-\cite{Mosler:2005}.
-
-Among the works that address the numerical resolution of material
-instability are those of Ortiz and coworkers \cite{Ortiz:1987,
+development and implementation of numerical approaches. Among the
+works that address the numerical resolution of material instability
+are those of Ortiz and coworkers \citep{Ortiz:1987,
   Ortiz.etal:1987}. \citet{Ortiz.etal:1987} formulated the detection
 of instability as a constrained minimization problem. A two-step
 procedure is proposed, wherein a sampling is performed over the
@@ -191,25 +194,25 @@ parametric space of possible bifurcation directions followed by an
 iterative solution scheme using a Lagrange multiplier to enforce the
 unit-vector constraint. The algorithm was applied to the bifurcation
 analysis of a small deformation, isotropic elastoplastic material
-model. \citet{Mosler:2005} proposed a numerical algorithm based on
-sampling the discrete parametric space and using the minimum of the
-sampling as initial guess for a Newton method to find a better
-approximation to the exact minimum of the determinant of the acoustic
-tensor and corresponding bifurcation directions. More recently,
-\citet{Oliver.etal:2010} developed a new efficient algorithm based on
-the iterative solution of a coupled eigenvalue problem in terms of the
-acoustic tensor. The algorithm is very efficient and accurate for
-symmetric cases, where the material tangent has both major and minor
-symmetries. For cases that lack minor symmetries, however, the
-algorithm only gives an approximation, which limits its applicability
-to finite deformation material models, or non-associative plasticity
-material models. \citet{Boussaa-Aravas:2001} proposed an alternative
-approach where numerical and symbolic computations were combined to
-detect the loss of strong ellipticity and applied this approach to a
-Gurson-type porous material. \citet{Khen.etal:1998} formulated the
-localization criterion for finite deformation plasticity in a
-Lagrangian formulation and searched the bifurcation direction using
-two characteristic angles in a spherical coordinate system.
+model.  \citet{Khen.etal:1998} formulated the localization criterion
+for finite deformation plasticity in a Lagrangian formulation and
+searched the bifurcation direction using two characteristic angles in
+a spherical coordinate system. \citet{Boussaa-Aravas:2001} proposed an
+alternative approach where numerical and symbolic computations were
+combined to detect the loss of strong ellipticity and applied this
+approach to a Gurson-type porous material. \citet{Mosler:2005}
+proposed a numerical algorithm based on sampling the discrete
+parametric space and using the minimum of the sampling as initial
+guess for a Newton method to find a better approximation to the exact
+minimum of the determinant of the acoustic tensor and corresponding
+bifurcation directions. More recently, \citet{Oliver.etal:2010}
+developed a new efficient algorithm based on the iterative solution of
+a coupled eigenvalue problem in terms of the acoustic tensor. The
+algorithm is very efficient and accurate for symmetric cases, where
+the material tangent has both major and minor symmetries. For cases
+that lack minor symmetries, however, the algorithm only gives an
+approximation, which limits its applicability to finite deformation
+material models, or non-associative plasticity material models.
 
 Compared to analytical approaches, numerical algorithms are more
 general in the sense that they can be applied to different material
@@ -311,16 +314,8 @@ with respect to the internal variable rates as
       +
       \psi^*(~Z, \dot{~Z})
     \right] +
-    \phi(~F, \dot{~F}, ~Z),
+    \phi(~F, \dot{~F}, ~Z).
   \end{split}
-\end{equation}
-which in turn leads to Biot's equation for standard dissipative systems
-\begin{equation} \label{eq:Biots-equation}
-  \frac{\partial A}{\partial ~Z} (~F, ~Z)
-  +
-  \frac{\partial \psi^*}{\partial \dot{~Z}} (~Z, \dot{~Z})
-  =
-  ~0.
 \end{equation}
 This is equivalent to stating that the internal variables should not
 produce any net work, \ie
@@ -335,7 +330,15 @@ produce any net work, \ie
   =
   0
   \quad
-  \forall \dot{~Z}.
+  \forall \dot{~Z},
+\end{equation}
+which in turn leads to Biot's equation for standard dissipative systems
+\begin{equation} \label{eq:Biots-equation}
+  \frac{\partial A}{\partial ~Z} (~F, ~Z)
+  +
+  \frac{\partial \psi^*}{\partial \dot{~Z}} (~Z, \dot{~Z})
+  =
+  ~0.
 \end{equation}
 
 Approximate solutions to \eref{eq:Biots-equation} may be found by
@@ -468,18 +471,18 @@ $~m, ~n \in S^2$ where $S^2 := \{ ~t \in {"R}^3 \, | \, \| ~t \| =
 1\}$ is the unit sphere. Define
 \begin{equation} \label{eq:dot-products}
   \begin{aligned}
-    ~n \circ \bbA & := n_p A_{pjkl} ~e_j \otimes ~e_k \otimes ~e_l,
+    ~n \cdot \bbA & := n_p A_{pjkl} ~e_j \otimes ~e_k \otimes ~e_l,
     \quad &
-    ~n \cdot \bbA & := n_p A_{ipkl} ~e_i \otimes ~e_k \otimes ~e_l,
+    ~n \circ \bbA & := n_p A_{ipkl} ~e_i \otimes ~e_k \otimes ~e_l,
     \\
-    \bbA \cdot ~n & := n_p A_{ijpl} ~e_i \otimes ~e_j \otimes ~e_l,
+    \bbA \circ ~n & := n_p A_{ijpl} ~e_i \otimes ~e_j \otimes ~e_l,
     \quad &
-    \bbA \circ ~n & := n_p A_{ijkp} ~e_i \otimes ~e_j \otimes ~e_k,
+    \bbA \cdot ~n & := n_p A_{ijkp} ~e_i \otimes ~e_j \otimes ~e_k,
   \end{aligned}
 \end{equation}
 and the acoustic tensor as
 \begin{equation} \label{eq:acoustic-tensor}
-  ~A := ~n \cdot \bbA \cdot ~n
+  ~A := ~n \circ \bbA \cdot ~n
   \quad \text{or} \quad
   A_{ik} \, ~e_i \otimes ~e_k := n_j A_{ijkl} n_l \, ~e_i \otimes ~e_k,
   \quad
@@ -546,18 +549,47 @@ the normal vector be an element of the unit sphere. We describe the
 parametrizations in detail next, assuming that a Cartesian frame of
 reference originates from the center of each one.
 
+\begin{figure}[!htbp]
+  \begin{center}
+    \unitlength=1.0mm
+    \subfigure[Spherical]{
+      \includegraphics[width=65mm]{figs/spherical.pdf}
+      \label{fig:spherical}
+    }
+    \subfigure[Stereographic]{
+      \includegraphics[width=75mm]{figs/stereographic.pdf}
+      \label{fig:stereographic}
+    }
+    \subfigure[Projective]{
+      \includegraphics[width=75mm]{figs/projective.pdf}
+      \label{fig:projective}
+    }
+    \subfigure[Tangent]{
+      \includegraphics[width=75mm]{figs/tangent.pdf}
+      \label{fig:tangent}
+    }
+    \subfigure[Cartesian]{
+      \includegraphics[width=75mm]{figs/cartesian.pdf}
+      \label{fig:Cartesian}
+    }
+    \caption{The five parametrizations used for the detection of loss
+      of ellipticity.}
+    \label{fig:parametrizations}
+  \end{center}
+\end{figure}
+
 \subsection{Spherical Parametrization}
 \label{subsec:spherical}
 
 This parametrization is the most commonly used in numerical
-bifurcation analysis, 
-\eg \cite{Mosler:2005, Regueiro.Foster:2011, Andrade.Borja:2006, Springmann.etal:2009}.
-In the spherical parametrization, elements $~n$ of the unit sphere
-$S^2$ are simply parametrized by their spherical coordinates with
-polar angle $\varphi \in [0, \pi]$, azimuthal angle $\theta \in [0,
-  \pi]$ and radial distance $r = \|~n \| = 1$. The reduced range in
-the angle $\theta$ is due to symmetry of the bifurcation condition, as
-for this purpose $~n$ and $- ~n$ yield the same result, see
+bifurcation analysis, \eg \citep{Mosler:2005, Andrade.Borja:2006,
+  Springmann.etal:2009, Regueiro.Foster:2011}.  In the spherical
+parametrization, elements $~n$ of the unit sphere $S^2$ are simply
+parametrized by their spherical coordinates with polar angle
+$\varphi \in [0, \pi]$, azimuthal angle $\theta \in [0, \pi]$ and
+radial distance $r = \|~n \| = 1$. The reduced range in the angle
+$\theta$ is due to symmetry of the bifurcation condition, as for this
+purpose $~n$ and $- ~n$ yield the same result, see
 \fref{fig:spherical}. In terms of the canonical basis
 \begin{equation}
   ~n(\varphi, \theta)
@@ -706,7 +738,7 @@ $ be non-zero. Thus, the condition that they belong to the unit sphere
 $S^2$ may be relaxed. In analogy to the classical acoustic tensor
 \eref{eq:acoustic-tensor}, define
 \begin{equation} \label{eq:Cartesian-acoustic-tensor}
-  ~B := ~v \cdot \bbA \cdot ~v
+  ~B := ~v \circ \bbA \cdot ~v
   \quad \text{or} \quad
   B_{ik} \, ~e_i \otimes ~e_k := v_j A_{ijkl} v_l  \, ~e_i \otimes ~e_k,
   \quad
@@ -815,34 +847,12 @@ centered at the origin as shown in \fref{fig:Cartesian}. Only three
 faces of the cube need to be considered due to the symmetry of the
 bifurcation condition.
 
-\begin{figure}[!htbp]
-  \begin{center}
-    \unitlength=1.0mm
-    \subfigure[Spherical]{
-      \includegraphics[width=75mm]{figs/spherical.pdf}
-      \label{fig:spherical}
-    }
-    \subfigure[Stereographic]{
-      \includegraphics[width=75mm]{figs/stereographic.pdf}
-      \label{fig:stereographic}
-    }
-    \subfigure[Projective]{
-      \includegraphics[width=75mm]{figs/projective.pdf}
-      \label{fig:projective}
-    }
-    \subfigure[Tangent]{
-      \includegraphics[width=75mm]{figs/tangent.pdf}
-      \label{fig:tangent}
-    }
-    \subfigure[Cartesian]{
-      \includegraphics[width=75mm]{figs/cartesian.pdf}
-      \label{fig:Cartesian}
-    }
-    \caption{The five parametrizations used for the detection of loss
-      of ellipticity.}
-    \label{fig:parametrizations}
-  \end{center}
-\end{figure}
+The spherical parametrization commonly used in bifurcation analysis
+has a singularity at the poles in that the azimuthal angle $\theta$
+can adopt any value there. This leads to numerical diffculties if
+minima happen to lie near or at the poles. The Cartesian
+parametrization advocated here does not contain any singularities of
+this kind.
 
 \section{Bifurcation Detection}
 \label{sec:detection}
@@ -982,14 +992,14 @@ fourth-order symmetric identity tensor with $\delta_{ik}$ being the
 Kronecker delta.
 
 We adopt the following evolution law for the scalar damage parameter $
-\xi$ \cite{Holzapfel:2000}
+\xi$ \citep{Holzapfel:2000}
 \begin{equation}\label{eq:iso-xi}
   \xi(\alpha) := \xi_{\infty} [ 1- {\rm exp}(-\alpha / \tau)]
 \end{equation}
 where $\xi_{\infty}$ describes the dimensionless maximum damage and
 $\tau$ is referred to as the damage saturation parameter. The
 parameter $\alpha$ is the maximum thermodynamic force
-\cite{Holzapfel:2000} with the same dimensions as the effective strain
+\citep{Holzapfel:2000} with the same dimensions as the effective strain
 energy. Within the closed time interval $[0,t]$, $\alpha$ is given as
 \begin{equation}\label{eq:alpha}
   \alpha(t) := \max_{s\in [0,t]}A_0(s)
@@ -1161,9 +1171,10 @@ therefore it is not shown.
    \includegraphics[width=0.45\textwidth]
    {figs/iso_shear_tangent_detA.pdf}
  }
-   \caption{Landscapes of the determinant of the acoustic tensor at
-     bifurcation for simple shear for the small deformation isotropic
-     damage model.}
+ \caption{Landscapes of the determinant of the acoustic tensor at
+   bifurcation for simple shear for the small deformation isotropic
+   damage model. The normals to the planes of bifurcation are
+   $~n_1 = (1,0,0)$ and $~n_2 = (0,1,0)$.}
    \label{fig:iso-shear-detA}
  \end{figure}
 
@@ -1181,10 +1192,11 @@ therefore it is not shown.
    \includegraphics[width=0.45\textwidth]
    {figs/iso_shear_tangent_detAXplane.pdf}
  }
-   \caption{Plane views of the landscapes of the determinant of the
-     acoustic tensor at bifurcation for simple shear on the small
-     deformation isotropic damage model. The white stars indicate
-     global minima.}
+ \caption{Plane views of the landscapes of the determinant of the
+   acoustic tensor at bifurcation for simple shear on the small
+   deformation isotropic damage model. The white stars indicate global
+   minima.  The normals to the planes of bifurcation are
+   $~n_1 = (1,0,0)$ and $~n_2 = (0,1,0)$.}
    \label{fig:iso-shear-detAXplane}
  \end{figure}
 
@@ -1323,7 +1335,7 @@ effective (undamaged) matrix component
 \end{equation}
 where $\lambda$ and $\mu$ play the role of the Lam\'{e} constants of
 linear elasticity. For the microfibers we adopt the particular form of
-strain-energy function proposed in \cite{Holzapfel.etal:2010}
+strain-energy function proposed in \citep{Holzapfel.etal:2010}
 \begin{equation}
   \Psi^\fiber_i(~C, ~M)
     = \frac{k_i}{q_i}
