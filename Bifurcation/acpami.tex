@@ -91,16 +91,15 @@
 \maketitle
 
 \begin{abstract}
-  We examine four parametrizations of the unit sphere $S^2 \subset
-  {"R}^3$ within the context of material stability analysis by means
-  of the singularity of the acoustic tensor. We then propose a
-  Cartesian parametrization for vectors $\{~v \in {"R}^3 \, : \,
-  ||~v||_{\infty} = 1\}$, \ie, a cube of side two. We use these
-  vectors in lieu of unit normals to test for the loss of the
-  ellipticity condition. This parametrization is used to construct a
-  tensor that is the acoustic tensor multiplied by a scalar factor. It
-  is shown that both tensors become singular at the same time and in
-  the same planes in the presence of a material instability. The
+  We examine four parametrizations of the unit sphere within the
+  context of material stability analysis by means of the singularity
+  of the acoustic tensor. We then propose a Cartesian parametrization
+  for vectors within a cube of side length two and use these vectors
+  in lieu of unit normals to test for the loss of the ellipticity
+  condition. This parametrization is then used to construct a tensor
+  that is the acoustic tensor multiplied by a scalar factor. It is
+  shown that both tensors become singular at the same time and in the
+  same planes in the presence of a material instability. The
   performance of the Cartesian parametrization is compared against the
   other parametrizations, with the results of these comparisons
   showing that in general the Cartesian parametrization is more robust
@@ -115,24 +114,36 @@ in the understanding and simulation of material failure in solid
 mechanics problems. A reliable and efficient method to determine the
 onset of material instability and the bifurcation directions is
 required whether one is interested in studying the instability itself
-or to devise numerical regularization methods that prevent lack of
-convergence once an instability is present (e.g.,
-\cite{Simo.etal:1993, Oliver:1996a, Oliver:1996b,
-  Armero.Garikipati:1996, Moes.Belytschko:2002, Foster.etal:2007,
-  Chen.etal:2011}).
+or in devising numerical methods to regularize the solution at the
+onset of the instability (e.g., \cite{Simo.etal:1993, Oliver:1996a,
+  Oliver:1996b, Armero.Garikipati:1996, Moes.Belytschko:2002,
+  Foster.etal:2007, Chen.etal:2011}).
 
 Herein we adopt the classical definition of material instability as
 the loss of the \emph{strong ellipticity condition}. This is
 equivalent to the loss of the \emph{strong Legendre-Hadamard
   condition} for stored energy densities that are twice continuously
 differentiable \citep{Antman:2005}. Loss of ellipticity has also been
-associated with the existence of discontinuous acceleration
-propagating waves by \citet{Hill:1962}. We use the term
-\emph{acoustic} tensor for the second-order tensor associated with the
-strong ellipticity condition which is also known as
-\emph{localization} tensor. Although this latter denomination may be
-more accurate, throughout this work we use the former for historical
-reasons.
+associated with the discontinuous acceleration of propagating waves by
+\citet{Hill:1962}. We use the term \emph{acoustic} tensor for the
+second-order tensor associated with the strong ellipticity condition
+which is also known as the \emph{localization} tensor. Although this
+latter denomination may be more accurate, throughout this work we use
+the former for historical reasons.
+
+The determination of the loss of the strong ellipticity condition for
+a very general class of materials can be achieved by recourse to
+incremental variational constitutive updates. Within this framework,
+an incremental stress potential embodies the constitutive behavior of
+the material during a time increment, including elasticity,
+viscoelasticity, viscoplasticity, and rate dependence
+\citep{Ortiz.Stainier:1999, Lambrecht.etal:2003, Miehe.etal:2004,
+  Weinberg.etal:2006, Fancello.etal:2006, Mosler.Bruhns:2010,
+  Bleier.Mosler:2012}. By using incremental variational constitutive
+updates, the stress and the tangent moduli can be derived from a
+hyperleastic-like potential for constitutive behavior that may include
+viscosity and rate dependence. This in turn provides the means to
+apply the tools developed herein for complex inelastic materials.
 
 \subsection{Previous Work}
 
@@ -161,18 +172,19 @@ class of small deformation isotropic and anisotropic damage models. On
 the basis of the general Hadamard instability criterion,
 \citet{Xue.Belytschko:2010} derived a closed-form expression to
 determine the onset of instability and the bifurcation directions for
-a particular damage plasticity model. \citet{Schreyer.Neilsen:1996} 
-derived an analytical creteria for loss of ellipticity for a general 
-class of symmetric constitutive equations. These analytical approaches 
-are computationally very efficient, robust and avoid the pitfall of 
-the inability to find true global minima \cite{Oliver.etal:2010}.
+a particular damage plasticity model. \citet{Schreyer.Neilsen:1996}
+derived an analytical creteria for loss of ellipticity for a general
+class of symmetric constitutive equations. These analytical approaches
+are computationally very efficient, robust and avoid the pitfall of
+the inability to find global minima \cite{Oliver.etal:2010}.
 Closed-form solutions, however, are not available for more complicated
 material models under general loading conditions, which motivates the
 development and implementation of numerical approaches
 \cite{Mosler:2005}.
 
 Among the works that address the numerical resolution of material
-instability are those of Ortiz and coworkers \cite{Ortiz:1987, Ortiz.etal:1987}. \citet{Ortiz.etal:1987} formulated the detection
+instability are those of Ortiz and coworkers \cite{Ortiz:1987,
+  Ortiz.etal:1987}. \citet{Ortiz.etal:1987} formulated the detection
 of instability as a constrained minimization problem. A two-step
 procedure is proposed, wherein a sampling is performed over the
 parametric space of possible bifurcation directions followed by an
@@ -194,10 +206,10 @@ to finite deformation material models, or non-associative plasticity
 material models. \citet{Boussaa-Aravas:2001} proposed an alternative
 approach where numerical and symbolic computations were combined to
 detect the loss of strong ellipticity and applied this approach to a
-Gurson-type porous material. \citet{Khen.etal:1998} formulated the 
-localization criterion for finite deformation plasticity in a Lagrangian
-formulation and searched the bifurcation direction using two characteristic
-angles in a spherical coordinate system.
+Gurson-type porous material. \citet{Khen.etal:1998} formulated the
+localization criterion for finite deformation plasticity in a
+Lagrangian formulation and searched the bifurcation direction using
+two characteristic angles in a spherical coordinate system.
 
 Compared to analytical approaches, numerical algorithms are more
 general in the sense that they can be applied to different material
@@ -209,7 +221,7 @@ the context of a non-linear finite element analysis, the material
 instability condition has to be tested at every integration point and
 at every time step, and therefore both the computational efficiency
 and robustness of any numerical algorithm used for its detection
-become major concerns.
+becomes a major concern.
 
 In this work, we use a sampling-based algorithm followed by a Newton
 iterative method to solve the minimization problem associated with the
@@ -223,19 +235,18 @@ propose a new Cartesian parametrization to construct the acoustic
 tensor and compare its performance and robustness against other common
 and uncommon parametrizations. The numerical algorithms developed in
 this work are general and can be applied to both small and finite
-deformation material models with symmetric or unsymmetric tangents.
+deformation material models with symmetric or non-symmetric tangents.
 
 \section{General Framework}
 
-The determination of the loss of the strong ellipticity condition for
-a very general class of materials can be achieved by recourse to
-incremental variational constitutive updates. Within this framework,
-an incremental stress potential embodies the constitutive behavior of
-the material during a time increment, including elasticity,
+Incremental variational constitutive updates provide the means to
+determine the loss of the strong ellipticity condition for a very
+general class of materials. Within this framework, the constitutive
+behavior of the material during a time increment is characterized by
+an incremental stress potential that may include elasticity,
 viscoelasticity, viscoplasticity, and rate dependence
-\citep{Ortiz.Stainier:1999, Lambrecht.etal:2003,
-  Miehe.etal:2004, Weinberg.etal:2006,
-  Fancello.etal:2006, Mosler.Bruhns:2010,
+\citep{Ortiz.Stainier:1999, Lambrecht.etal:2003, Miehe.etal:2004,
+  Weinberg.etal:2006, Fancello.etal:2006, Mosler.Bruhns:2010,
   Bleier.Mosler:2012}.
 
 \subsection{Variational Constitutive Updates}
@@ -454,7 +465,19 @@ then it is called the strong ellipticity condition
 \citep{Hadamard:1903, Truesdell.Noll:2004, Miehe.etal:2004}. It is
 customary to \emph{assume} that $~m$ and $~n$ are unit vectors, \ie
 $~m, ~n \in S^2$ where $S^2 := \{ ~t \in {"R}^3 \, | \, \| ~t \| =
-1\}$ is the unit sphere. Define the acoustic tensor as
+1\}$ is the unit sphere. Define
+\begin{equation} \label{eq:dot-products}
+  \begin{aligned}
+    ~n \circ \bbA & := n_p A_{pjkl} ~e_j \otimes ~e_k \otimes ~e_l,
+    \quad &
+    ~n \cdot \bbA & := n_p A_{ipkl} ~e_i \otimes ~e_k \otimes ~e_l,
+    \\
+    \bbA \cdot ~n & := n_p A_{ijpl} ~e_i \otimes ~e_j \otimes ~e_l,
+    \quad &
+    \bbA \circ ~n & := n_p A_{ijkp} ~e_i \otimes ~e_j \otimes ~e_k,
+  \end{aligned}
+\end{equation}
+and the acoustic tensor as
 \begin{equation} \label{eq:acoustic-tensor}
   ~A := ~n \cdot \bbA \cdot ~n
   \quad \text{or} \quad
