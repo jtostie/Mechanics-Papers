@@ -157,7 +157,7 @@
 \address[UCB]{University of California, Berkeley, Berkeley, CA 94720, USA}
 %------------------------ abstract ----------------------
 \begin{abstract}
-In this work, we revisit hydrogen transport and trapping under finite deformations for both bulk and surface approaches. Consistent assumptions regarding the flux and the expression of lattice and trapping sites in the reference configuration yield a simplified balance law in the reference configuration expressed in terms of the Cauchy-Green tensor and the Kirchhoff pressure. We illustrate the effects of deformation on transient diffusion for idealized configurations. We also develop surface element gradient operators to facilitate both deformation and transport through and along interfaces. Fast pathways for diffusion are investigated through both regular and tessellated structures. These approaches are then applied to a crack tip to illustrate the utility of the coupled methodology.\end{abstract}
+In this work, we revisit hydrogen transport and trapping under finite deformations for both bulk and surface approaches. Consistent assumptions regarding the flux and the expression of lattice and trapping sites yield a simplified balance law in the reference configuration expressed in terms of the Cauchy-Green tensor and the Kirchhoff pressure. We illustrate the effects of deformation on transient diffusion for idealized configurations. We also develop surface element gradient operators to facilitate both deformation and transport through and along interfaces. Fast pathways for diffusion are investigated through both regular and tessellated structures. These approaches are then applied to a crack tip to illustrate the utility of the coupled methodology.\end{abstract}
 %------------------------ abstract ----------------------
 \begin{keyword}
 hydrogen \sep transport \sep coupling \sep embrittlement
@@ -169,13 +169,9 @@ hydrogen \sep transport \sep coupling \sep embrittlement
 %
 \section{Introduction}
 \label{section.introduction}
+The transport of hydrogen in stainless steel alloys is of critical importance to the hydrogen economy. Past works have developed conservation laws for both hydrogen concentration \citep{Sofronis1989,Krom1998} and the equilibrium between lattice and trap sites~\cite{Oriani1970}. More recent work by Anand have 
 
-I need to write a nice introduction that references prior work and then refer again to that work when deriving the transport equation.
 \section{Derivation of the hydrogen transport equation}
-
-Earlier works devoted to the hydrogen transport:  \cite{Sofronis1989}, \cite{Krom1998}
-Equilibrium assumption: \cite{Oriani1970}
-
 The derivation of the transport equation stems from a model of the chemical potential and the flux. We will attempt to consider these assumptions in both the reference and current configuration. A conservation law then follows and we employ an equilibrium argument to relate the hydrogen trapped concentration to the hydrogen lattice concentration.
 
 Given constitutive assumptions, a conservation law, and an equilibrium argument, one can derive the governing partial differential equation for hydrogen transport. We will derive the governing PDE in both the reference and current configuration. We will also investigate pushing these assumptions forwards and backwards to determine the difficulty of implementation within a finite element framework.
