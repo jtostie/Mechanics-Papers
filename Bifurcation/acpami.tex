@@ -91,19 +91,19 @@
 \maketitle
 
 \begin{abstract}
-  We examine four parametrizations of the unit sphere within the
-  context of material stability analysis by means of the singularity
-  of the acoustic tensor. We then propose a Cartesian parametrization
-  for vectors within a cube of side length two and use these vectors
-  in lieu of unit normals to test for the loss of the ellipticity
+  We examine four parametrizations of the unit sphere in the context
+  of material stability analysis by means of the singularity of the
+  acoustic tensor. We then propose a Cartesian parametrization for
+  vectors that lie a cube of side length two and use these vectors in
+  lieu of unit normals to test for the loss of the ellipticity
   condition. This parametrization is then used to construct a tensor
-  that is the acoustic tensor multiplied by a scalar factor. It is
-  shown that both tensors become singular at the same time and in the
-  same planes in the presence of a material instability. The
-  performance of the Cartesian parametrization is compared against the
-  other parametrizations, with the results of these comparisons
-  showing that in general the Cartesian parametrization is more robust
-  and more numerically efficient than the others.
+  akin to the acoustic tensor. It is shown that both of these tensors
+  become singular at the same time and in the same planes in the
+  presence of a material instability. The performance of the Cartesian
+  parametrization is compared against the other parametrizations, with
+  the results of these comparisons showing that in general the
+  Cartesian parametrization is more robust and more numerically
+  efficient than the others.
 \end{abstract}
 
 \section{Introduction}
@@ -115,9 +115,9 @@ mechanics problems. A reliable and efficient method to determine the
 onset of material instability and the bifurcation directions is
 required whether one is interested in studying the instability itself
 or in devising numerical methods to regularize the solution at the
-onset of the instability (e.g., \cite{Simo.etal:1993, Oliver:1996a,
+onset of the instability \citep{Simo.etal:1993, Oliver:1996a,
   Oliver:1996b, Armero.Garikipati:1996, Moes.Belytschko:2002,
-  Foster.etal:2007, Chen.etal:2011}).
+  Foster.etal:2007, Chen.etal:2011}.
 
 Herein we adopt the classical definition of material instability as
 the loss of the \emph{strong ellipticity condition}. This is
@@ -166,10 +166,10 @@ generally fall into two categories: analytical and numerical.
 
 For certain material models under specific loading conditions,
 analytical solutions of the instability problem can be derived. For
-instance, \citet{Schreyer.Neilsen:1996} derived an analytical criteria
-for the loss of ellipticity for a general class of symmetric
+instance, \citet{Schreyer.Neilsen:1996} derived an analytical
+criterion for the loss of ellipticity for a general class of symmetric
 constitutive equations. \citet{Becker:2002} used the Gurson
-constitutive model in combination with failure criteria based on
+constitutive model in combination with a failure criterion based on
 material stability and bifurcation in a finite element model to
 predict fracture and fragmentation in a dynamic expanding ring
 experiment. \citet{Oliver.Huespe:2004} provided closed-form solutions
@@ -216,15 +216,15 @@ material models, or non-associative plasticity material models.
 
 Compared to analytical approaches, numerical algorithms are more
 general in the sense that they can be applied to different material
-models under different loading conditions, for both 2D and 3D
-problems. The drawbacks are also clear, however: they are much more
-computationally demanding and less robust. The convergence of an
-iterative method is sensitive to the initial guess, for instance. In
-the context of a non-linear finite element analysis, the material
-instability condition has to be tested at every integration point and
-at every time step, and therefore both the computational efficiency
-and robustness of any numerical algorithm used for its detection
-becomes a major concern.
+models under different loading conditions, for both two-dimensional
+and three-dimensional problems. The drawbacks are also clear, however:
+they are much more computationally demanding and less robust. The
+convergence of an iterative method is sensitive to the initial guess,
+for instance. In the context of a non-linear finite element analysis,
+the material instability condition has to be tested at every
+integration point and at every time step, and therefore both the
+computational efficiency and robustness of any numerical algorithm
+used for its detection becomes a major concern.
 
 In this work, we use a sampling-based algorithm followed by a Newton
 iterative method to solve the minimization problem associated with the
@@ -234,9 +234,9 @@ representation of the unit normal vector used to construct the
 acoustic tensor. The hypothesis is that the parametrization of this
 normal vector significantly affects the computational cost and
 robustness of the numerical solution algorithm. To this end, we
-propose a new Cartesian parametrization to construct the acoustic
-tensor and compare its performance and robustness against other common
-and uncommon parametrizations. The numerical algorithms developed in
+propose a new Cartesian parametrization to construct a tensor akin to
+the acoustic tensor and compare its performance and robustness against
+other four parametrizations. The numerical algorithms developed in
 this work are general and can be applied to both small and finite
 deformation material models with symmetric or non-symmetric tangents.
 
@@ -842,17 +842,16 @@ $||~v||_{\infty} = 1$ and set the normal vector to
   \end{cases}
 \end{equation}
 
-This confines the normal vector to the cube of side length $2$
+This confines the normal vector to the cube of side length two
 centered at the origin as shown in \fref{fig:Cartesian}. Only three
 faces of the cube need to be considered due to the symmetry of the
 bifurcation condition.
 
 The spherical parametrization commonly used in bifurcation analysis
-has a singularity at the poles in that the azimuthal angle $\theta$
-can adopt any value there. This leads to numerical diffculties if
-minima happen to lie near or at the poles. The Cartesian
-parametrization advocated here does not contain any singularities of
-this kind.
+has a singularity at the poles as the azimuthal angle $\theta$ can
+adopt any value at those points. This leads to numerical diffculties
+when minima lie near or at the poles. The Cartesian parametrization
+advocated here does not contain any singularities of this kind.
 
 \section{Bifurcation Detection}
 \label{sec:detection}
@@ -890,7 +889,8 @@ where the tensor $~B_{n+1,k}(~q)$ may be either the one from
 \eref{eq:acoustic-tensor} or the one from
 \eref{eq:Cartesian-acoustic-tensor}, depending on the parametrization
 in use, and the index ${n+1,k}$ indicates that the evaluation occurs
-at time $t_{n+1,k} \in [t_n, t_{n+1}]$.
+at time $t_{n+1,k} \in [t_n, t_{n+1}]$ for a $k$-th adaptive
+iteration.
 
 Consider the original time increment from $t_n$ to $t_{n+1}$, where
 $\mu_n > 0$ and $\mu_{n+1} < 0$. This means that between time $t_n$
@@ -1016,10 +1016,10 @@ to the strain measure $~\epsilon^{\text{e}}$ twice, which results in
     (~\sigma_0\otimes~\sigma_0)
 \end{equation}
 where $~\sigma_0$ is the effective (undamaged) Cauchy stress and
-$\beta = 1 \iff \dot{\alpha} > 0$, $\beta=0$ otherwise. In a small
-deformation setting, this tangent can be used to compute the acoustic
-tensor \eref{eq:acoustic-tensor}, which can then be tested for
-material bifurcation.
+$\beta = 1 \Leftrightarrow \dot{\alpha} > 0$, $\beta=0$ otherwise. In
+a small deformation setting, this tangent can be used to compute the
+acoustic tensor \eref{eq:acoustic-tensor}, which can then be tested
+for material bifurcation.
 
 \subsubsection{Simple Shear Test}
 
@@ -1102,12 +1102,12 @@ of sampling points, as shown in \fref{fig:interval_scheme}.
   \label{fig:interval_scheme}
 \end{figure}
 
-A robust parametrization should be insensitive to the initial 
-sampling grid.The computation time results are summarized in Table~
-\ref{tab:iso-shear-runtime}. The table only shows the number of 
-sampling points, $N$, along one dimension of the parametric space. 
-Assuming the same number of intervals for each parameter, the total 
-number of sampling points is $N^{D}$ where $D$ is the total dimension 
+A robust parametrization should be insensitive to the initial sampling
+grid. The computation time results are summarized in Table~
+\ref{tab:iso-shear-runtime}. The table only shows the number of
+sampling points, $N$, along one dimension of the parametric space.
+Assuming the same number of intervals for each parameter, the total
+number of sampling points is $N^{D}$ where $D$ is the total dimension
 of the parametric space.
 
 As expected, it can be seen from Table~\ref{tab:iso-shear-runtime}
@@ -1215,10 +1215,9 @@ stereographic and tangent parametrizations.
 The Cartesian parametrization results in a simple bowl-shaped
 objective function, which renders the Newton iterative scheme to be
 particularly robust and insensitive to the initial guess. Evidence for
-this can be seen in Table~\ref{tab:iso-shear-runtime} as the
-Cartiesian and spherical parametrizations are the only ones able to
-detect bifurcation when the sampling grid is reduced to a single
-point.
+this can be seen in Table~\ref{tab:iso-shear-runtime} as the Cartesian
+and spherical parametrizations are the only ones able to detect
+bifurcation when the sampling grid is reduced to a single point.
 
 We now elaborate further on the robustness of the parametrizations by
 considering the situation in which the initial sampling is eliminated
@@ -1329,7 +1328,7 @@ where $~C$ is the right Cauchy-Green tensor, $~M$ is a unit vector
 characterizing the preferred fiber direction, $f^\mtrx$ and
 $f^\fiber_i$ are the volume fraction of the matrix and $i$th fiber,
 $N$ is the number of fiber terms and $\xi^\mtrx$ and $\xi^\fiber_i$
-are the damage factors corresponding to the matrix and the $i$th
+are the damage factors corresponding to the matrix and the $i$-th
 fibers, respectively. In the following examples, we assume that there
 are two preferred fiber directions.
 
@@ -1343,20 +1342,20 @@ effective (undamaged) matrix component
 \end{equation}
 where $\lambda$ and $\mu$ play the role of the Lam\'{e} constants of
 linear elasticity. For the microfibers we adopt the particular form of
-strain-energy function proposed in \citep{Holzapfel.etal:2010}
+strain-energy function proposed by \citet{Holzapfel.etal:2010}
 \begin{equation}
   \Psi^\fiber_i(~C, ~M)
     = \frac{k_i}{q_i}
     \{ \exp[q_i(I_4 - 1)^2] \}
 \end{equation}
-where $k_i$ and $q_i$ are elastic constants for the $i$th fiber.  The
+where $k_i$ and $q_i$ are elastic constants for the $i$-th fiber.  The
 strain invariants $I_1$, $I_3$ and $I_4$ are defined as
 \begin{gather}
   I_1 = \tr ~C,
   \quad
   I_3 = \det ~C,
   \quad
-  I_4 = ~M \cdot (~C \cdot ~M).
+  I_4 = ~M \cdot ~C \cdot ~M.
 \end{gather}
 For the damage parameters, the same evolution law as in
 \eref{eq:iso-xi} is used, except that for each phase of the material,
@@ -1369,22 +1368,25 @@ tangent moduli tensor can be derived as
   \bbC
   : =
   (1-\xi^\mtrx) \bbC^\mtrx
-  +
-  \sum_{i=1}^N (1-\xi^\fiber_i) \bbC^\fiber_i
   -
   \beta^\mtrx {\xi^\mtrx}'  (~S^\mtrx \otimes ~S^\mtrx )
-  -
-  \sum_i^n \beta^\fiber_i {\xi^\fiber_i}' (~S^\fiber_i \otimes ~S^\fiber_i)
+  +
+  \sum_{i=1}^N
+  \left[
+    (1-\xi^\fiber_i) \bbC^\fiber_i
+    -
+    \beta^\fiber_i {\xi^\fiber_i}' (~S^\fiber_i \otimes ~S^\fiber_i)
+  \right]
 \end{equation}
 where $\beta^\mtrx = 1$ if the damage of the matrix evolves within the
 time increment or $\beta^\mtrx=0$ otherwise; $\beta^\fiber_i = 1$ if
-the damage of the $i$th fiber evolves within the time increment or
+the damage of the $i$-th fiber evolves within the time increment or
 $\beta^\fiber_i=0$ otherwise; ${\xi^\mtrx}'$ and ${\xi^\fiber_i}'$ are
 the derivatives of the damage parameters defined in \eref{eq:iso-xi}
 with respect to the maximum thermodynamic force defined in
 \eref{eq:alpha}; and $~S^\mtrx$ and $~S^\fiber_i$ are the effective
 (undamaged) second Piola-Kirchhoff stresses for the matrix and the
-$i$th fibers given by
+$i$-th fibers given by
 \begin{equation}\label{eq:aniso-S0m}
   ~S^\mtrx
   :=
@@ -1397,7 +1399,7 @@ and
   2 f^\fiber_i \frac{\partial \Psi^\fiber_i}{\partial~C}
 \end{equation}
 where $f^\mtrx$ and $f^\fiber_i$ are the volume fraction of the matrix
-and $i$th fiber, respectively.
+and $i$-th fiber, respectively.
 
 The effective tangent moduli tensors can be calculated as
 \begin{equation}\label{eq:aniso-tangent1}
