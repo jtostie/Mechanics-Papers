@@ -232,7 +232,7 @@ strong ellipticity condition for the detection of material
 instability. We present several parametrizations for the
 representation of the unit normal vector used to construct the
 acoustic tensor. The hypothesis is that the parametrization of this
-normal vector significantly affects the computational cost and
+normal vector significantly affects the computation time and
 robustness of the numerical solution algorithm. To this end, we
 propose a new Cartesian parametrization to construct a tensor akin to
 the acoustic tensor and compare its performance and robustness against
@@ -1070,10 +1070,10 @@ bifurcation, up to the specified tolerance, can be detected.
 While all five parametrizations detect bifurcation at the same time,
 \fref{fig:iso-stress_strain}(b) provides little information on their
 computational efficiency and robustness, which are the focus of this
-work. The computational cost of bifurcation detection mainly consists
-of two parts: (1) the computation time of the initial sampling over
-the parametric space, and (2) the computation time of the Newton
-iterative scheme.
+work. The computation time of bifurcation detection mainly consists of
+two parts: (1) the computation time of the initial sampling over the
+parametric space, and (2) the computation time of the Newton iterative
+scheme.
 
 The computation time of the initial sampling depends on the number of
 sampling points, or equivalently, the density of the initial sampling
@@ -1083,7 +1083,7 @@ grid. The computation time for the Newton iterative scheme, on the
 other hand, depends mainly on the complexity of the objective
 function, \ie, $\det~A$, as well as the quality of the initial guess.
 
-To compare computational costs of different parametrizations, we
+To compare the computation times of different parametrizations, we
 record the time spent on the bifurcation detection at a particular
 loading increment, \eg, at the increment leading to bifurcation. We
 also vary the density of the initial sampling grid to determine its
@@ -1112,7 +1112,7 @@ of the parametric space.
 
 As expected, it can be seen from Table~\ref{tab:iso-shear-runtime}
 that as the number of sampling points $N$ per dimension decreases, so
-does the computational cost. The spherical and the Cartesian
+does the computation time. The spherical and the Cartesian
 parametrizations are the most efficient. The stereographic, projective
 and tangent parametrizations are more computationally expensive. In
 the extreme case with $N=1$ \ie only one initial sampling point, the
@@ -1141,10 +1141,10 @@ correctly detect bifurcation, shown as a dash in the table.
       1.5 & 1 & 51 & -- & --  & -- & 21  \\
       \bottomrule
     \end{tabular}
-    \caption{Computational cost of different parametrizations in
-      simple shear test at loading increment leading to bifurcation.
-      The dash ``--'' indicates that the parametrization fails to
-      detect bifurcation in this loading increment.}
+    \caption{Computation time of the different parametrizations for
+      the simple shear test in the loading increment leading to
+      bifurcation.  The dash ``--'' indicates that the parametrization
+      fails to detect bifurcation in this loading increment.}
     \label{tab:iso-shear-runtime}
   \end{center}
 \end{table}
@@ -1238,7 +1238,7 @@ that the proposed Cartesian parametrization is much more robust than
 the commonly used spherical parametrization, \cf $100\%$ \vs $12.8\%$
 success rate. Furthermore, the Cartesian parametrization also
 outperforms the remaining three parametrizations. In terms of
-computational cost, the Cartesian parametrization is efficient with
+computation time, the Cartesian parametrization is efficient with
 respect to the other tested parametrizations due to its average run
 time of $207\mu\text{s}$.
 
@@ -1254,7 +1254,7 @@ time of $207\mu\text{s}$.
       \bottomrule
     \end{tabular}
     \caption{Isotropic small deformation model: success rate and
-      computational cost of Newton iterative scheme with a single
+      computation time of the Newton iterative scheme with a single
       random initial point. A total of 1000 random trials are
       performed for each parametrization. Note that the average run
       time is for successful bifurcation detections only, which is
