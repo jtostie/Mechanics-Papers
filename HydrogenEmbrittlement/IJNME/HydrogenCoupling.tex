@@ -180,7 +180,7 @@ Given constitutive assumptions, a conservation law, and an equilibrium argument,
 \begin{equation}
 \label{eq.chemical.potential}{\mu_{l} = \mu_{l}^{0} + R T \ln(\theta_{l}) - v_{h} \sigma_{h}}
 \end{equation}
-where $R$ is the ideal gas constant, $T$ is the temperature, $\theta_{l}$ is the site occupancy, $v_{h}$ is the partial molar volume of hydrogen, and $\sigma_{h}$ is the hydrostatic stress. The hydrostatic stress, often referred to as the pressure, is $\sigma_{h} = \frac {1} {3} \text{tr}[\bs{\sigma}]$ where $\bs{\sigma}$ is the Cauchy stress. We can express the site occupancy $\theta_{l} = c_{l}/n_{l}$ where $c_{l}$ is the hydrogen lattice concentration and $n_{l}$ is the number of lattice sites per unit volume. We seek to identify referential material constants employed in the chemical potential. Specifically, we would like to identify relations for $n_{l}$ and $v_{h}$ that preserve the number of lattice sites and the number of moles of hydrogen for a reference volume. Conservation requires $n_{l} = N_{L}/J$ and $v_{h} = V_{H}J$ where $J$ is the determinant of the deformation gradient $\bs{F} = \partial \bs{x} / \partial \bs{X}$. We then assume the flux in the current configuration has the following form
+where $R$ is the ideal gas constant, $T$ is the temperature, $\theta_{l}$ is the site occupancy, $v_{h}$ is the partial molar volume of hydrogen, and $\sigma_{h}$ is the hydrostatic stress. The hydrostatic stress, often referred to as the pressure, is $\sigma_{h} = \frac {1} {3} \text{tr}[\bs{\sigma}]$ where $\bs{\sigma}$ is the Cauchy stress. We can express the site occupancy $\theta_{l} = c_{l}/n_{l}$ where $c_{l}$ is the hydrogen lattice concentration and $n_{l}$ is the number of lattice sites per unit volume. We seek to identify referential material constants employed in the chemical potential. Specifically, we would like to identify relations for $n_{l}$ and $v_{h}$ that preserve the number of lattice sites and the number of moles of hydrogen for a reference volume. Conservation requires $n_{l} = N_{L}/J$ and $v_{h} = V_{H}J$ where $J$ is the determinant of the deformation gradient $\bs{F} = \partial \bs{x} / \partial \bs{X}$. We then assume that the flux in the current configuration has the following form
 %
 \begin{equation}
 \label{eq.flux}{\bs{j}_{l} = -\bs{m}_{l} c_{l} \nabla_{\bs{x}}\mu_{l}}
@@ -195,18 +195,18 @@ with $\bs{m}_{l}$ being the mobility tensor. Defining the diffusivity tensor to 
 \label{eq.flux2}{\bs{j}_{l} = -\bs{d}_{l}  \nabla_{\bs{x}}c_{l} - \bigg(\frac{1}{J} \bs{d}_{l} \nabla_{\bs{x}}J -  \frac{v_{h}\sigma_{h}}{JRT} \bs{d}_{l} \nabla_{\bs{x}}J} - \frac{v_{h}}{R T} \bs{d}_{l} \nabla_{\bs{x}} \sigma_{h} \bigg)c_{l}
 \end{equation}
 %
-where the spatial gradient of the the jacobian is 
+where the spatial gradient of the the Jacobian is 
 %
 \begin{equation}
 \label{eq.gradJ}{ \nabla_{\bs{x}}J} = \frac {\partial J} {\partial x_j} = J F^{-1}_{iA} \frac {\partial F_{iA}} {\partial x_j} = J F^{-1}_{iA} F_{iA,j}.
 \end{equation}
-which in matrix form is represented as
+which in direct form can be represented as
 %
 \begin{equation}
-J \boldsymbol{F}^{-T}:(\nabla_{\boldsymbol{x}} \boldsymbol{F})
+J \boldsymbol{F}^{-T}:(\nabla_{\boldsymbol{x}} \boldsymbol{F}).
 \end{equation}
 %
-Because $\nabla_{\bs{x}}J$ contains higher order kinematics, the evaluation is not straightforward for linear elements. In fact, for the Q1/P0 element employed in the analysis, both the jacobian and the pressure are constant (by construction). We can, however, obtain an approximation of the global quantities through the projection of discontinuous element fields.  For example, it is common to perform a global projection of the pressure to the nodes and then employ those nodal quantities to obtain the needed gradients at the integration points. In an attempt to simplify the pressure term in the chemical potential and avoid an additional term involving $\nabla_{\bs{x}}J$, we elect to to project $J \sigma_{h}$,  the hydrostatic component of the Kirchhoff stress $\tau_{h}$ where $\bs{\tau} = J \bs{\sigma}$.
+Because $\nabla_{\bs{x}}J$ contains higher order kinematics, the evaluation is not straightforward for linear elements. In fact, for the Q1/P0 element employed in this work, both the Jacobian and the pressure are constant (by construction). We can, however, obtain an approximation of the global quantities through the projection of discontinuous element fields.  For example, it is common to perform a global projection of the pressure to the nodes and then employ those nodal quantities to obtain the needed gradients at the integration points. In an attempt to simplify the pressure term in the chemical potential and avoid an additional term involving $\nabla_{\bs{x}}J$, we elect to to project $J \sigma_{h}$,  the hydrostatic component of the Kirchhoff stress $\tau_{h}$ where $\bs{\tau} = J \bs{\sigma}$.
 
 %\begin{equation}
 %\label{eq.flux3}{\bs{j}_{l} = -\bs{d}_{l}  \nabla_{\bs{x}}c_{l}  - \frac{c_{l}}{J} \bs{d}_{l} \nabla_{\bs{x}}J +  \frac{c_{l}V_{H}}{R T} \bs{d}_{l} \nabla_{\bs{x}} \tau_{h}}.
@@ -222,51 +222,54 @@ Having developed a model for the flux, we now state a balance law for hydrogen g
 \label{eq.hconservation} \frac{d}{dt} \int_{\mathcal{B}} c dv = -\int_{\partial B} \bs{j} \cdot \bs{n} da 
 \end{equation}
 %
-
 where $\bs{n}$ is the surface normal in the current configuration. We can then employ Reynold's transport theorem for the time derivative and arrive at 
 %
 \begin{equation}
 \label{eq.hconservation2}  \int_{\mathcal{B}} (\dot{c} + c\text{div}\bs{v}) dv = -\int_{\partial B} \bs{j} \cdot \bs{n} da.
 \end{equation}   
 %
-
-We then assert that the flux $\bs{j}$ may only derive from the flux of the lattice concentration$\bs{j}_{l}$. Using the constitutive equation model for the flux and the divergence theorem, we arrive at 
+We then assert that the flux $\bs{j}$ may only derive from the flux of the lattice concentration $\bs{j}_{l}$. Using the constitutive equation model for the flux and the divergence theorem, we arrive at a local expression through a limiting process
 %
 %\begin{equation}
 %\label{eq.hconservation3}  \int_{\mathcal{B}} \big( \dot{c} + c\text{div}\bs{v} - \nabla_{\bs{x}} \cdot \bs{d}_{l} \nabla_{\bs{x}}c_{l}   -  \nabla_{\bs{x}} \cdot \frac{c_{l}}{J} \bs{d}_{l} \nabla_{\bs{x}}J +  \nabla_{\bs{x}} \cdot  \frac{c_{l}V_{H}}{R T} \bs{d}_{l} \nabla_{\bs{x}}\tau_{h} \big) dv = 0.
 %\end{equation}
+%\begin{equation}
+%\label{eq.hconservation3}  \int_{\mathcal{B}} \bigg( \dot{c} + c\text{div}\bs{v} - \nabla_{\bs{x}} \cdot \bs{d}_{l} \nabla_{\bs{x}}c_{l}   -  \nabla_{\bs{x}} \cdot \bigg[ \frac{1}{J} \bs{d}_{l} %\nabla_{\bs{x}}J -  \frac{v_{h}}{JR T} \bs{d}_{l} \nabla_{\bs{x}}\tau_{h}\bigg] c_{l} \bigg) dv = 0.
+%\end{equation}
 \begin{equation}
-\label{eq.hconservation3}  \int_{\mathcal{B}} \bigg( \dot{c} + c\text{div}\bs{v} - \nabla_{\bs{x}} \cdot \bs{d}_{l} \nabla_{\bs{x}}c_{l}   -  \nabla_{\bs{x}} \cdot \bigg[ \frac{1}{J} \bs{d}_{l} \nabla_{\bs{x}}J -  \frac{v_{h}}{JR T} \bs{d}_{l} \nabla_{\bs{x}}\tau_{h}\bigg] c_{l} \bigg) dv = 0.
+\label{eq.hconservation3}  \dot{c} + c\text{div}\bs{v} - \nabla_{\bs{x}} \cdot \bs{d}_{l} \nabla_{\bs{x}}c_{l}   -  \nabla_{\bs{x}} \cdot \bigg[ \frac{1}{J} \bs{d}_{l} \nabla_{\bs{x}}J -  \frac{v_{h}}{JR T} \bs{d}_{l} \nabla_{\bs{x}}\tau_{h}\bigg] c_{l}  =  0.
 \end{equation}
 %
-In order to move forward, we need to partition the hydrogen concentration $c$ into lattice and trapped components $c = c_{l} + c_{t}$. Using an the equilibrium assumption of Oriani \cite{Oriani1970}, we can specify $c_{t} := \bar{c}_{t}(c_{l}, n_t(\epsilon_{p}), J)$. In terms of the occupancy, we can express equilibrium between lattice and trap sites as
+In order to move forward, we need to partition the hydrogen concentration $c$ into lattice and trapped components $c = c_{l} + c_{t}$. Using an the equilibrium assumption of Oriani \cite{Oriani1970}, we can specify $c_{t}$ in terms of the occupancy
 %
 \begin{equation}
 \label{eq.oriani1} \theta_{t} = \frac{1}{1 + \frac{1}{k_{t} \theta_{l}}}.
 \end{equation}
-where $k_t$ is the trap equilibrium constant.  We note that the equilibrium relation noted in Equation~\ref{eq.oriani1} derives from a chemical potential that must also incorporate the hydrostatic stress, $\mu_{T} =  \mu_{T}^{0} + RT\ln[\theta_{T}/(1-\theta_{T})] - \nu_{h}\sigma_{h} $. Given that $\theta_{l} = c_{l}/n_{l}$ and $\theta_{t} = c_{t}/n_{t}$, we can re-write the equilibrium of $c_{t}$ in terms of $c_{l}$ and $n_{t}$. 
+where $k_t$ is the trap equilibrium constant $k_{t} = \exp[(\mu^{0}_{l} - \mu^{0}_{t})/RT]$ .  We note that the equilibrium relation noted in Equation~\ref{eq.oriani1} derives from a chemical potential that must also incorporate the hydrostatic stress, $\mu_{t} =  \mu_{t}^{0} + RT\ln[\theta_{t}/(1-\theta_{t})] - \nu_{h}\sigma_{h} $. Given that $\theta_{l} = c_{l}/n_{l}$ and $\theta_{t} = c_{t}/n_{t}$, we can re-write the equilibrium of $c_{t}$ in terms of $c_{l}$ and $n_{t}$. 
 %
 \begin{equation}
 \label{eq.oriani2} c_{t} = \frac{n_{t}}{1 + \frac{n_{l}}{k_{t} c_{l}}}
 \end{equation}
-As an initial model, we assume that the number of trapped sites $n_{t}$ is a function of the permanent deformation of the body through $\epsilon_{p}$, $n_{t} = N_{T}(\epsilon_{p})/J$. We define the trap density in terms of a reference quantity such that we conserve the number of traps through a change in volume (and no change in $\epsilon_{p}$).  It follows that
+As an initial model for trapping, we assume that the number of trapped sites $n_{t}$ is a function of the permanent deformation of the body through the equivalent plastic strain $\epsilon_{p}$. To conserve the number of trap sites under elastic changes in volume, we specify $n_{t} = N_{T}(\epsilon_{p})/J$ where $N_{T}$ is referential quantity.  It follows that
 %
 \begin{equation}
-\label{eq.cdot2}{\dot{c} = \dot{c}_{l} + \frac{\partial c_{t}}{\partial c{l}} \dot{c}_{l} + \frac{\partial c_{t}}{\partial n_{t}} \frac{\partial n_{t}}{\partial \epsilon_{p}} \dot{\epsilon}_{p}} +  \frac{\partial c_{t}}{\partial n_{t}} \frac{\partial n_{t}}{\partial J} \dot{J}
+\label{eq.cdot2}{\dot{c} = \dot{c}_{l} + \frac{\partial c_{t}}{\partial c_{l}} \dot{c}_{l} + \frac{\partial c_{t}}{\partial n_{t}} \frac{\partial n_{t}}{\partial \epsilon_{p}} \dot{\epsilon}_{p}} +  \frac{\partial c_{t}}{\partial n_{t}} \frac{\partial n_{t}}{\partial J} \dot{J}
 \end{equation}
 %
 which can be simplified to
 %
 \begin{equation}
-\label{eq.cdot}{\dot{c} = \dot{c}_{l} + \frac{\partial c_{t}}{\partial c{l}} \dot{c}_{l} + \frac{\theta_{l}}{J} \frac{\partial N_{T}}{\partial \epsilon_{p}} \dot{\epsilon}_{p} -  \frac{\theta_{t} N_{T}}{J^{2}}  \dot{J}}
+\label{eq.cdot}{\dot{c} = \dot{c}_{l} + \frac{\partial c_{t}}{\partial c_{l}} \dot{c}_{l} + \frac{\theta_{l}}{J} \frac{\partial N_{T}}{\partial \epsilon_{p}} \dot{\epsilon}_{p} -  \frac{\theta_{t} N_{T}}{J^{2}}  \dot{J}}.
 \end{equation}
 %
-and that we can use these results to obtain a revised conservation of hydrogen
+We can then use obtain a revised expression for the conservation of hydrogen
 \begin{align}
-%\label{eq.hconservation4}  \int_{\mathcal{B}} (D^{*}\dot{c}_{l} + C^{*}\text{div}\bs{v} - \nabla_{\bs{x}} \cdot \bs{d}_{l} \nabla_{\bs{x}}c_{l}   -  \nabla_{\bs{x}} \cdot \frac{c_{l}}{J} \bs{d}_{l} \nabla_{\bs{x}}J +  \nabla_{\bs{x}} \cdot  \frac{c_{l}V_{H}}{R T} \bs{d}_{l} \nabla_{\bs{x}}\sigma_{h}  +  \nonumber \\ \frac{\theta_{l}}{J} \frac{\partial N_{T}}{\partial \epsilon_{p}} \dot{\epsilon}_{p} -  \frac{\theta_{t} N_{T}}{J^{2}}  \dot{J} )dv = 0.
-\label{eq.hconservation4}  \int_{\mathcal{B}} (D^{*}\dot{c}_{l} + C^{*}\text{div}\bs{v} - \nabla_{\bs{x}} \cdot \bs{d}_{l} \nabla_{\bs{x}}c_{l}   -  \nabla_{\bs{x}} \cdot \bigg[ \frac{1}{J} \bs{d}_{l} \nabla_{\bs{x}}J -  \frac{V_{H}}{R T} \bs{d}_{l} \nabla_{\bs{x}}\tau_{h}\bigg] c_{l}  +  \nonumber \\ \frac{\theta_{l}}{J} \frac{\partial N_{T}}{\partial \epsilon_{p}} \dot{\epsilon}_{p} -  \frac{\theta_{t} N_{T}}{J^{2}}  \dot{J} )dv = 0.
+\label{eq.hconservation4}  
+%\int_{\mathcal{B}} (D^{*}\dot{c}_{l} + C^{*}\text{div}\bs{v} - \nabla_{\bs{x}} \cdot \bs{d}_{l} \nabla_{\bs{x}}c_{l}   -  \nabla_{\bs{x}} \cdot \frac{c_{l}}{J} \bs{d}_{l} \nabla_{\bs{x}}J +  \nabla_{\bs{x}} \cdot  \frac{c_{l}V_{H}}{R T} \bs{d}_{l} \nabla_{\bs{x}}\sigma_{h}  +  \nonumber \\ \frac{\theta_{l}}{J} \frac{\partial N_{T}}{\partial \epsilon_{p}} \dot{\epsilon}_{p} -  \frac{\theta_{t} N_{T}}{J^{2}}  \dot{J} )dv = 0.
+% \int_{\mathcal{B}} (D^{*}\dot{c}_{l} + C^{*}\text{div}\bs{v} - \nabla_{\bs{x}} \cdot \bs{d}_{l} \nabla_{\bs{x}}c_{l}   -  \nabla_{\bs{x}} \cdot \bigg[ \frac{1}{J} \bs{d}_{l} \nabla_{\bs{x}}J -  \frac{V_{H}}{R T} \bs{d}_{l} \nabla_{\bs{x}}\tau_{h}\bigg] c_{l}  +  \nonumber \\ \frac{\theta_{l}}{J} \frac{\partial N_{T}}{\partial \epsilon_{p}} \dot{\epsilon}_{p} -  \frac{\theta_{t} N_{T}}{J^{2}}  \dot{J} )dv = 0.
+ D^{*}\dot{c}_{l} + C^{*}\text{div}\bs{v} - \nabla_{\bs{x}} \cdot \bs{d}_{l} \nabla_{\bs{x}}c_{l}   -  \nabla_{\bs{x}} \cdot \bigg[ \frac{1}{J} \bs{d}_{l} \nabla_{\bs{x}}J -  \frac{V_{H}}{R T} \bs{d}_{l} \nabla_{\bs{x}}\tau_{h}\bigg] c_{l}  +  \nonumber \\ \frac{\theta_{l}}{J} \frac{\partial N_{T}}{\partial \epsilon_{p}} \dot{\epsilon}_{p} -  \frac{\theta_{t} N_{T}}{J^{2}}  \dot{J} = 0
 \end{align}
-where $D^{*}$ and $C^{*}$ and $\theta_{t}$ are defined to be independent of $c_{t}$.
+where $D^{*}$ and $C^{*}$ and $\theta_{t}$ are defined to be independent of $c_{t}$ through
 %
 \begin{equation}
 \label{eq.Dstar}{D^{*} = 1 + \frac{\partial c_{t}}{\partial c_{l}} = 1 + \frac{n_{t} n_{l}}{k_{t} c_{l}^{2}}\bigg[ \frac{1}{(1+ \frac{n_{l}}{k_{t} c_{l}})^{2}}\bigg] }
@@ -277,67 +280,68 @@ where $D^{*}$ and $C^{*}$ and $\theta_{t}$ are defined to be independent of $c_{
 \end{equation}
 %
 \begin{equation}
-\label{eq.thetat2}{\theta_{t} = \frac{1}{1 + \frac{n_{l}}{k_{t} c_{l}}} }
+\label{eq.thetat2}{\theta_{t} = \frac{1}{1 + \frac{n_{l}}{k_{t} c_{l}}} }.
 \end{equation}
 %
-Assuming a limiting process, we can obtain a strong form of the partial differential equation for hydrogen transport.
+%Assuming a limiting process, we can obtain a strong form of the partial differential equation for hydrogen transport.
 %
 %\begin{align}
-%\label{eq.hconservation5}  D^{*}\dot{c}_{l} + C^{*}\text{div}\bs{v} - \nabla_{\bs{x}} \cdot \bs{d}_{l} \nabla_{\bs{x}}c_{l} -  \nabla_{\bs{x}} \cdot \frac{c_{l}}{J} \bs{d}_{l} \nabla_{\bs{x}}J  +  \nabla_{\bs{x}} \cdot  \frac{c_{l}V_{H}}{R T} \bs{d}_{l} \nabla_{\bs{x}}\tau_{h}  + \nonumber \\  \frac{\theta_{l}}{J} \frac{\partial N_{T}}{\partial \epsilon_{p}} \dot{\epsilon}_{p} -  \frac{\theta_{t} N_{T}}{J^{2}}  \dot{J} = 0
+%\label{eq.hconservation5}  D^{*}\dot{c}_{l} + C^{*}\text{div}\bs{v} - \nabla_{\bs{x}} \cdot \bs{d}_{l} \nabla_{\bs{x}}c_{l} -  \nabla_{\bs{x}} \cdot \frac{c_{l}}{J} \bs{d}_{l} \nabla_{\bs{x}}J  +  \nabla_{\bs{x}} \cdot  \frac{c_{l}V_{H}}{R T} \bs{d}_{l}\nabla_{\bs{x}}\tau_{h}  + \nonumber \\  \frac{\theta_{l}}{J} \frac{\partial N_{T}}{\partial \epsilon_{p}} \dot{\epsilon}_{p} -  \frac{\theta_{t} N_{T}}{J^{2}}  \dot{J} = 0
 %\end{align}
 %
-Given the partial differential equation, we can also construct a weak form with a test function $v$.  After multiplying by a test function and employing integration by parts and the properties of the test function ($v = 0$ on $\partial B_{c}$), the weak form yields
+%Given the partial differential equation, we can also construct a weak form with a test function $v$.  After multiplying by a test function and employing integration by parts and the properties of the test function ($v = 0$ on $\partial B_{c}$), the weak form yields
 %
-\begin{eqnarray}
+%\begin{eqnarray}
 %\label{eq.weakform}  \int_{\mathcal{B}}  (D^{*}\dot{c}_{l} + C^{*}\text{div}\bs{v} + \frac{\theta_{l}}{J} \frac{\partial N_{T}}{\partial \epsilon_{p}} \dot{\epsilon}_{p} -  \frac{\theta_{t} N_{T}}{J^{2}}  \dot{J})vdv + \int_{\mathcal{B}} \bs{d}_{l} \nabla_{\bs{x}}c_{l} \cdot  \nabla_{\bs{x}}vdv + \nonumber \\  \int_{\mathcal{B}} \frac{c_{l}}{J} \bs{d}_{l} \nabla_{\bs{x}}J  \cdot  \nabla_{\bs{x}}vdv - \int_{\mathcal{B}} \frac{c_{l}V_{H}}{R T} \bs{d}_{l} \nabla_{\bs{x}}\tau_{h} \cdot \nabla_{\bs{x}}v dv + \int_{\partial B_{\Gamma}} (\bs{j} \cdot \bs{n}) v da = 0.
-\label{eq.weakform}  \int_{\mathcal{B}}  \bigg( D^{*}\dot{c}_{l} + C^{*}\text{div}\bs{v} + \frac{\theta_{l}}{J} \frac{\partial N_{T}}{\partial \epsilon_{p}} \dot{\epsilon}_{p} -  \frac{\theta_{t} N_{T}}{J^{2}}  \dot{J} \bigg)vdv + \int_{\mathcal{B}} \bs{d}_{l} \nabla_{\bs{x}}c_{l} \cdot  \nabla_{\bs{x}}vdv + \nonumber \\  \int_{\mathcal{B}} \bigg( \frac{1}{J} \bs{d}_{l} \nabla_{\bs{x}}J - \frac{V_{H}}{R T} \bs{d}_{l} \nabla_{\bs{x}}\tau_{h} \bigg)c_{l}   \cdot  \nabla_{\bs{x}}vdv + \int_{\partial B_{\Gamma}} (\bs{j}_{app} \cdot \bs{n}) v da = 0.
-\end{eqnarray}
-
-This form of the transport equation is found in the literature but often authors do not distinguish between $v_{h}$, $n_{l}$ and $n_{t}$ and $V_{H}$, $N_{L}$, and $N_{T}$. The inclusion of reference quantities (and their corresponding conservation equations) yields additional terms involving $\nabla_{\bs{x}}J$ and $\dot{J}$.  We also note that in many works, the authors assume that $div\bs{v} = 0$.  
+%\label{eq.weakform}  \int_{\mathcal{B}}  \bigg( D^{*}\dot{c}_{l} + C^{*}\text{div}\bs{v} + \frac{\theta_{l}}{J} \frac{\partial N_{T}}{\partial \epsilon_{p}} \dot{\epsilon}_{p} -  \frac{\theta_{t} N_{T}}{J^{2}}  \dot{J} \bigg)vdv + \int_{\mathcal{B}} \bs{d}_{l} \nabla_{\bs{x}}c_{l} \cdot  \nabla_{\bs{x}}vdv + \nonumber \\  \int_{\mathcal{B}} \bigg( \frac{1}{J} \bs{d}_{l} \nabla_{\bs{x}}J - \frac{V_{H}}{R T} \bs{d}_{l} \nabla_{\bs{x}}\tau_{h} \bigg)c_{l}   \cdot  \nabla_{\bs{x}}vdv + \int_{\partial B_{\Gamma}} (\bs{j}_{app} \cdot \bs{n}) v da = 0.
+%\end{eqnarray}
+This form of the transport equation is found in the literature but often authors do not distinguish between $v_{h}$, $n_{l}$ and $n_{t}$, and $V_{H}$, $N_{L}$, and $N_{T}$. The inclusion of reference quantities (and their corresponding conservation equations) yields additional terms involving $\nabla_{\bs{x}}J$ and $\dot{J}$.  We also note that in many works, the authors assume that $div\bs{v} = 0$.  
 
 \subsection{Simplification through the reference configuration}
- 
-We can also push back the quantities into the reference configuration. In addition to simplifying the formulation, we can also avoid introducing additional quantities and the errors in their approximation in space $\nabla_{\bs{x}}J$ and time  $\dot{J}$, $\bs{v}$. We begin with the conservation equation that has been pushed back to the reference configuration
+In an effort to simplify both the formulation and the implementation, we consider a push back to the reference configuration. Given that $J$ is a nonlinear kinematic quantity, we seek to avoid errors in the approximation of space $\nabla_{\bs{x}}J$ and time  $\dot{J}$. We begin with the conservation equation that has been pushed back to the reference configuration
 %
 \begin{equation}
 \label{eq.hconservationref} \frac{d}{dt} \int_{\mathcal{B}_{0}} C dV = -\int_{\partial B_{0}} J\bs{F}^{-1}\bs{j} \cdot \bs{N} dA 
 \end{equation}
-where $C$ is the concentration in the reference configuration and $C = Jc$. The chemical potential is still written in the current configuration but the concentration $c_{l}$, number of lattice sites $n_{l}$, and molar volume $v_{h}$ are all expressed as the referential quantities $C_{L}$, $N_{L}$, and $V_{H}$, respectively.
+where $C$ is the hydrogen concentration in the reference configuration and $C = Jc$. The chemical potential is still written in the current configuration but the concentration $c_{l}$, number of lattice sites $n_{l}$, and molar volume $v_{h}$ are all expressed as referential quantities $C_{L}$, $N_{L}$, and $V_{H}$, respectively.
 %
 \begin{equation}
-\label{eq.chemical.potential}{\mu_{l} = \mu_{0} + R T \ln \bigg( \frac{C_{L}}{N_{L}} \bigg) - J V_{h} \sigma_{h}}.
+\label{eq.chemical.potential}{\mu_{l} = \mu^{0}_{l} + R T \ln \bigg( \frac{C_{L}}{N_{L}} \bigg) - J V_{h} \sigma_{h}}.
 \end{equation}
 %
-As before, the pressure contribution to the chemical potential is simplified through the Kirchhoff stress tensor $\tau_{h} = J\sigma_{h}$.
+As before, the pressure contribution to the chemical potential is simplified through the Kirchhoff stress tensor $\tau_{h} = J\sigma_{h}$ and the diffusivity is written in terms of the mobility. We relate the spatial gradient to referential gradient through $\nabla_{\bs{x}} = \bs{F}^{-T}\nabla_{\bs{X}}$ and find the flux to be 
 %
-\begin{equation}
-\label{eq.flux.ref}{\bs{j}_{l} = -\bs{m}_{l} c_{l} \nabla_{\bs{x}}\mu_{l}} =  -\frac{R T}{J}\bs{m}_{l}  \nabla_{\bs{x}}C_{L}  + \frac{ V_{H}}{J} \bs{m}_{l}  \nabla_{\bs{x}}\tau_{h}C_{L}.
-\end{equation}
+%\begin{equation}
+%\label{eq.flux.ref}{\bs{j}_{l} = -\bs{m}_{l} c_{l} \nabla_{\bs{x}}\mu_{l}} =  -\frac{R T}{J}\bs{m}_{l}  \nabla_{\bs{x}}C_{L}  + \frac{ V_{H}}{J} \bs{m}_{l}  \nabla_{\bs{x}}\tau_{h}C_{L}.
+%\end{equation}
 %
-If we employ the diffusivity $\bs{d}_{l} = RT \bs{m}_{l}$, and $\nabla_{\bs{x}} = \bs{F}^{-T}\nabla_{\bs{X}}$, we find that the flux to be
+%If we employ the diffusivity $\bs{d}_{l} = RT \bs{m}_{l}$, and $\nabla_{\bs{x}} = \bs{F}^{-T}\nabla_{\bs{X}}$, we find that the flux to be
 %
 \begin{equation}
 \label{eq.flux.ref3}{\bs{j}_{l} = -\frac{1}{J} \bs{d}_{l} \bs{F}^{-T} \nabla_{\bs{X}}C_{L}  + \frac{V_{H}}{J R T} \bs{d}_{l}  \bs{F}^{-T} \nabla_{\bs{X}} \tau_{h}} C
 _{L}.
 \end{equation}
-We can now plug the flux into the conservation equation 
+Employing the model of the flux along with the divergence theorem and a limiting process, we find 
 %
-\begin{align}
-\label{eq.hconservationref2} \frac{d}{dt} \int_{\mathcal{B}_{0}} C dV =  \nonumber \\ \int_{\partial B_{0}} \bigg( \bs{F}^{-1} \bs{d}_{l}   \bs{F}^{-T}  \nabla_{\bs{X}} C_{L} -  \frac{V_{H}}{RT} \bs{F}^{-1} \bs{d}_{l}   \bs{F}^{-T}  \nabla_{\bs{X}}\tau_{h} C_{L} \bigg) \cdot \bs{N} dA 
-\end{align}
+%\begin{align}
+%\label{eq.hconservationref2} \frac{d}{dt} \int_{\mathcal{B}_{0}} C dV =  \nonumber \\ \int_{\partial B_{0}} \bigg( \bs{F}^{-1} \bs{d}_{l}   \bs{F}^{-T}  \nabla_{\bs{X}} C_{L} -  \frac{V_{H}}{RT} \bs{F}^{-1} \bs{d}_{l}   \bs{F}^{-T}  \nabla_{\bs{X}}\tau_{h} C_{L} \bigg) \cdot \bs{N} dA 
+%\end{align}
 %
-and futher simplify the relations through either a reference diffusivity tensor $\bs{D}_{L} = \bs{F}^{-1} \bs{d}_{l}   \bs{F}^{-T}$ or invoking isotropy $\bs{d}_{l} = d_{l}\bs{I}$. Because the materials in question are cubic and isotropic, we invoke isotropy and the divergence theorem to yield
+%and further simplify the relations through either a reference diffusivity tensor $\bs{D}_{L} = \bs{F}^{-1} \bs{d}_{l}   \bs{F}^{-T}$ or invoking isotropy $\bs{d}_{l} = d_{l}\bs{I}$. %Because the materials in question are cubic and isotropic, we invoke isotropy and the divergence theorem to yield
 %
 %\begin{equation}
 %\label{eq.hconservationref2} \frac{d}{dt} \int_{\mathcal{B}_{0}} C dV =  \\ \int_{\partial B_{0}} \bigg(d_{l} \bs{C}^{-1}  \nabla_{\bs{X}} C_{L} -  \frac{ d_{l} C_{L}V_{H}}{RT} \bs{C}^{-1} \nabla_{\bs{X}} \tau_{h} \bigg) \cdot \bs{N} dA 
 %\end{equation}
 %where $\bs{C}$ is the right-hand Cauchy-Green tensor $\bs{C} = \bs{F}^{T}\bs{F}$. Employing the divergence theorem we have
 %
-\begin{equation}
-\label{eq.hconservationref3} \int_{\mathcal{B}_{0}} \bigg( \dot{C} -   \nabla_{\bs{X}}  \cdot d_{l} \bs{C}^{-1}  \nabla_{\bs{X}} C_{L}  +   \nabla_{\bs{X}}  \cdot \frac{ d_{l} V_{H}}{RT} \bs{C}^{-1} \nabla_{\bs{X}} \tau_{h} C_{L} \bigg) dV = 0.
-\end{equation}
+%\begin{equation}
+%\label{eq.hconservationref3} \int_{\mathcal{B}_{0}} \bigg( \dot{C} -   \nabla_{\bs{X}}  \cdot d_{l} \bs{C}^{-1}  \nabla_{\bs{X}} C_{L}  +   \nabla_{\bs{X}}  \cdot \frac{ d_{l} V_{H}}{RT} \bs{C}^{-1} \nabla_{\bs{X}} \tau_{h} C_{L} \bigg) dV = 0.
+%\end{equation}
 %
-where $\bs{C}$ is the right-hand Cauchy-Green tensor $\bs{C} = \bs{F}^{T}\bs{F}$. We can now re-examine the time derivatives in terms of the reference configuration. We can express the number lattice sites in terms of $N_{L}$ and the evolving trap sites as $N_{T} = N_{T}(\epsilon_{p})$. Through $\theta_{L} = C_{L}/N_{L}$ and $\theta_{T} = C_{T}/N_{T}$, we find a simplification
+\begin{equation}
+\label{eq.hconservationref3} \dot{C} -   \nabla_{\bs{X}}  \cdot \bs{D}_{L}  \nabla_{\bs{X}} C_{L}  +   \nabla_{\bs{X}}  \cdot \frac{V_{H}}{RT} \bs{D}_{L}  \nabla_{\bs{X}} \tau_{h} C_{L}  = 0
+\end{equation}
+where $\bs{D}_{L} = \bs{F}^{-1} \bs{d}_{l}   \bs{F}^{-T}$. We can now re-examine the time derivatives in terms of the reference configuration. We can express the number lattice sites in terms of $N_{L}$ and the evolving trap sites as $N_{T} = N_{T}(\epsilon_{p})$. Through $\theta_{L} = C_{L}/N_{L}$ and $\theta_{T} = C_{T}/N_{T}$, we find a simplification
 %
 \begin{equation}
 \label{eq.cdotref}{\dot{C} = \dot{C}_{L} + \frac{\partial C_{T}}{\partial C_{L}} \dot{C}_{L} +\theta_{T} \frac{d N_{T}}{d \epsilon_{p}} \dot{\epsilon}_{p}} 
@@ -546,12 +550,12 @@ One may use the modified $B$ matrix defined in
 $B$ matrix in finite element literature to obtain the diffusion term, i.e., 
 \begin{align}
 \label{eq:DiscreteDiffusion} 
- \int_{\mathcal{B}^{G}} \nabla_{\bs{X}} v D \nabla_{\bs{X}} C \; dV
+ \int_{\mathcal{B}^{G}} \nabla_{\bs{X}} v \bs{D}_{L} \nabla_{\bs{X}} C \; dV
   \approx   
 h \sum_{j=1}^{N^{M}_{\text{int}}}  \overline{W}(\xi_{j}^{1}, \xi_{j}^{2})
 \begin{bmatrix} v_{a}^{+} &  v_{a}^{-} \end{bmatrix} 
 \begin{bmatrix} \vec{B}^{+}(\xi_{j}^{1}, \xi_{j}^{2}) \\ \vec{B}^{-}(\xi_{j}^{1}, \xi_{j}^{2}) \end{bmatrix}
-\tensor{D}_{l} \nonumber \\
+\tensor{D}_{L} \nonumber \\
 \begin{bmatrix} \vec{B}^{+}(\xi_{j}^{1}, \xi_{j}^{2}) & \vec{B}^{-}(\xi_{j}^{1}, \xi_{j}^{2}) \end{bmatrix} 
 \begin{bmatrix} C_{a}^{+} \\ C_{a}^{-} \end{bmatrix} &
 \end{align}
