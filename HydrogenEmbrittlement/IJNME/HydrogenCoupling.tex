@@ -174,7 +174,7 @@ The transport of hydrogen in stainless steel alloys is of critical importance to
 \section{Derivation of the hydrogen transport equation}
 The derivation of the transport equation stems from a model of the chemical potential and the flux. We will attempt to consider these assumptions in both the reference and current configuration. A conservation law then follows and we employ an equilibrium argument to relate the hydrogen trapped concentration to the hydrogen lattice concentration.
 
-Given constitutive assumptions, a conservation law, and an equilibrium argument, one can derive the governing partial differential equation for hydrogen transport. We will derive the governing PDE in both the reference and current configuration. We will also investigate pushing these assumptions forwards and backwards to determine the difficulty of implementation within a finite element framework.
+Given constitutive assumptions, a conservation law, and an equilibrium argument, one can derive the governing partial differential equation for hydrogen transport. We will derive the governing partial differential equation in both the reference and current configuration. We will also investigate pushing these assumptions forwards and backwards to determine the difficulty of implementation within a finite element framework.
 
 \subsection{Constitutive model and balance law in current configuration} If we start with the chemical potential in the current configuration
 \begin{equation}
@@ -396,7 +396,7 @@ Finally, the fully coupled convection-diffusion-deformation coupling problem is 
 where $\tensor{P}$ is the first Piola-Kirchhoff stress and $\bB$ is the body force. 
 %
 
-\subsection{Weak form in reference configuration}
+\subsection{Implementation in reference configuration}
 The weak form of the fully coupled convection-diffusion-deformation coupling problems is constructed
 through the weighted residual method. In the weak statement, there are three unknown variables to be solved, i.e. 
 the displacement $\bu$, the hydrogen lattice concentration $C_{L}$  and the projected hydrostatic stress $\hat{\tau_{h}}$. 
@@ -456,6 +456,24 @@ The resultant finite dimensional trial and weighting spaces for $\bu$, $C_{L}$ a
     \end{eqnarray}
 where $n_{np}$ denotes the number of nodal points per element.     
 
+\subsection{Pressure-dependent essential boundary conditions}
+For the undeformed case, the application of essential, concentration boundary conditions is straightforward. As pointed out by numerous authors \cite{Wriedt1970,SanMarchi2007,Anand2013}, the applied concentration must evolve on the boundary to enforce a constant chemical equilibrium between the gas and the stressed solid. We refer the reader to \citet{Anand2013} for studies that examine an evolving concentration. In this presentation, we parallel the presentation of \citet{SanMarchi2007} with an emphasis on finite deformations. The chemical potential of the gas 
+\begin{equation}
+\label{eq.chemical.gas} \mu_{H} = \frac{1}{2} \big( \mu^{0}_{H_{2}} + RT\ln[f(p_{H_{2}},T)] \big)	
+\end{equation}
+where $\mu^{0}_{H_{2}}$ is the standard state and the fugacity of the gas $f$ is a function of the hydrogen gas pressure $p_{H_{2}}$ and temperature $T$. For an Abel-Nobel gas, the fugacity can be expressed as
+\begin{equation}
+\label{eq.chemical.gas} f(p_{H_{2}}) = p_{H_{2}} \exp \bigg[ \frac{p_{H_{2}}b}{RT} \bigg]
+\end{equation}
+where $b$ represents the finite volume of the gas molecules and is considered constant \cite{SanMarchi2007}. We can then equate the chemical potential of the gas (Equation \ref{eq.chemical.gas}) with the chemical potential of lattice hydrogen expressed in the current configuration with referential quantities (Equation~\ref{eq.chemical.potential}). Again, following \citet{SanMarchi2007}, we equate the differences in the standard state $\mu_{l}^{0} - \frac{1}{2}\mu^{0}_{H_{2}}$ with the enthalpy of formation of hydrogen atoms in the lattice $\Delta H$ and find the reference lattice concentration to be
+\begin{equation}
+\label{eq.lattice.concentration} C_{L} = f^{\frac{1}{2}}N_{L} \exp \bigg[ \frac{-\Delta H}{RT} \bigg] \exp \bigg[ \frac{V_{H} \tau_{h}}{RT} \bigg].
+\end{equation}
+As noted in prior work \cite{SanMarchi2007}, the reader can view the term containing the lattice pressure to be a multiplier of the undeformed case. The expression, however, given in Equation~\ref{eq.lattice.concentration}, is suitable for finite deformations. To ease the implementation and honor prior findings, we re-cast Equation~\ref{eq.lattice.concentration} in terms of the applied concentration in the undeformed case $C_{L,app}$ and find
+\begin{equation}
+\label{eq.lattice.concentration.simplified} C_{L} = C_{L,app} \exp \bigg[ \frac{V_{H} \tau_{h}}{RT} \bigg].
+\end{equation}
+We note that the implementation of this essential boundary condition is trivial. As noted in prior sections, because we perform a global projection of the Kirchhoff pressure $\tau_{h}$ to obtain gradients at integration points, we already have the pressure at the nodes and thus can easily calculate $C_{L}$ during the iterative process.  
 \section{Extension to a suface element}
 \label{section.extension}
 
