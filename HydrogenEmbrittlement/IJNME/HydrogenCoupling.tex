@@ -387,8 +387,9 @@ requires one to evaluate the gradient of hydrostatic stress $\tau_{h}$. In a typ
 (except the nodal integration method \cite{Krysl:2008}), physical quantities such as deformation gradient
  and stress are typically only evaluated at the integration points but not at the nodal points. 
  Consequently, the hydrostatic stress field must be extrapolated as a $C^{o}$ field  such that the gradient of the hydrostatic
- stress can be computed properly. Here we employ a global $L_{2}$ projection scheme to recover the gradient field. 
- 
+ stress can be computed properly. Here we employ a global $L_{2}$ projection scheme to 
+project the hydrostatic stress at integration point onto the finite dimensional space 
+spanned by the basis function to recover the stress gradient field.  
 Finally, the fully coupled convection-diffusion-deformation coupling problem is completed upon augmenting the hydrogen transport equation with the balance of linear momentum, i.e.,
 \begin{equation}
 \label{eq:balanceLinearMomentum} \Div \tensor{P} +  \bB = \b0  
@@ -407,7 +408,10 @@ The corresponding trial space therefore reads,
        V_{C_{L}} &=& \{ C_{L} : \mathcal{B} \rightarrow \mathbb{R} | C_{L} \in H^{1}(\mathcal{B}), C_{L}|_{\partial B_{C_{L}}} = \overline{C_{L}} \} \\
       V_{\hat{\tau_{h}}} &=& \{  \hat{\tau_{h}} : \mathcal{B} \rightarrow \mathbb{R} | \hat{\tau_{h}} \in H^{1}(\mathcal{B}) \} \nonumber 
     \end{eqnarray}
-    where $H^{1}$ denotes the Sobolev space of degree one.  The
+    where $H^{1}$ denotes the Sobolev space of degree one, $\mathcal{B}$ denotes the 
+    domain of the reference configuration, $\overline{\bu}$ and $\overline{C_{L}}$
+    denote the prescribed displacement and lattice concentration along the
+    corresponding boundaries. The
     admissible space for the weighting functions of displacement $\beeta$, hydrogen lattice concentration $v$ and projected hydrostatic pressure $\psi$ therefore read,
     \begin{eqnarray}
     \label{eq:variation}
