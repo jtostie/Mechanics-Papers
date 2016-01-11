@@ -34,6 +34,8 @@
 
 \usepackage{lineno}
 
+\usepackage{color}
+
 \newcommand{\mtrx}{{\text{m}}}
 \newcommand{\fiber}{{\text{f}}}
 
@@ -406,7 +408,7 @@ and
     ~Z_{n+\alpha} & := (1 - \alpha) ~Z_n + \alpha ~Z_{n+1},
   \end{split}
 \end{equation}
-where $\alpha$ is an algorithmic parameter. In order to obtain an
+where $\alpha$ is an algorithmic parameter. \textcolor{blue}{This particular form of interpolation of F is proposed by \citet{Sun.etal:2013} as a new adaptively stabilized finite element scheme, which is capable to deliver stable, locking-free numerical solutions.} In order to obtain an
 explicit scheme, we choose $\alpha = 0$. Next, we define the
 incremental stress potential as
 \begin{equation} \label{eq:incremental-stress-potential}
@@ -983,12 +985,13 @@ The stress and constitutive tangent of the small deformation isotropic
 damage model are derived from the strain-energy function that has the
 form
 \begin{equation}\label{eq:iso-psi}
+\color{blue}
   A(~\epsilon, \xi)
   :=
   \frac{1}{2} (1 - \xi)
   ~\epsilon : \mathbb{C}^{\text{e}} : ~\epsilon
 \end{equation}
-where $~\epsilon$ is the infinitesimal strain tensor,
+where \textcolor{blue}{$~\epsilon$ is the infinitesimal strain tensor},
 $\bbC^{\text{e}}$ is the fourth-order elastic moduli tensor, and $\xi$ is a
 damage parameter introduced to trigger material bifurcation. For
 isotropic linear elasticity, the elastic moduli tensor $\bbC^{\text{e}}$ is
@@ -1727,6 +1730,12 @@ which is in contrast to the more complex landscapes of the spherical
 (\fref{fig:aniso-spherical-detA}), stereographic
 (\fref{fig:aniso-stereographic-detA}) and tangent
 (\fref{fig:aniso-tangent-detA}) parametrizations.
+\textcolor{blue}{It should be pointed out that for the Cartesian
+parametrization, the two global minima are separated by a very small
+ridge. Though the current algorithm could detect multiple global
+minima, it only returns the first of the multiple minima. For the
+purpose of identifying when bifurcation happens, such implementation is
+sufficient.}
 
 As in the case of the small deformation model example in Section
 \ref{subsec:isotropic}, the robustness of the different
