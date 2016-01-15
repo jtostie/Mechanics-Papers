@@ -1572,8 +1572,10 @@ parametrizations within the loading increment leading to bifurcation
 is recorded and shown in
 Table~\ref{tab:aniso-uniaxial-runtime}. Again, the density of the
 initial sampling is represented by the sampling interval and the
-number of sampling points. In general, as the number of sampling
-points decreases, so does the computation time.  Fewer sampling
+number of sampling points. \textcolor{blue}{In addition to the total 
+computation time, the time for the initial sampling stage and iterative 
+Newton solve are also reported. In general, as the number of sampling
+points decreases, so does the total computation time.} Fewer sampling
 points, however, may lead to a poor initial guess for the Newton
 iterative scheme, which may result in a greater overall computation
 time to arrive at a converged solution. Due to the added complexity of
@@ -1582,9 +1584,10 @@ the density of the initial sampling grids. The spherical
 parametrization fails to correctly detect the bifurcation when the
 sampling interval is greater than 0.6. The stereographic, projective
 and tangent parametrizations, though relatively more robust in this
-case, are computationally more expensive.  The Cartesian
-parametrization is computationally efficient and at the same time,
-relatively insensitive to the sampling interval.
+case, are computationally more expensive. \textcolor{blue}{The 
+Cartesian is the most efficient, in terms of the total computation time 
+and the time spent on the iterative Newton solve, and at the same time, 
+relatively insensitive to the sampling intervals.}
 
 %\begin{table}[!htbp]
 %  \begin{center}
@@ -1667,11 +1670,11 @@ relatively insensitive to the sampling interval.
     \end{tabular}
     \caption{Computation time for different parametrizations in the
       uniaxial tension test within the loading increment leading to
-      bifurcation.  The dash ``--'' indicates that the parametrization
-      fails to detect bifurcation in this loading increment. For each interval, 
-      the time on the first line is the total run time, the two numbers in the 
-      bracket correspond to the time for initial sweep and time for the Newton 
-      iterative solve, respectively.}
+      bifurcation. The dash ``--'' indicates that the parametrization
+      fails to detect bifurcation in this loading increment. For each 
+      interval, the time on the first line is the total run time, the 
+      two numbers in the bracket correspond to the time for initial 
+      sampling and time for the iterative Newton solve, respectively.}
     \label{tab:aniso-uniaxial-runtime}
   \end{center}
 \end{table}
