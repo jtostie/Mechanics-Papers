@@ -1578,8 +1578,11 @@ Newton solve are also reported. In general, as the number of sampling
 points decreases, so does the total computation time.} Fewer sampling
 points, however, may lead to a poor initial guess for the Newton
 iterative scheme, which may result in a greater overall computation
-time to arrive at a converged solution. Due to the added complexity of
-the material model, different parametrizations are more sensitive to
+time to arrive at a converged solution. \textcolor{blue}{Also, it is 
+interesting to observe that, except for the very dense sampling case 
+(interval=0.05), most of the computation time are spent on the second 
+stage, i.e., the iterative Newton's solve.} Due to the added complexity 
+of the material model, different parametrizations are more sensitive to
 the density of the initial sampling grids. The spherical
 parametrization fails to correctly detect the bifurcation when the
 sampling interval is greater than 0.6. The stereographic, projective
