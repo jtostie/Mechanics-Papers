@@ -1292,6 +1292,10 @@ point is marked as a solid circle ($\bullet$). Otherwise, it is marked
 as a cross ($\times$). This figure provides a very direct
 visualization of the robustness results.
 
+\textcolor{blue}{
+This first example illustrates the performance of different parametrizations on a very simple small deformation material model with tangents possessing both major and minor symmetries. For such material model, an alternative single stage approach as in \cite{Oliver.etal:2010} could also be applied, which is based on the solution of a coupled eigenvalue problem in terms of the acoustic tensor. A preliminary analysis shows that the approach in \cite{Oliver.etal:2010} is able to correctly detect bifurcation and is more computationally efficient than the two-stage approach (initial sampling and iterative Newton's solve). More complex material tangents, such as finite deformation models, will be investigated next.
+}
+
 \begin{figure}[!htbp]
    \centering \subfigure[Spherical]{
    \includegraphics[width=0.47\textwidth]
@@ -1573,7 +1577,7 @@ is recorded and shown in
 Table~\ref{tab:aniso-uniaxial-runtime}. Again, the density of the
 initial sampling is represented by the sampling interval and the
 number of sampling points. \textcolor{blue}{In addition to the total 
-computation time, the time for the initial sampling stage and iterative 
+computation time, the time for the initial sampling stage and the iterative 
 Newton solve are also reported. In general, as the number of sampling
 points decreases, so does the total computation time.} Fewer sampling
 points, however, may lead to a poor initial guess for the Newton
@@ -1869,12 +1873,18 @@ cross ($\times$).
    \label{fig:aniso-uniaxial-robust}
  \end{figure}
 
+In this finite deformation example, the single-stage approach \cite{Oliver.etal:2010} cannot correctly detect the bifurcation time nor the bifurcation direction. 
+
+
 As in the case of the small deformation model example in Section
 \ref{subsec:isotropic}, the Cartesian parametrization performs better
 in terms of trade-off between computational efficiency and
 robustness. In a non-linear large-scale finite element simulation,
 this optimal trade-off between computational efficiency and robustness
-becomes critical. The Cartesian parametrization thus provides a
+becomes critical. \textcolor{blue}{It should be noted that, in this finite 
+deformation example, the single-stage approach \cite{Oliver.etal:2010} 
+cannot correctly detect the bifurcation time nor the bifurcation 
+direction.} The Cartesian parametrization thus provides a
 valuable tool in numerical bifurcation analysis.
 
 \section{Conclusion}
