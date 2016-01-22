@@ -263,225 +263,37 @@ an incremental stress potential that may include elasticity,
 viscoelasticity, viscoplasticity, and rate dependence
 \citep{Ortiz.Stainier:1999, Lambrecht.etal:2003, Miehe.etal:2004,
   Weinberg.etal:2006, Fancello.etal:2006, Mosler.Bruhns:2010,
-  Bleier.Mosler:2012}.
+  Bleier.Mosler:2012}. See \aref{sec:var-const-updates}.
 
-\subsection{Variational Constitutive Updates}
+Within this framework, the stress and the tangent moduli can be
+derived from the hyperleastic-like potential
+\eref{eq:incremental-stress-potential} for a very general class of
+constitutive behavior that may include viscosity and rate
+dependence. This in turn provides the means to apply the classical
+analysis tools that are used in hyperelasticity, such as the strong
+ellipticity condition, for complex inelastic materials as well.
 
-The mechanical response of the solids considered here is characterized
-by a dissipation potential of the form
-\begin{equation} \label{eq:power-density}
-  D(~F, \dot{~F}, ~Z, \dot{~Z})
-  :=
-  \dot{A}(~F, ~Z)
-  +
-  \phi(~F, \dot{~F}, ~Z)
-  +
-  \psi^*(~Z, \dot{~Z}),
-\end{equation}
-in which $A(~F, ~Z)$ is the Helmholtz free-energy density,
-$\phi(~F, \dot{~F}, ~Z)$ is a viscous potential, $\psi^*(~Z,
-\dot{~Z})$ is a dual kinetic potential or dissipation function, $~F$
-is the deformation gradient and $~Z$ is a collection of suitable
-internal variables that describe the state of the material at a given
-point. The first Piola-Kirchhoff stress and the conjugate
-thermodynamic forces to $~Z$ are given by
-\begin{equation} \label{eq:1PKstress-and-Y}
-  ~P
-  :=
-  \frac{\partial D}{\partial \dot{~F}}(~F, \dot{~F}, ~Z, \dot{~Z})
-  =
-  \frac{\partial A}{\partial ~F}(~F, ~Z)
-  +
-  \frac{\partial \phi}{\partial \dot{~F}}(~F, \dot{~F}, ~Z),
-  \quad
-  ~Y := - \frac{\partial A}{\partial ~Z} (~F, ~Z),
-\end{equation}
-respectively. In order to ensure a variational structure, we have
-postulated the existence of a dual kinetic potential or dissipation
-function $\psi^*(~Z, \dot{~Z})$ such that
-\begin{equation} \label{eq:dual-kinetic-potential}
-  ~Y = \frac{\partial \psi^*}{\partial \dot{~Z}} (~Z, \dot{~Z}).
-\end{equation}
-Next, we minimize the dissipation potential \eref{eq:power-density}
-with respect to the internal variable rates as
-\begin{equation}
-  \begin{split}
-    \inf_{\dot{~Z}} [ D(~F, \dot{~F}, ~Z, \dot{~Z}) ]
-    =
-    &
-    \inf_{\dot{~Z}}
-    \left[
-      \dot{A}(~F, ~Z)
-      +
-      \psi^*(~Z, \dot{~Z})
-    \right] +
-    \phi(~F, \dot{~F}, ~Z),
-    \\
-    =
-    &
-    \inf_{\dot{~Z}}
-    \left[
-      \frac{\partial A}{\partial ~F}(~F, ~Z) : \dot{~F}
-      +
-      \frac{\partial A}{\partial ~Z}(~F, ~Z) \cdot \dot{~Z}
-      +
-      \psi^*(~Z, \dot{~Z})
-    \right] +
-    \phi(~F, \dot{~F}, ~Z).
-  \end{split}
-\end{equation}
-This is equivalent to stating that the internal variables should not
-produce any net work, \ie
-\begin{equation} \label{eq:internal-no-work}
-  \left[
-    \frac{\partial A}{\partial ~Z} (~F, ~Z)
-    +
-    \frac{\partial \psi^*}{\partial \dot{~Z}} (~Z, \dot{~Z})
-  \right]
-  \cdot
-   \dot{~Z}
-  =
-  0
-  \quad
-  \forall \dot{~Z},
-\end{equation}
-which in turn leads to Biot's equation for standard dissipative systems
-\begin{equation} \label{eq:Biots-equation}
-  \frac{\partial A}{\partial ~Z} (~F, ~Z)
-  +
-  \frac{\partial \psi^*}{\partial \dot{~Z}} (~Z, \dot{~Z})
-  =
-  ~0.
-\end{equation}
-
-Approximate solutions to \eref{eq:Biots-equation} may be found by
-recourse to the incremental energy density function for a time
-increment $t \in [t_n, t_{n+1}]$
-\begin{equation} \label{incremental-energy-density}
-  w(~F_{n+1}, ~Z_{n+1}) :=
-  \int_{t_n}^{t_{n+1}}
-  \left[
-    \dot{A}(~F, ~Z)
-    +
-    \phi(~F, \dot{~F}, ~Z)
-    +
-    \psi^*(~Z, \dot{~Z})
-  \right]
-  \, \diff t,
-\end{equation}
-in which the integral is evaluated using a midpoint-like rule
-as follows
-\begin{equation} \label{incremental-energy-density-mid-point}
-  \begin{split}
-    w(~F_{n+1}, ~Z_{n+1}) \approx
-    &
-    A(~F_{n+1}, ~Z_{n+1}) - A(~F_n, ~Z_n) +
-    \\
-    &
-    \triangle t
-    \left[
-      \phi
-      \left(
-        ~F_{n+\alpha}, \frac{\triangle ~F}{\triangle t}, ~Z_{n+\alpha}
-      \right)
-      +
-      \psi^*
-      \left(
-        ~Z_{n+\alpha}, \frac{\triangle ~Z}{\triangle t}
-      \right)
-    \right].
-  \end{split}
-\end{equation}
-with
-\begin{equation} \label{eq:increments}
-  \triangle t := t_{n+1} - t_n,
-  \quad
-  \triangle ~F := ~F_{n+1} ~F_n^{-1},
-  \quad
-  \triangle ~Z := ~Z_{n+1} - ~Z_n,
-\end{equation}
-and
-\begin{equation} \label{eq:mid-values}
-  \begin{split}
-    ~F_{n+\alpha} & := \exp[(1 - \alpha) \log ~F_n + \alpha \log ~F_{n+1}],
-    \\
-    ~Z_{n+\alpha} & := (1 - \alpha) ~Z_n + \alpha ~Z_{n+1},
-  \end{split}
-\end{equation}
-where $\alpha$ is an algorithmic parameter. \textcolor{blue}{This particular form of interpolation of F is proposed by \citet{Sun.etal:2013} as a new adaptively stabilized finite element scheme, which is capable to deliver stable, locking-free numerical solutions.} In order to obtain an
-explicit scheme, we choose $\alpha = 0$. Next, we define the
-incremental stress potential as
-\begin{equation} \label{eq:incremental-stress-potential}
-  \begin{split}
-    W(~F_{n+1})
-    :=
-    &
-    \inf_{~Z_{n+1}}[w(~F_{n+1}, ~Z_{n+1})]
-    \\
-    =
-    &
-    \inf_{~Z_{n+1}}
-    \left[
-      A(~F_{n+1}, ~Z_{n+1}) - A(~F_n, ~Z_n)
-      +
-      \triangle t
-      \psi^*\left(~Z_n, \frac{\triangle ~Z}{\triangle t}\right)
-    \right]
-    +
-    \\
-    &
-    \triangle t
-    \phi\left(~F_n, \frac{\triangle ~F}{\triangle t}, ~Z_n\right).
-  \end{split}
-\end{equation}
-This minimization provides an optimal path for the internal variables
-$~Z$ in the time increment $t \in [t_n, t_{n+1}]$. Furthermore, the
-Euler-Lagrange equation corresponding to
-\eref{eq:incremental-stress-potential} is
-\begin{equation} \label{eq:Biots-equation-discrete}
-  \frac{\partial A}{\partial ~Z_{n+1}}(~F_{n+1}, ~Z_{n+1})
-  +
-  \triangle t
-  \frac{\partial \psi^*}{\partial ~Z_{n+1}}
-  \left(~Z_n, \frac{\triangle ~Z}{\triangle t}\right)
-  =
-  ~0.
-\end{equation}
-which is a discrete version of Biot's equation
-\eref{eq:Biots-equation} \citep{Miehe.etal:2002}. The
-incremental first Piola-Kirchhoff stress and tangent moduli can be
-computed in turn as
-\begin{equation} \label{eq:incremental-stress-moduli}
-  ~P_{n+1} := \frac{\partial W}{\partial ~F} (~F_{n+1}),
-  \quad
-  \bbA_{n+1} := \frac{\partial^2 W}{\partial ~F^2} (~F_{n+1}),
-\end{equation}
-respectively. Thus, by using variational constitutive updates, the
-stress and the tangent moduli can be derived from the
-hyperleastic-like potential \eref{eq:incremental-stress-potential} for
-a very general class of constitutive behavior that may include
-viscosity and rate dependence. This in turn provides the means to
-apply the classical analysis tools that are used in hyperelasticity,
-such as the strong ellipticity condition, for complex inelastic
-materials as well.
 
 \subsection{The Strong Ellipticity Condition}
 
-For simplicity in notation and unless otherwise stated, henceforth we
-omit the time indices $n$ and $n+1$ with the understating that further
-developments take place at time $t_{n+1}$.  The ellipticity condition
-can be expressed as
+The ellipticity condition can be expressed as
 \begin{equation} \label{eq:strong-ellipticity}
   (~m \otimes ~n) : \bbA : (~m \otimes ~n) \ge 0,
   \quad
   \forall \, ~m, ~n \in {"R}^3.
 \end{equation}
-If the condition holds strictly for non-zero vectors $~m$ and $~n$,
-then it is called the strong ellipticity condition
+where the tangent moduli $\bbA$ are defined in
+\eqref{eq:incremental-stress-moduli}. Note that for simplicity in
+notation and unless otherwise stated, henceforth we omit the time
+indices $n$ and $n+1$ with the understating that further developments
+take place at time $t_{n+1}$.  If condition
+\eqref{eq:strong-ellipticity} holds strictly for non-zero vectors $~m$
+and $~n$, then it is called the strong ellipticity condition
 \citep{Hadamard:1903, Truesdell.Noll:2004, Miehe.etal:2004}. It is
 customary to \emph{assume} that $~m$ and $~n$ are unit vectors, \ie
-$~m, ~n \in S^2$ where $S^2 := \{ ~t \in {"R}^3 \, | \, \| ~t \| =
-1\}$ is the unit sphere. Define
+$~m, ~n \in S^2$ where
+$S^2 := \{ ~t \in {"R}^3 \, | \, \| ~t \| = 1\}$ is the unit
+sphere. Define
 \begin{equation} \label{eq:dot-products}
   \begin{aligned}
     ~n \cdot \bbA & := n_p A_{pjkl} ~e_j \otimes ~e_k \otimes ~e_l,
@@ -1873,7 +1685,9 @@ cross ($\times$).
    \label{fig:aniso-uniaxial-robust}
  \end{figure}
 
-In this finite deformation example, the single-stage approach \cite{Oliver.etal:2010} cannot correctly detect the bifurcation time nor the bifurcation direction. 
+ In this finite deformation example, the single-stage approach
+ \cite{Oliver.etal:2010} cannot correctly detect the bifurcation time
+ nor the bifurcation direction.
 
 
 As in the case of the small deformation model example in Section
@@ -1931,6 +1745,218 @@ compared with other four parametrizations. In summary, we find that:
   for efficient and robust numerical analysis of material instability
   in large-scale finite element analysis.
 \end{enumerate}
+
+\section{Acknowlegdements}
+\label{sec:acknowledgements}
+
+Support for this work was received through the U.S. Department of
+Energy's (DOE) Advanced Simulation and Computing (ASC) Program at
+Sandia National Laboratories. Sandia National Laboratories is a
+multi-program laboratory managed and operated by Sandia Corporation, a
+wholly owned subsidiary of Lockheed Martin Corporation, for the
+U.S. Department of Energy's National Nuclear Security Administration
+under contract DE-AC04-94AL85000.
+
+\appendix
+
+\section{Variational Constitutive Updates}
+\label{sec:var-const-updates}
+
+The mechanical response of the solids considered here is characterized
+by a dissipation potential of the form
+\begin{equation} \label{eq:power-density}
+  D(~F, \dot{~F}, ~Z, \dot{~Z})
+  :=
+  \dot{A}(~F, ~Z)
+  +
+  \phi(~F, \dot{~F}, ~Z)
+  +
+  \psi^*(~Z, \dot{~Z}),
+\end{equation}
+in which $A(~F, ~Z)$ is the Helmholtz free-energy density,
+$\phi(~F, \dot{~F}, ~Z)$ is a viscous potential, $\psi^*(~Z,
+\dot{~Z})$ is a dual kinetic potential or dissipation function, $~F$
+is the deformation gradient and $~Z$ is a collection of suitable
+internal variables that describe the state of the material at a given
+point. The first Piola-Kirchhoff stress and the conjugate
+thermodynamic forces to $~Z$ are given by
+\begin{equation} \label{eq:1PKstress-and-Y}
+  ~P
+  :=
+  \frac{\partial D}{\partial \dot{~F}}(~F, \dot{~F}, ~Z, \dot{~Z})
+  =
+  \frac{\partial A}{\partial ~F}(~F, ~Z)
+  +
+  \frac{\partial \phi}{\partial \dot{~F}}(~F, \dot{~F}, ~Z),
+  \quad
+  ~Y := - \frac{\partial A}{\partial ~Z} (~F, ~Z),
+\end{equation}
+respectively. In order to ensure a variational structure, we have
+postulated the existence of a dual kinetic potential or dissipation
+function $\psi^*(~Z, \dot{~Z})$ such that
+\begin{equation} \label{eq:dual-kinetic-potential}
+  ~Y = \frac{\partial \psi^*}{\partial \dot{~Z}} (~Z, \dot{~Z}).
+\end{equation}
+Next, we minimize the dissipation potential \eref{eq:power-density}
+with respect to the internal variable rates as
+\begin{equation}
+  \begin{split}
+    \inf_{\dot{~Z}} [ D(~F, \dot{~F}, ~Z, \dot{~Z}) ]
+    =
+    &
+    \inf_{\dot{~Z}}
+    \left[
+      \dot{A}(~F, ~Z)
+      +
+      \psi^*(~Z, \dot{~Z})
+    \right] +
+    \phi(~F, \dot{~F}, ~Z),
+    \\
+    =
+    &
+    \inf_{\dot{~Z}}
+    \left[
+      \frac{\partial A}{\partial ~F}(~F, ~Z) : \dot{~F}
+      +
+      \frac{\partial A}{\partial ~Z}(~F, ~Z) \cdot \dot{~Z}
+      +
+      \psi^*(~Z, \dot{~Z})
+    \right] +
+    \phi(~F, \dot{~F}, ~Z).
+  \end{split}
+\end{equation}
+This is equivalent to stating that the internal variables should not
+produce any net work, \ie
+\begin{equation} \label{eq:internal-no-work}
+  \left[
+    \frac{\partial A}{\partial ~Z} (~F, ~Z)
+    +
+    \frac{\partial \psi^*}{\partial \dot{~Z}} (~Z, \dot{~Z})
+  \right]
+  \cdot
+   \dot{~Z}
+  =
+  0
+  \quad
+  \forall \dot{~Z},
+\end{equation}
+which in turn leads to Biot's equation for standard dissipative systems
+\begin{equation} \label{eq:Biots-equation}
+  \frac{\partial A}{\partial ~Z} (~F, ~Z)
+  +
+  \frac{\partial \psi^*}{\partial \dot{~Z}} (~Z, \dot{~Z})
+  =
+  ~0.
+\end{equation}
+
+Approximate solutions to \eref{eq:Biots-equation} may be found by
+recourse to the incremental energy density function for a time
+increment $t \in [t_n, t_{n+1}]$
+\begin{equation} \label{incremental-energy-density}
+  w(~F_{n+1}, ~Z_{n+1}) :=
+  \int_{t_n}^{t_{n+1}}
+  \left[
+    \dot{A}(~F, ~Z)
+    +
+    \phi(~F, \dot{~F}, ~Z)
+    +
+    \psi^*(~Z, \dot{~Z})
+  \right]
+  \, \diff t,
+\end{equation}
+in which the integral is evaluated using a midpoint-like rule
+as follows
+\begin{equation} \label{incremental-energy-density-mid-point}
+  \begin{split}
+    w(~F_{n+1}, ~Z_{n+1}) \approx
+    &
+    A(~F_{n+1}, ~Z_{n+1}) - A(~F_n, ~Z_n) +
+    \\
+    &
+    \triangle t
+    \left[
+      \phi
+      \left(
+        ~F_{n+\alpha}, \frac{\triangle ~F}{\triangle t}, ~Z_{n+\alpha}
+      \right)
+      +
+      \psi^*
+      \left(
+        ~Z_{n+\alpha}, \frac{\triangle ~Z}{\triangle t}
+      \right)
+    \right].
+  \end{split}
+\end{equation}
+with
+\begin{equation} \label{eq:increments}
+  \triangle t := t_{n+1} - t_n,
+  \quad
+  \triangle ~F := ~F_{n+1} ~F_n^{-1},
+  \quad
+  \triangle ~Z := ~Z_{n+1} - ~Z_n,
+\end{equation}
+and
+\begin{equation} \label{eq:mid-values}
+  \begin{split}
+    ~F_{n+\alpha} & := \exp[(1 - \alpha) \log ~F_n + \alpha \log ~F_{n+1}],
+    \\
+    ~Z_{n+\alpha} & := (1 - \alpha) ~Z_n + \alpha ~Z_{n+1},
+  \end{split}
+\end{equation}
+where $\alpha$ is an algorithmic parameter. The implicit assumption in
+this interpolation is that the deformation gradient $~F$ belongs to a
+Lie group and thus requires the exponential and logarithmic maps for
+its proper interpolation, whereas the internal variables $~Z$ belong
+to a space that admits direct linear interpolation
+\citep{Mota.etal:2013}.  In order to obtain an explicit scheme, we
+choose $\alpha = 0$. Next, we define the incremental stress potential
+as
+\begin{equation} \label{eq:incremental-stress-potential}
+  \begin{split}
+    W(~F_{n+1})
+    :=
+    &
+    \inf_{~Z_{n+1}}[w(~F_{n+1}, ~Z_{n+1})]
+    \\
+    =
+    &
+    \inf_{~Z_{n+1}}
+    \left[
+      A(~F_{n+1}, ~Z_{n+1}) - A(~F_n, ~Z_n)
+      +
+      \triangle t
+      \psi^*\left(~Z_n, \frac{\triangle ~Z}{\triangle t}\right)
+    \right]
+    +
+    \\
+    &
+    \triangle t
+    \phi\left(~F_n, \frac{\triangle ~F}{\triangle t}, ~Z_n\right).
+  \end{split}
+\end{equation}
+This minimization provides an optimal path for the internal variables
+$~Z$ in the time increment $t \in [t_n, t_{n+1}]$. Furthermore, the
+Euler-Lagrange equation corresponding to
+\eref{eq:incremental-stress-potential} is
+\begin{equation} \label{eq:Biots-equation-discrete}
+  \frac{\partial A}{\partial ~Z_{n+1}}(~F_{n+1}, ~Z_{n+1})
+  +
+  \triangle t
+  \frac{\partial \psi^*}{\partial ~Z_{n+1}}
+  \left(~Z_n, \frac{\triangle ~Z}{\triangle t}\right)
+  =
+  ~0.
+\end{equation}
+which is a discrete version of Biot's equation
+\eref{eq:Biots-equation} \citep{Miehe.etal:2002}. The
+incremental first Piola-Kirchhoff stress and tangent moduli can be
+computed in turn as
+\begin{equation} \label{eq:incremental-stress-moduli}
+  ~P_{n+1} := \frac{\partial W}{\partial ~F} (~F_{n+1}),
+  \quad
+  \bbA_{n+1} := \frac{\partial^2 W}{\partial ~F^2} (~F_{n+1}),
+\end{equation}
+respectively.
 
 \bibliographystyle{unsrtnat}
 \bibliography{acpami}
