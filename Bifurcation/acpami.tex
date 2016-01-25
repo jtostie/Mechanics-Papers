@@ -252,7 +252,11 @@ propose a new Cartesian parametrization to construct a tensor akin to
 the acoustic tensor and compare its performance and robustness against
 other four parametrizations. The numerical algorithms developed in
 this work are general and can be applied to both small and finite
-deformation material models with symmetric or non-symmetric tangents.
+deformation material models with symmetric or non-symmetric tangents. 
+To that end, we analyze idealized isotropic and anisotropic damage models
+subjected to simplified loadings. The resulting landscapes for minimization
+are sufficiently rich and differentiating to provide meaningful, quantified 
+evaluations of the proposed parametrizations.
 
 \section{General Framework}
 
@@ -1897,6 +1901,10 @@ compared with other four parametrizations. In summary, we find that:
   tensor can be used for a very general class of materials that
   include viscoelasticity, viscoplastiticy and rate dependence by
   recourse to incremental varriational constitutive updates.
+  
+  \item Idealized isotropic and anisotropic damage models subjected
+  to simplified loadings provided sufficient complexity to
+  evaluate the proposed parametrizations for minimization.
 
 \item The parametrization of the normal vector significantly affects
   the complexity of the objective function to be minimized, which in
@@ -1921,6 +1929,10 @@ compared with other four parametrizations. In summary, we find that:
   for efficient and robust numerical analysis of material instability
   in large-scale finite element analysis.
 \end{enumerate}
+
+Future work will develop the computational infrastructure necessary to extend 
+our current work on inelastic constitutive models undergoing large deformations to the
+complex loadings that accompany the fracture and failure of engineering structures.  
 
 \section{Acknowledgements}
 \label{sec:acknowledgements}
